@@ -1,27 +1,26 @@
 #include "Minishell.h"
 
-void    ft_init_struct(char **str)
-{   
-	t_struct *repo;
+void	ft_init_struct(char **str)
+{
+	t_struct	*repo;
 
 	repo = malloc (sizeof(t_struct) * ft_count_cmd(str));
 	ft_split_command(str, repo);
 }
 
-
-void ft_split_command(char **str, t_struct *repo)
+void	ft_split_command(char **str, t_struct *repo)
 {
-	int i;
-	int j;
-	//int k;
-	char **s;
-	int count;
+	int		i;
+	int		j;
+	int		count;
+	//int	k;
+	char	**s;
 
 	j = 0;
 	i = 0;
 	//k = 0;
 	count = 0;
-	while(str[i])
+	while (str[i])
 	{
 		s = ft_split(str[i], ' ');
 		while (s[j])

@@ -6,22 +6,21 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/07 15:46:47 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/07 20:53:35 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-int ft_count_cmd(char **str)
+int	ft_count_cmd(char **str)
 {
-    int i;
-    //char **s;
+	int i;
+	//char **s;
 
-    i = 0;
-    while(str[i])
-    {
-        i++;
-    }
-
-    return (i);
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
 }
