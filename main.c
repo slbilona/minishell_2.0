@@ -10,5 +10,6 @@ int	main()
 		entree = readline("Minishell$ ");
 		str = ft_split(entree, '|');
 		ft_init_struct(str);
+		printf("test\n");
 	}
 }
