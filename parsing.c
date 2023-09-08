@@ -16,13 +16,14 @@ void	ft_split_command(char **str, t_struct *repo)
 	//int	k;
 	char	**s;
 
-	j = 0;
 	i = 0;
 	//k = 0;
-	count = 0;
 	while (str[i])
 	{
+		ft_memset(&repo[i], 0, sizeof(repo[i]));
+		count = 0;
 		s = ft_split(str[i], ' ');
+		j = 0;
 		while (s[j])
 		{
 			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0
@@ -44,11 +45,64 @@ void	ft_split_command(char **str, t_struct *repo)
 			else
 			{
 				printf("%s : args\n", s[j]);
-				//repo[i].args = s[j];
+				repo[i].args = mange(repo[i].args, s[j]);
 				j++;
 			}
 		}
 		free(s);
 		i++;
 	}
+	int k = 0;
+	while (repo[0].args[k])
+	{
+		printf("%s\n", repo[0].args[k]);
+		k++;
+	}
+}
+
+void	ft_free_double_string(char **str)
+{
+	int	j;
+
+	j = 0;
+	if (str)
+	{
+		while (str[j])
+		{
+			free(str[j]);
+			j++;
+		}
+	}
+}
+
+char **mange(char **str, char *s)
+{
+	int i;
+	int j;
+	char **s2;
+
+	i = 0;
+	j = 0;
+	if(!str)
+	{
+		s2 = malloc(sizeof(char *) * 2);
+	}
+	else
+	{
+		while(str[i])
+		{
+			i++;
+		}
+		s2 = malloc(sizeof(char *) * (i + 2));
+		while(str[j])
+		{
+			s2[j] = ft_strdup(str[j]);
+			j++;
+		}
+	}
+	s2[j] = ft_strdup(s);
+	j++;
+	s2[j] = NULL;
+	ft_free_double_string(str);
+	return (s2);
 }

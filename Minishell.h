@@ -24,6 +24,7 @@ void	ft_split_command(char **str, t_struct *repo);
 
 //utils
 
+char **mange(char **str, char *s);
 int		ft_count_cmd(char **str);
 
 #endif
