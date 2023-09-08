@@ -4,6 +4,8 @@ OBJDIR = points_o
 SRCS = main.c \
 		parsing.c \
 		utils.c \
+		pre_parsing.c \
+		ft_new_split.c \
 		
 
 SRCSI = src/main_ilona.c \

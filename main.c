@@ -1,35 +1,25 @@
 #include "Minishell.h"
 
-int	ft_pre_parsing(char *entree)
-{
-	int i;
-
-	i = 0;
-	while (entree[i])
-	{
-		if(entree[i] == '|')
-		{
-			if (entree[i + 1] && entree[i + 1] == '|')
-				return (printf("minishell: erreur de syntaxe près du symbole inattendu « | »\n"), 1);
-		}
-		i++;
-	}
-}
-
 int	main()
 {
 	char	*entree;
 	char	**str;
-
+	int i;
 	while (1)
 	{
 		entree = readline("Minishell$ ");
-		if (ft_pre_parsing(entree))
+		add_history(entree);
+		str = ft_new_split(entree, "<>|");
+		i = 0;
+		while(str[i])
 		{
-
+			printf("str : %s\n", str[i]);
+			i++;
 		}
-		str = ft_split(entree, '|');
-		ft_init_struct(str);
-		printf("test\n");
+	// 	if (ft_pre_parsing(entree))
+	// 		return (1);
+	// 	str = ft_split(entree, '|');
+	// 	ft_init_struct(str);
+		free(entree);
 	}
 }
