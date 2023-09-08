@@ -1,10 +1,7 @@
 #include "Minishell.h"
 
-// int	ft_pre_parsing(char *entree)
-// {
-// 	int i;
-
-// 	i = 0;
-	
-// 	return 0;
-// }
+int	ft_pre_parsing(char *entree)
+{
+	ft_ajoute_espace(entree);
+	return 0;
+}

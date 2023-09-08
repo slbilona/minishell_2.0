@@ -31,4 +31,7 @@ int		ft_count_cmd(char **str);
 
 char	**ft_new_split(char const *s, char* c);
 
+int	ft_pre_parsing(char *entree);
+void ft_ajoute_espace(char *entree);
+
 #endif
