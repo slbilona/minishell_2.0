@@ -83,12 +83,12 @@ char **mange(char **str, char *s)
 	}
 	else
 	{
-		while(str[i])
+		while (str[i])
 		{
 			i++;
 		}
 		s2 = malloc(sizeof(char *) * (i + 2));
-		while(str[j])
+		while (str[j])
 		{
 			s2[j] = ft_strdup(str[j]);
 			j++;
