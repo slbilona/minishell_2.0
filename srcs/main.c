@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/07 20:53:35 by ilona            ###   ########.fr       */
+/*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
+/*   Updated: 2023/09/09 22:40:32 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minishell.h"
+#include "../Minishell.h"
 
-int	ft_count_cmd(char **str)
+int	main(void)
 {
-	int i;
-	//char **s;
+	char	*entree;
 
-	i = 0;
-	while (str[i])
+	while (1)
 	{
-		i++;
+		entree = readline("Minishell$ ");
+		add_history(entree);
+		entree = ft_pre_parsing(entree);
+	// 	if (ft_pre_parsing(entree))
+	// 		return (1);
+	// 	str = ft_split(entree, '|');
+	// 	ft_init_struct(str);
+		free(entree);
 	}
-	return (i);
+	return (0);
 }

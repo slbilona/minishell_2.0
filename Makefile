@@ -1,23 +1,16 @@
-SRCDIR = src
-OBJDIR = points_o
-
-SRCS = main.c \
-		parsing.c \
-		utils.c \
-		
-
-SRCSI = src/main_ilona.c \
-		utils/utils.c \
-		src/builtins.c \
-		src/exec.c \
-		utils/utils_string.c \
-		utils/free.c \
-
-OBJSI = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCSI))
-OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCS))
-
+SRCDIR = srcs
+OBJDIR = points_o/
 DEPDIR = dep
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
+
+SRCS = main.c \
+		utils.c \
+		parsing.c \
+		pre_parsing.c \
+
+OBJFILES = $(SRCS:.c=.o)
+OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))
+VPATH   = srcs pars utils
 
 CC = cc
 CFLAGS = -g -Wall -Werror -Wextra -I /usr/include
@@ -26,24 +19,19 @@ LIBFT = libft_printf_gnl/libft.a
 
 all : $(NAME)
 
-$(NAME): $(OBJS) | $(OBJDIR)
-	make -C libft_printf_gnl
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+${NAME}: $(OBJDIR) ${OBJS}
+	@make -C libft_printf_gnl
+	@$(CC) $(CFLAGS) ${OBJS} $(LIBFT) -o $(NAME) -lreadline
 	@echo "🧚 tout est prêt 🧚"
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR) $(DEPDIR)
-	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+		
+${OBJDIR}%.o: %.c $(DEPDIR) 
+	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 $(DEPDIR):
 	mkdir -p $(DEPDIR)
-
-ilona : $(OBJSI) | $(OBJDIR)
-	make -C libft_printf_gnl
-	$(CC) $(CFLAGS) $(OBJSI) $(LIBFT) -o $(NAME) -lreadline
-	@echo "🧚 tout est prêt 🧚"
 
 clean :
 	rm -rf $(OBJDIR) $(DEPDIR)
