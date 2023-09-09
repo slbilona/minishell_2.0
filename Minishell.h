@@ -28,9 +28,16 @@ void	ft_split_command(char **str, t_struct *repo);
 char	**mange(char **str, char *s);
 int		ft_count_cmd(char **str);
 
-// Parsing
+// pré parsing
 
 char	*ft_pre_parsing(char *entree);
+
+// Espaces
+
 char	*ft_ajoute_espace(char *entree);
+
+// Parsing 
+
+
 
 #endif
