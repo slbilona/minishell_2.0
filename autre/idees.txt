@@ -1,0 +1,7 @@
+//parser l'appel de l'executable
+//afficher un promt et recuperer l'entree de lutilisateur
+//parser l'entree de l'utilisateur en utilisant un sorte de split
+//verifier si il n'y a pas d'erreur
+//executer la commande (pipex +++)
+
+faire un historique avec les commandes precedentes numerotees

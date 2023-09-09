@@ -7,6 +7,7 @@ SRCS = main.c \
 		utils.c \
 		parsing.c \
 		pre_parsing.c \
+		ft_space.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))

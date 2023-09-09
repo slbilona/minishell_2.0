@@ -1,0 +1,39 @@
+Remarque parsing :
+
+bash-5.1$ cd points_o/ a
+bash: cd: trop d'arguments
+
+bash-5.1$ cd points_a/ -----> dossier qui n'existe pas
+bash: cd: points_a/: Aucun fichier ou dossier de ce type
+
+bash-5.1$ ll
+bash: ll : commande introuvable
+bash-5.1$ echo $?
+127
+
+bash-5.1$ bash --posix
+bash-5.1$ exit 9223372036854775809
+exit
+bash: exit: 9223372036854775809 : argument numérique nécessaire
+
+la fonction STAT permet de verifier si un fichier/dossier existe ou non
+
+bash-5.1$ cat test/src1 >>> test/src2
+bash: erreur de syntaxe près du symbole inattendu « > »
+bash-5.1$ cat test/src1 >>>> test/src2
+bash: erreur de syntaxe près du symbole inattendu « >> »
+bash-5.1$ cat test/src1 >>>>> test/src2
+bash: erreur de syntaxe près du symbole inattendu « >> »
+bash-5.1$ cat test/src1 >>>>>> test/src2
+bash: erreur de syntaxe près du symbole inattendu « >> »
+
+Minishell$ ls | ls <<<>ilona">hey"
+avant : ls | ls <<<>ilona">hey", size : 23
+2
+apres : ls | ls <<< > ilona">hey", size : 25
+    trouver un moyen de gere lmes guillemet sans ajouter les espaces a certains moment mais en ajouter dans d'autre franchement je sais pas trop
+
+Remarque execution :
+
+cat test/src1 > a > test/src2
+    rien ne s'ecrit dans le fichier 'a' mais il est créé si il n'existe pas encore et est vidé si il existe deja et contient du contenu  wtfff

@@ -6,11 +6,11 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/09 22:41:50 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/09 22:52:54 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minishell.h"
+#include "../Minishell.h"
 
 int	ft_count_cmd(char **str)
 {
