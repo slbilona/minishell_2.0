@@ -25,7 +25,7 @@ void	ft_split_command(char **str, t_struct *repo);
 
 // Utils
 
-char **mange(char **str, char *s);
+char	**mange(char **str, char *s);
 int		ft_count_cmd(char **str);
 
 // Parsing
