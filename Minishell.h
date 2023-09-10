@@ -18,9 +18,13 @@ typedef struct s_struct {
 	char	**redirection;
 }	t_struct;
 
+typedef struct s_info {
+	int		nb_de_cmd;
+}	t_info;
+
 // Struct
 
-void	ft_init_struct(char **str);
+t_struct	*ft_init_struct(char **str);
 void	ft_split_command(char **str, t_struct *repo);
 
 // Utils
@@ -39,5 +43,9 @@ char	*ft_ajoute_espace(char *entree);
 // Parsing 
 
 
+
+// Exec
+
+int ft_execution(t_struct *repo, t_info *info);
 
 #endif

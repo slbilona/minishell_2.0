@@ -1,11 +1,12 @@
 #include "../Minishell.h"
 
-void	ft_init_struct(char **str)
+t_struct *ft_init_struct(char **str)
 {
 	t_struct	*repo;
 
-	repo = malloc (sizeof(t_struct) * ft_count_cmd(str));
+	repo = malloc (sizeof(t_struct) * ft_count_cmd(str)); //eventuellement uriliser calloc comme ca tout est deja initialiser a 0
 	ft_split_command(str, repo);
+	return repo;
 }
 
 void	ft_split_command(char **str, t_struct *repo)
@@ -32,7 +33,7 @@ void	ft_split_command(char **str, t_struct *repo)
 				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
 			{
 				printf("%s %s : redirection\n", s[j], s[j + 1]);
-				//repo[i].redirection = ft_strjoin(s[0],s[1]);
+				repo[i].redirection = mange(repo[i].redirection, ft_strjoin(s[j], ft_strjoin(" ", s[j + 1])));
 				j += 2;
 			}
 			else if (count == 0)

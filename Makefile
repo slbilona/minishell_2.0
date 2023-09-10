@@ -8,10 +8,11 @@ SRCS = main.c \
 		parsing.c \
 		pre_parsing.c \
 		ft_space.c \
+		exec.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))
-VPATH   = srcs pars utils
+VPATH   = srcs pars utils exec
 
 CC = cc
 CFLAGS = -g -Wall -Werror -Wextra -I /usr/include
