@@ -32,41 +32,26 @@ void	ft_split_command(char **str, t_struct *repo)
 				|| ft_strncmp(s[j], "<", sizeof(s[j])) == 0
 				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
 			{
-				printf("%s %s : redirection\n", s[j], s[j + 1]);
+				//printf("%s %s : redirection\n", s[j], s[j + 1]);
 				repo[i].redirection = mange(repo[i].redirection, ft_strjoin(s[j], ft_strjoin(" ", s[j + 1])));
 				j += 2;
 			}
 			else if (count == 0)
 			{
-				printf("%s : cmd\n", s[j]);
+				//printf("%s : cmd\n", s[j]);
 				repo[i].cmd = s[j];
 				count ++;
 				j++;
 			}
 			else
 			{
-				printf("%s : args\n", s[j]);
+				//printf("%s : args\n", s[j]);
 				repo[i].args = mange(repo[i].args, s[j]);
 				j++;
 			}
 		}
 		free(s);
 		i++;
-	}
-}
-
-void	ft_free_double_string(char **str)
-{
-	int	j;
-
-	j = 0;
-	if (str)
-	{
-		while (str[j])
-		{
-			free(str[j]);
-			j++;
-		}
 	}
 }
 
@@ -85,9 +70,7 @@ char **mange(char **str, char *s)
 	else
 	{
 		while (str[i])
-		{
 			i++;
-		}
 		s2 = malloc(sizeof(char *) * (i + 2));
 		while (str[j])
 		{
