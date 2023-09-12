@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/12 15:34:13 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/12 16:57:12 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	if (!path_entier)
 		return (NULL);
 	splited_path = ft_split(info->env[i] + 5, ':');
+	if (!splited_path)
+		return (NULL);
 	i = 0;
 	while (splited_path[i])
 	{
@@ -103,12 +105,17 @@ int ft_execution(t_struct *repo, t_info *info)
 		{
 			if (repo[i].redirection)
 				ft_redirection(repo[i].redirection);
-			else
+			else //pas obligatoire
 				dup2(STDOUT_FILENO, STDOUT_FILENO);
+			//regarder si la commande fait partie des builtins ou non
 			ft_execve(&repo[i], info);
 		}
+		else
+		{
+			free(info->path);
+		}
 		i++;
-		wait(NULL);
 	}
+	wait(NULL);
 	return (0);
 }

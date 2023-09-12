@@ -1,8 +1,6 @@
 a
 autre
 b
-c
-d
 dep
 exec
 hey
