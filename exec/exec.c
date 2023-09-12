@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/11 18:17:44 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:34:13 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int ft_execution(t_struct *repo, t_info *info)
 			ft_execve(&repo[i], info);
 		}
 		i++;
-		// wait(NULL);
+		wait(NULL);
 	}
 	return (0);
 }

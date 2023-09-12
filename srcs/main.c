@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/11 17:52:17 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:45:38 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_putstr(char *str)
 	printf("\n");
 }
 
+//print le tableau de structure entier
 void ft_print_repo(t_struct *repo, t_info *info)
 {
 	int i;
@@ -68,7 +69,7 @@ int	main(int ac, char **av, char **env)
 
 	if (ac == 1)
 	{
-		info = malloc(sizeof(t_info));
+		info = malloc(sizeof(t_info)); //j'ai mis ca la mais je te laisserais le mettre dans une fonction speciale qui initialise la structure info etc
 		info->env = env;
 		while (1)
 		{
@@ -79,8 +80,8 @@ int	main(int ac, char **av, char **env)
 			if (!entree)
 				return (1);
 			str = ft_split(entree, '|');
-			repo = ft_init_struct(str);
-			info->nb_de_cmd = ft_count_cmd(str);
+			repo = ft_init_struct(str); //renvoie le tableau de structure
+			info->nb_de_cmd = ft_count_cmd(str);//pareil je te laisserai le mettre autre part si besoin
 			free(entree);
 			//ft_print_repo(repo, info);
 			//execution

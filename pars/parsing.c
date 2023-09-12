@@ -1,5 +1,6 @@
 #include "../Minishell.h"
 
+//initialise et renvoie le tableau de structure comptenant les commandes
 t_struct *ft_init_struct(char **str)
 {
 	t_struct	*repo;
@@ -33,12 +34,15 @@ void	ft_split_command(char **str, t_struct *repo)
 				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
 			{
 				//printf("%s %s : redirection\n", s[j], s[j + 1]);
-				repo[i].redirection = mange(repo[i].redirection, ft_strjoin(s[j], ft_strjoin(" ", s[j + 1])));
+				repo[i].redirection = mange(repo[i].redirection, ft_strjoin(s[j], ft_strjoin(" ", s[j + 1]))); //ajoute au char ** une string qu'on a join qui contient la string actuelle, un espace et la string suivante
 				j += 2;
 			}
 			else if (count == 0)
 			{
 				//printf("%s : cmd\n", s[j]);
+				repo[i].args = malloc(sizeof(char *) * 2);
+				repo[i].args[0] = ft_strdup(s[j]);
+				repo[i].args[1] = NULL;
 				repo[i].cmd = s[j];
 				count ++;
 				j++;

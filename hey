@@ -1,13 +1,7 @@
-autre
-dep
-exec
-hey
-libft_printf_gnl
-Makefile
-minishell
-Minishell.h
-pars
-points_o
-README.md
-srcs
-utils
+mkdir -p dep
+make[1] : on entre dans le répertoire « /home/ilona/Cursus/Cercle_4/minishell_2.0/libft_printf_gnl »
+mkdir -p points_o
+mkdir -p dep
+🧚 tout est prêt 🧚
+make[1] : on quitte le répertoire « /home/ilona/Cursus/Cercle_4/minishell_2.0/libft_printf_gnl »
+🧚 tout est prêt 🧚

@@ -33,6 +33,9 @@ avant : ls | ls <<<>ilona">hey", size : 23
 apres : ls | ls <<< > ilona">hey", size : 25
     trouver un moyen de gere lmes guillemet sans ajouter les espaces a certains moment mais en ajouter dans d'autre franchement je sais pas trop
 
+verifier si il n'y a pas trop de chevrons ou de pipe ou ou si il y a bien un ellement derriere un chevron
+
+
 Remarque execution :
 
 cat test/src1 > a > test/src2
