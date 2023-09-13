@@ -26,31 +26,29 @@ typedef struct s_info {
 	char	**env;
 }	t_info;
 
-// Struct
-
-t_struct	*ft_init_struct(char **str);
-void	ft_split_command(char **str, t_struct *repo);
-
 // Utils
 
-int		ft_count_cmd(char **str);
-char	**mange(char **str, char *s);
-void	ft_free_double_string(char **str);
+int			ft_count_cmd(char **str);
+void		ft_free_double_string(char **str);
+void		ft_free_struct(t_struct *repo, t_info *info, int j);
 
 // pré parsing
 
-char	*ft_pre_parsing(char *entree);
+char		*ft_pre_parsing(char *entree);
 
 // Espaces
 
-char	*ft_ajoute_espace(char *entree);
+int			ft_compte_espaces(char *str);
+char		*ft_ajoute_espace(char *entree);
 
 // Parsing 
 
-
+char		**mange(char **str, char *s);
+void		ft_split_command(char **str, t_struct *repo);
+t_struct	*ft_init_struct(char **str);
 
 // Exec
 
-int ft_execution(t_struct *repo, t_info *info);
+int			ft_execution(t_struct *repo, t_info *info);
 
 #endif

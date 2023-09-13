@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/12 15:45:38 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/12 23:36:29 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,15 @@ int	main(int ac, char **av, char **env)
 	char	**str;
 	t_struct *repo;
 	t_info	*info;
+	int i;
 	(void) av;
 
+	i = 0;
 	if (ac == 1)
 	{
 		info = malloc(sizeof(t_info)); //j'ai mis ca la mais je te laisserais le mettre dans une fonction speciale qui initialise la structure info etc
 		info->env = env;
-		while (1)
+		while (i < 1)
 		{
 			entree = readline("Minishell$ ");
 			add_history(entree);
@@ -83,10 +85,14 @@ int	main(int ac, char **av, char **env)
 			repo = ft_init_struct(str); //renvoie le tableau de structure
 			info->nb_de_cmd = ft_count_cmd(str);//pareil je te laisserai le mettre autre part si besoin
 			free(entree);
+			ft_free_double_string(str);
 			//ft_print_repo(repo, info);
 			//execution
 			ft_execution(repo, info);
+			ft_free_struct(repo, info, 0);//free la structure repo
+			i++;
 		}
+		ft_free_struct(repo, info, 1);//free la structure info
 	}
 	return (0);
 }

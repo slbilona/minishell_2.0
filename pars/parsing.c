@@ -17,6 +17,7 @@ void	ft_split_command(char **str, t_struct *repo)
 	int		count;
 	//int	k;
 	char	**s;
+	char	*str_joined;
 
 	i = 0;
 	//k = 0;
@@ -34,12 +35,15 @@ void	ft_split_command(char **str, t_struct *repo)
 				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
 			{
 				//printf("%s %s : redirection\n", s[j], s[j + 1]);
-				repo[i].redirection = mange(repo[i].redirection, ft_strjoin(s[j], ft_strjoin(" ", s[j + 1]))); //ajoute au char ** une string qu'on a join qui contient la string actuelle, un espace et la string suivante
+				str_joined = ft_strjoin(" ", s[j + 1]);
+				repo[i].redirection = mange(repo[i].redirection, ft_strjoin(s[j], str_joined)); //ajoute au char ** une string qu'on a join qui contient la string actuelle, un espace et la string suivante
+				free(str_joined);
 				j += 2;
 			}
 			else if (count == 0)
 			{
 				//printf("%s : cmd\n", s[j]);
+				printf("repo[%d]\n", i);
 				repo[i].args = malloc(sizeof(char *) * 2);
 				repo[i].args[0] = ft_strdup(s[j]);
 				repo[i].args[1] = NULL;
@@ -54,6 +58,7 @@ void	ft_split_command(char **str, t_struct *repo)
 				j++;
 			}
 		}
+		//ft_free_double_string(s);
 		free(s);
 		i++;
 	}
@@ -85,6 +90,7 @@ char **mange(char **str, char *s)
 	s2[j] = ft_strdup(s);
 	j++;
 	s2[j] = NULL;
+	free(s);
 	ft_free_double_string(str);
 	return (s2);
 }
