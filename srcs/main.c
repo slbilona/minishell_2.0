@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/13 18:40:22 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/13 18:51:40 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int ac, char **av, char **env)
 	{
 		info = malloc(sizeof(t_info)); //j'ai mis ca la mais je te laisserais le mettre dans une fonction speciale qui initialise la structure info etc
 		info->env = env;
-		while (i < 1)
+		while (1)
 		{
 			entree = readline("Minishell$ ");
 			add_history(entree);
