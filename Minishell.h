@@ -47,7 +47,10 @@ char	*ft_ajoute_espace(char *entree);
 
 // Parsing 
 
-
+int	main_parsing(char *str);
+int	check_direction(char *str);
+int check_right_direction(char *str);
+int check_left_direction(char *str);
 
 // Exec
 
