@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/12 17:17:56 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/13 20:07:18 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,14 @@ void	ft_execve(t_struct *repo, t_info *info)
 	}
 }
 
+// int	ft_builtins_ou_non(t_struct *repo, t_info *info)
+// {
+// 	if ()
+		
+// 	else
+// 		ft_execve(&repo[i], info);
+// }
+
 int ft_execution(t_struct *repo, t_info *info)
 {
 	int i;
@@ -108,10 +116,11 @@ int ft_execution(t_struct *repo, t_info *info)
 			else //pas obligatoire
 				dup2(STDOUT_FILENO, STDOUT_FILENO);
 			//regarder si la commande fait partie des builtins ou non
-			ft_execve(&repo[i], info);
+			ft_builtins_ou_non(repo, info);
 		}
 		i++;
 	}
 	wait(NULL);
+	ft_free_struct(repo, info, 0);//free la structure repo
 	return (0);
 }

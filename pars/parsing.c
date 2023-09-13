@@ -5,7 +5,7 @@ t_struct *ft_init_struct(char **str)
 {
 	t_struct	*repo;
 
-	repo = malloc (sizeof(t_struct) * ft_count_cmd(str)); //eventuellement uriliser calloc comme ca tout est deja initialiser a 0
+	repo = malloc (sizeof(t_struct) * ft_count_double_string(str)); //eventuellement uriliser calloc comme ca tout est deja initialiser a 0
 	ft_split_command(str, repo);
 	return repo;
 }

@@ -24,11 +24,18 @@ typedef struct s_info {
 	int		nb_de_cmd;
 	char	*path;
 	char	**env;
+	t_builtins	*builtins:
 }	t_info;
+
+// typedef struct s_builtins {
+// 	char *str;
+// 	void (*ptr)(t_struct *, t_info *);
+// }	t_builtins;
 
 // Utils
 
-int			ft_count_cmd(char **str);
+int			ft_count_double_string(char **str);
+int			ft_long_atoi(char *str, long long int *num);
 void		ft_free_double_string(char **str);
 void		ft_free_struct(t_struct *repo, t_info *info, int j);
 
@@ -41,7 +48,7 @@ char		*ft_pre_parsing(char *entree);
 int			ft_compte_espaces(char *str);
 char		*ft_ajoute_espace(char *entree);
 
-// Parsing 
+// Parsing
 
 char		**mange(char **str, char *s);
 void		ft_split_command(char **str, t_struct *repo);
@@ -54,5 +61,9 @@ int check_left_direction(char *str);
 // Exec
 
 int			ft_execution(t_struct *repo, t_info *info);
+
+// Builtins
+
+int ft_exit(t_struct *repo, t_info *info);
 
 #endif
