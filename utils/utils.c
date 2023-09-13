@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/13 19:51:37 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/13 22:51:52 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,17 @@ int	ft_long_atoi(char *str, long long int *num)
 	}
 	*num = *num * signe;
 	return (0);
+}
+
+void ft_deux()
+{
+	printf("fonction 2\n");
+}
+
+void ft_init_builtins()
+{
+	t_builtins builtins[2];
+	
+	builtins->ptr = {ft_exit, ft_deux};
+	builtins->str = {"exit", "deux"};
 }

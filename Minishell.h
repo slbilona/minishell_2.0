@@ -20,17 +20,20 @@ typedef struct s_struct {
 	char	**redirection;
 }	t_struct;
 
+typedef struct s_builtins {
+	char *str;
+	void (*ptr)();
+}	t_builtins;
+
 typedef struct s_info {
 	int		nb_de_cmd;
 	char	*path;
 	char	**env;
-	t_builtins	*builtins:
+	struct s_builtins	builtins[2];
 }	t_info;
 
-// typedef struct s_builtins {
-// 	char *str;
-// 	void (*ptr)(t_struct *, t_info *);
-// }	t_builtins;
+
+
 
 // Utils
 
@@ -64,6 +67,6 @@ int			ft_execution(t_struct *repo, t_info *info);
 
 // Builtins
 
-int ft_exit(t_struct *repo, t_info *info);
+//int ft_exit(t_struct *repo, t_info *info);
 
 #endif
