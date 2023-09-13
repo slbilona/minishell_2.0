@@ -43,7 +43,7 @@ void	ft_split_command(char **str, t_struct *repo)
 			else if (count == 0)
 			{
 				//printf("%s : cmd\n", s[j]);
-				printf("repo[%d]\n", i);
+				//printf("repo[%d]\n", i);
 				repo[i].args = malloc(sizeof(char *) * 2);
 				repo[i].args[0] = ft_strdup(s[j]);
 				repo[i].args[1] = NULL;
