@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/12 23:36:29 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/13 18:40:22 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	main(int ac, char **av, char **env)
 			entree = readline("Minishell$ ");
 			add_history(entree);
 			//parsing
+			main_parsing(entree);
 			entree = ft_pre_parsing(entree);
 			if (!entree)
 				return (1);

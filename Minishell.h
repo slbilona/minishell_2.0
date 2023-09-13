@@ -46,6 +46,10 @@ char		*ft_ajoute_espace(char *entree);
 char		**mange(char **str, char *s);
 void		ft_split_command(char **str, t_struct *repo);
 t_struct	*ft_init_struct(char **str);
+int	main_parsing(char *str);
+int	check_direction(char *str);
+int check_right_direction(char *str);
+int check_left_direction(char *str);
 
 // Exec
 
