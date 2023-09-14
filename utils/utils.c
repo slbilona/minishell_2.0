@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/13 22:51:52 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/14 12:28:51 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,17 @@ int	ft_long_atoi(char *str, long long int *num)
 	return (0);
 }
 
-void ft_deux()
+// Verifie que la string ne contient que des characteres numerique
+int	ft_que_des_chiffres(char *str)
 {
-	printf("fonction 2\n");
-}
+	int	i;
 
-void ft_init_builtins()
-{
-	t_builtins builtins[2];
-	
-	builtins->ptr = {ft_exit, ft_deux};
-	builtins->str = {"exit", "deux"};
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]) && str[i] != '+' && str[i] != '-')
+			return (1);
+		i++;
+	}
+	return (0);
 }

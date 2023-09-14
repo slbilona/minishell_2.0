@@ -10,6 +10,7 @@ SRCS = main.c \
 		ft_space.c \
 		exec.c \
 		free.c \
+		builtins.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))

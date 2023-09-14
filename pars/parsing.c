@@ -26,6 +26,7 @@ void	ft_split_command(char **str, t_struct *repo)
 		ft_memset(&repo[i], 0, sizeof(repo[i]));
 		count = 0;
 		s = ft_split(str[i], ' ');
+		//ici
 		j = 0;
 		while (s[j])
 		{

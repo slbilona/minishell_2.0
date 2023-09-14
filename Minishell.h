@@ -22,7 +22,7 @@ typedef struct s_struct {
 
 typedef struct s_builtins {
 	char *str;
-	void (*ptr)();
+	void (*ptr)(t_struct *, void *);
 }	t_builtins;
 
 typedef struct s_info {
@@ -32,13 +32,12 @@ typedef struct s_info {
 	struct s_builtins	builtins[2];
 }	t_info;
 
-
-
-
 // Utils
 
+int			ft_que_des_chiffres(char *str);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
+void		ft_init_builtins(t_info *info);
 void		ft_free_double_string(char **str);
 void		ft_free_struct(t_struct *repo, t_info *info, int j);
 
@@ -67,6 +66,6 @@ int			ft_execution(t_struct *repo, t_info *info);
 
 // Builtins
 
-//int ft_exit(t_struct *repo, t_info *info);
+int ft_exit(t_struct *repo, void *inf);
 
 #endif
