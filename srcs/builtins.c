@@ -35,10 +35,40 @@ int ft_exit(t_struct *repo, void *inf)
 	exit(num);
 }
 
+void	ft_echo(t_struct *repo, void *inf)
+{
+	int i;
+	int j;
+	int n;
+
+	(void)inf;
+	j = 1;
+	i = 1;
+	n = 1;
+	if (repo->args && repo->args[i][0] == '-')
+	{
+		while (repo->args[i][j] == 'n')
+			j++;
+		if (repo->args[i][j] == 0)
+		{
+			j = 0;
+			i++;
+			n = 0;
+		}
+		else
+			j = 0;
+	}
+	ft_print_tab(repo->args, i);
+	if (n == 1 || j == 1)
+		printf("\n");
+}
+
 void	ft_init_builtins(t_info *info)
 {
 	info->builtins[0].ptr = (void *)ft_exit;
-	info->builtins[1].ptr = NULL;
+	info->builtins[1].ptr = (void *)ft_echo;
+	info->builtins[2].ptr = NULL;
 	info->builtins[0].str = "exit";
-	info->builtins[1].str = "deux";
+	info->builtins[1].str = "echo";
+	info->builtins[2].str = "deux";
 }

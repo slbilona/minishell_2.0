@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_space.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:52:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/10 00:07:40 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/14 23:20:55 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_compte_espaces(char *str)
 				i++;
 		}
 	}
-	return count;
+	return (count);
 }
 
 char	*ft_ajoute_espace(char *entree)

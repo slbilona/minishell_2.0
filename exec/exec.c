@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/14 19:58:44 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/14 23:17:59 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void    ft_redirection(char **str)
+void	ft_redirection(char **str)
 {
-	int i;
-	int fd;
+	int	i;
+	int	fd;
 
 	i = 0;
 	while (str[i])
@@ -23,11 +23,11 @@ void    ft_redirection(char **str)
 		if (ft_strncmp("> ", str[i], 2) == 0)
 		{
 			fd = open(str[i] + 2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            if (fd == -1)
-            {
-                perror("Erreur lors de l'ouverture du fichier de sortie");
-                return ;
-            }
+			if (fd == -1)
+			{
+				perror("Erreur lors de l'ouverture du fichier de sortie");
+				return ;
+			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
 				perror("Erreur lors de la redirection de la sortie standard");
@@ -37,11 +37,11 @@ void    ft_redirection(char **str)
 		else if (ft_strncmp(">> ", str[i], 3) == 0)
 		{
 			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (fd == -1)
-            {
-                perror("Erreur lors de l'ouverture du fichier de sortie");
-                return ;
-            }
+			if (fd == -1)
+			{
+				perror("Erreur lors de l'ouverture du fichier de sortie");
+				return ;
+			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
 				perror("Erreur lors de la redirection de la sortie standard");
@@ -51,11 +51,11 @@ void    ft_redirection(char **str)
 		else if (ft_strncmp("< ", str[i], 2) == 0)
 		{
 			fd = open(str[i] + 2, O_RDONLY, 0644);
-            if (fd == -1)
-            {
-                perror("Erreur lors de l'ouverture du fichier de sortie");
-                return ;
-            }
+			if (fd == -1)
+			{
+				perror("Erreur lors de l'ouverture du fichier de sortie");
+				return ;
+			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 			{
 				perror("Erreur lors de la redirection de la sortie standard");
@@ -130,12 +130,13 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 	int	i;
 
 	i = 0;
-	while (i < 2)
+	while (i < 3)
 	{
-		if (strncmp(repo->cmd, info->builtins[i].str, strlen(info->builtins[i].str)) == 0)
+		if (strncmp(repo->cmd, info->builtins[i].str,
+				strlen(info->builtins[i].str)) == 0)
 		{
-			if (repo[i].redirection)
-				ft_redirection(repo[i].redirection);
+			if (repo->redirection)
+				ft_redirection(repo->redirection);
 			else //pas obligatoire
 				dup2(STDOUT_FILENO, STDOUT_FILENO);
 			info->builtins[i].ptr(repo, info);
@@ -167,12 +168,12 @@ int	ft_fork(t_struct *repo, t_info *info, int i)
 
 int	ft_execution(t_struct *repo, t_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < info->nb_de_cmd)
 	{
-		if(ft_builtins_ou_non(&repo[i], info))
+		if (ft_builtins_ou_non(&repo[i], info))
 			ft_fork(repo, info, i);
 		i++;
 	}

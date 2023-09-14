@@ -9,8 +9,7 @@ void	ft_free_double_string(char **str)
 	{
 		while (str[j])
 		{
-			//printf("str[%d] : %s\n", j, str[j]);
-			if(str[j])
+			if (str[j])
 				free(str[j]);
 			j++;
 		}
@@ -19,14 +18,14 @@ void	ft_free_double_string(char **str)
 }
 
 //free la structure repo ou info ou les deux
-void ft_free_struct(t_struct *repo, t_info *info, int j)
+void	ft_free_struct(t_struct *repo, t_info *info, int j)
 {
-	int i;
+	int	i;
 
-	if(repo && (j == 0 || j == 2))
+	if (repo && (j == 0 || j == 2))
 	{
 		i = 0;
-		while(i < info->nb_de_cmd)
+		while (i < info->nb_de_cmd)
 		{
 			if (repo[i].cmd)
 				free(repo[i].cmd);
@@ -36,7 +35,7 @@ void ft_free_struct(t_struct *repo, t_info *info, int j)
 		}
 		free(repo);
 	}
-	if(info && (j == 1 || j == 2))
+	if (info && (j == 1 || j == 2))
 	{
 		free(info);
 	}

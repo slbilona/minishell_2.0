@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/14 12:28:51 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/15 00:35:45 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	ft_count_double_string(char **str)
 {
 	int	i;
-	//char **s;
 
 	i = 0;
 	while (str[i])
@@ -67,4 +66,16 @@ int	ft_que_des_chiffres(char *str)
 		i++;
 	}
 	return (0);
+}
+
+//print un char ** en separent chaque string avec un espace
+void	ft_print_tab(char **str, int j)
+{
+	while (str[j])
+	{
+		printf("%s", str[j]);
+		if (str[j + 1])
+			printf(" ");
+		j++;
+	}
 }
