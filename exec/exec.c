@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/14 14:25:59 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/14 19:58:44 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,40 @@ void    ft_redirection(char **str)
 		if (ft_strncmp("> ", str[i], 2) == 0)
 		{
 			fd = open(str[i] + 2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd == -1)
+            {
+                perror("Erreur lors de l'ouverture du fichier de sortie");
+                return ;
+            }
 			if (dup2(fd, STDOUT_FILENO) == -1)
+			{
+				perror("Erreur lors de la redirection de la sortie standard");
+				return ;
+			}
+		}
+		else if (ft_strncmp(">> ", str[i], 3) == 0)
+		{
+			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd == -1)
+            {
+                perror("Erreur lors de l'ouverture du fichier de sortie");
+                return ;
+            }
+			if (dup2(fd, STDOUT_FILENO) == -1)
+			{
+				perror("Erreur lors de la redirection de la sortie standard");
+				return ;
+			}
+		}
+		else if (ft_strncmp("< ", str[i], 2) == 0)
+		{
+			fd = open(str[i] + 2, O_RDONLY, 0644);
+            if (fd == -1)
+            {
+                perror("Erreur lors de l'ouverture du fichier de sortie");
+                return ;
+            }
+			if (dup2(fd, STDIN_FILENO) == -1)
 			{
 				perror("Erreur lors de la redirection de la sortie standard");
 				return ;
@@ -31,9 +64,9 @@ void    ft_redirection(char **str)
 		}
 		else
 			printf("ilona\n");
+		close(fd);
 		i++;
 	}
-	close(fd);
 }
 
 /*Cherche la ligne "PATH=" dans l'environnement
@@ -47,6 +80,8 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	char	**splited_path;
 
 	i = 0;
+	if (access(repo->cmd, F_OK) == 0)
+		return (repo->cmd);
 	while (info->env[i])
 	{
 		path_entier = ft_strnstr(info->env[i], "PATH=", 5);
@@ -78,7 +113,10 @@ void	ft_execve(t_struct *repo, t_info *info)
 {
 	info->path = ft_cherche_path(repo, info);
 	if (!info->path)
+	{
+		printf("minishell: %s : commande introuvable\n", repo->cmd);
 		return ;
+	}
 	//printf("repo->args[0] : %s\n", repo->args[0]);
 	if (execve(info->path, repo->args, info->env) == -1)
 	{
@@ -122,9 +160,6 @@ int	ft_fork(t_struct *repo, t_info *info, int i)
 	{
 		if (repo[i].redirection)
 			ft_redirection(repo[i].redirection);
-		else //pas obligatoire
-			dup2(STDOUT_FILENO, STDOUT_FILENO);
-		//regarder si la commande fait partie des builtins ou non
 		ft_execve(&repo[i], info);
 	}
 	return (0);

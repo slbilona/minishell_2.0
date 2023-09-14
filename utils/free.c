@@ -10,7 +10,8 @@ void	ft_free_double_string(char **str)
 		while (str[j])
 		{
 			//printf("str[%d] : %s\n", j, str[j]);
-			free(str[j]);
+			if(str[j])
+				free(str[j]);
 			j++;
 		}
 		free(str);
@@ -27,7 +28,6 @@ void ft_free_struct(t_struct *repo, t_info *info, int j)
 		i = 0;
 		while(i < info->nb_de_cmd)
 		{
-			//printf("i : %d\n", i);
 			if (repo[i].cmd)
 				free(repo[i].cmd);
 			ft_free_double_string(repo[i].args);

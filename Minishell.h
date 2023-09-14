@@ -52,7 +52,7 @@ char		*ft_ajoute_espace(char *entree);
 
 // Parsing
 
-char		**mange(char **str, char *s);
+char		**mange(char **str, char *s, int n);
 void		ft_split_command(char **str, t_struct *repo);
 t_struct	*ft_init_struct(char **str);
 int	main_parsing(char *str);

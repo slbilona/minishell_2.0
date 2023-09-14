@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/14 12:38:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/14 17:53:06 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	main(int ac, char **av, char **env)
 				if (!entree)
 					return (1);
 				str = ft_split(entree, '|');
+				free(entree);
 				repo = ft_init_struct(str); //renvoie le tableau de structure
 				info->nb_de_cmd = ft_count_double_string(str);//pareil je te laisserai le mettre autre part si besoin
 				ft_free_double_string(str);
@@ -90,7 +91,8 @@ int	main(int ac, char **av, char **env)
 				//execution
 				ft_execution(repo, info);
 			}
-			free(entree);
+			else
+				free(entree);
 		}
 		ft_free_struct(repo, info, 1);//free la structure info
 	}

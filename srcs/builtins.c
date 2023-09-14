@@ -6,8 +6,12 @@ int ft_exit(t_struct *repo, void *inf)
 	long long int	num;
 
 	num = 0;
-	(void)inf;
 	exit_num = 0;
+	// if (dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+	// {
+	// 	perror("Erreur lors de la redirection de la sortie standard");
+	// 	return (1);
+	// }
 	printf("exit\n");
 	if (ft_count_double_string(repo->args) > 2)
 	{
@@ -22,8 +26,12 @@ int ft_exit(t_struct *repo, void *inf)
 			exit_num = 2;
 		}
 		if (exit_num)
+		{
+			ft_free_struct(repo, (t_info *)inf, 2);
 			exit(exit_num);
+		}
 	}
+	ft_free_struct(repo, (t_info *)inf, 2);
 	exit(num);
 }
 

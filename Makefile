@@ -50,7 +50,7 @@ fclean : clean
 	@echo "🧚 tout propre 🧚"
 
 leaks: $(NAME)
-	valgrind --suppressions=ignore.txt -s --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all ./minishell
+	valgrind --suppressions=autre/ignore.txt -s --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all ./minishell
 
 git : fclean
 	git add *
