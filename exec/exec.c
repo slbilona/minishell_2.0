@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/15 19:00:11 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:14:21 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	ft_execve(t_struct *repo, t_info *info)
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
+	prinitf(jhdsd);
 }
 
 int	ft_builtins_ou_non(t_struct *repo, t_info *info)
