@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/14 17:53:06 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/15 18:25:29 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int ac, char **av, char **env)
 				ft_free_double_string(str);
 				//ft_print_repo(repo, info);
 				//execution
-				ft_execution(repo, info);
+				ft_execution_coordinateur(repo, info);
 			}
 			else
 				free(entree);

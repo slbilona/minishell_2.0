@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/14 23:17:59 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:00:11 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	ft_redirection(char **str)
 			fd = open(str[i] + 2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 			{
-				perror("Erreur lors de l'ouverture du fichier de sortie");
-				return ;
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				exit(EXIT_FAILURE);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
-				perror("Erreur lors de la redirection de la sortie standard");
-				return ;
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				exit(EXIT_FAILURE);
 			}
 		}
 		else if (ft_strncmp(">> ", str[i], 3) == 0)
@@ -39,13 +39,13 @@ void	ft_redirection(char **str)
 			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 			{
-				perror("Erreur lors de l'ouverture du fichier de sortie");
-				return ;
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				exit(EXIT_FAILURE);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
-				perror("Erreur lors de la redirection de la sortie standard");
-				return ;
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				exit(EXIT_FAILURE);
 			}
 		}
 		else if (ft_strncmp("< ", str[i], 2) == 0)
@@ -53,13 +53,13 @@ void	ft_redirection(char **str)
 			fd = open(str[i] + 2, O_RDONLY, 0644);
 			if (fd == -1)
 			{
-				perror("Erreur lors de l'ouverture du fichier de sortie");
-				return ;
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				exit(EXIT_FAILURE);
 			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 			{
-				perror("Erreur lors de la redirection de la sortie standard");
-				return ;
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));;
+				exit(EXIT_FAILURE);
 			}
 		}
 		else
@@ -111,14 +111,8 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 
 void	ft_execve(t_struct *repo, t_info *info)
 {
-	info->path = ft_cherche_path(repo, info);
-	if (!info->path)
-	{
-		printf("minishell: %s : commande introuvable\n", repo->cmd);
-		return ;
-	}
 	//printf("repo->args[0] : %s\n", repo->args[0]);
-	if (execve(info->path, repo->args, info->env) == -1)
+	if (execve(repo->path, repo->args, info->env) == -1)
 	{
 		perror("execve");
 		exit(EXIT_FAILURE);
@@ -147,7 +141,7 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 	return (1);
 }
 
-int	ft_fork(t_struct *repo, t_info *info, int i)
+int	ft_fork(t_struct *repo, t_info *info)
 {
 	pid_t	pid;
 
@@ -157,24 +151,49 @@ int	ft_fork(t_struct *repo, t_info *info, int i)
 		perror("fork");
 		return (1);
 	}
-	if (pid == 0)
+	else if (pid == 0)
 	{
-		if (repo[i].redirection)
-			ft_redirection(repo[i].redirection);
-		ft_execve(&repo[i], info);
+		if (repo->redirection)
+			ft_redirection(repo->redirection);
+		ft_execve(repo, info);
 	}
 	return (0);
 }
 
-int	ft_execution(t_struct *repo, t_info *info)
+// int	ft_execution(t_struct *repo, t_info *info)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < info->nb_de_cmd)
+// 	{
+// 		if (ft_builtins_ou_non(&repo[i], info))
+// 			ft_fork(repo, info, i);
+// 		i++;
+// 	}
+// 	wait(NULL);
+// 	ft_free_struct(repo, info, 0);//free la structure repo
+// 	return (0);
+// }
+
+int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < info->nb_de_cmd)
 	{
 		if (ft_builtins_ou_non(&repo[i], info))
-			ft_fork(repo, info, i);
+		{
+				repo->path = ft_cherche_path(repo, info);
+				if (!repo->path)
+				{
+					printf("minishell: %s : commande introuvable\n", repo->cmd);
+					exit(EXIT_FAILURE);
+				}
+				else
+					ft_fork(&repo[i], info);
+		}
 		i++;
 	}
 	wait(NULL);

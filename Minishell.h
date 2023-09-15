@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <errno.h>
 # include <stddef.h>
 # include <stdlib.h>
 # include <limits.h>
@@ -16,6 +17,7 @@
 
 typedef struct s_struct {
 	char	*cmd;
+	char	*path;
 	char	**args;
 	char	**redirection;
 }	t_struct;
@@ -27,7 +29,6 @@ typedef struct s_builtins {
 
 typedef struct s_info {
 	int					nb_de_cmd;
-	char				*path;
 	char				**env;
 	struct s_builtins	builtins[3];
 }	t_info;
@@ -57,7 +58,7 @@ t_struct	*ft_init_struct(char **str);
 
 // Exec
 
-int			ft_execution(t_struct *repo, t_info *info);
+int			ft_execution_coordinateur(t_struct *repo, t_info *info);
 
 // Builtins
 
