@@ -45,7 +45,7 @@ void	ft_echo(t_struct *repo, void *inf)
 	j = 1;
 	i = 1;
 	n = 1;
-	if (repo->args && repo->args[i][0] == '-')
+	if (repo->args[i] && repo->args[i][0] == '-')
 	{
 		while (repo->args[i][j] == 'n')
 			j++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/15 18:25:29 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/17 00:57:06 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ int	main(int ac, char **av, char **env)
 	{
 		info = malloc(sizeof(t_info)); //j'ai mis ca la mais je te laisserais le mettre dans une fonction speciale qui initialise la structure info etc
 		info->env = env;
+		info->saved_stdin = dup(STDIN_FILENO);
+		info->saved_stdout = dup(STDOUT_FILENO);
+		info->saved_stderr = dup(STDERR_FILENO);
 		ft_init_builtins(info);
 		while (1)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/14 23:19:06 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/17 00:21:13 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int check_right_direction(char *str)
 	i = 0;
 	j = 0;
 	
-	while(str[i])
+	while(str && str[i])
 	{
 		while(str[i] == '>')
 		{
@@ -66,7 +66,7 @@ int check_left_direction(char *str)
 	i = 0;
 	j = 0;
 	
-	while(str[i])
+	while(str && str[i])
 	{
 		while(str[i] == '<')
 		{
