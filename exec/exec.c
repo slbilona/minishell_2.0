@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/15 19:14:21 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:40:13 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	ft_redirection(char **str)
+int	ft_redirection(char **str)
 {
 	int	i;
 	int	fd;
@@ -26,12 +26,13 @@ void	ft_redirection(char **str)
 			if (fd == -1)
 			{
 				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
-				exit(EXIT_FAILURE);
+				return (1);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
 				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
-				exit(EXIT_FAILURE);
+				close(fd);
+				return (1);
 			}
 		}
 		else if (ft_strncmp(">> ", str[i], 3) == 0)
@@ -39,13 +40,14 @@ void	ft_redirection(char **str)
 			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 			{
-				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
-				exit(EXIT_FAILURE);
+				printf("minishell: %s: %s\n", str[i] + 3, strerror(errno));
+				return (1);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
-				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
-				exit(EXIT_FAILURE);
+				printf("minishell: %s: %s\n", str[i] + 3, strerror(errno));
+				close(fd);
+				return (1);
 			}
 		}
 		else if (ft_strncmp("< ", str[i], 2) == 0)
@@ -54,12 +56,13 @@ void	ft_redirection(char **str)
 			if (fd == -1)
 			{
 				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
-				exit(EXIT_FAILURE);
+				return (1);
 			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 			{
-				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));;
-				exit(EXIT_FAILURE);
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				close(fd);
+				return (1);
 			}
 		}
 		else
@@ -67,6 +70,7 @@ void	ft_redirection(char **str)
 		close(fd);
 		i++;
 	}
+	return (0);
 }
 
 /*Cherche la ligne "PATH=" dans l'environnement
@@ -117,7 +121,6 @@ void	ft_execve(t_struct *repo, t_info *info)
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
-	prinitf(jhdsd);
 }
 
 int	ft_builtins_ou_non(t_struct *repo, t_info *info)
@@ -131,9 +134,12 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 				strlen(info->builtins[i].str)) == 0)
 		{
 			if (repo->redirection)
-				ft_redirection(repo->redirection);
+			{
+				if (ft_redirection(repo->redirection))
+					return (0);
+			}
 			else //pas obligatoire
-				dup2(STDOUT_FILENO, STDOUT_FILENO);
+				dup2(1, STDOUT_FILENO);
 			info->builtins[i].ptr(repo, info);
 			return (0);
 		}
@@ -184,17 +190,21 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 	i = 0;
 	while (i < info->nb_de_cmd)
 	{
-		if (ft_builtins_ou_non(&repo[i], info))
+		if (!repo[i].cmd && repo[i].redirection)
 		{
-				repo->path = ft_cherche_path(repo, info);
-				if (!repo->path)
-				{
-					printf("minishell: %s : commande introuvable\n", repo->cmd);
-					exit(EXIT_FAILURE);
-				}
+			ft_redirection(repo[i].redirection);
+		}
+		else if (ft_builtins_ou_non(&repo[i], info))
+		{
+				repo[i].path = ft_cherche_path(&repo[i], info);
+				//printf("%s\n", repo[i].path);
+				if (!repo[i].path)
+					printf("minishell: %s : commande introuvable\n", repo[i].cmd);
 				else
 					ft_fork(&repo[i], info);
 		}
+		dup2(0, STDIN_FILENO);
+		dup2(1, STDOUT_FILENO);
 		i++;
 	}
 	wait(NULL);
