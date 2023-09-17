@@ -64,9 +64,20 @@ void	ft_echo(t_struct *repo, void *inf)
 		printf("\n");
 }
 
+void	ft_pwd(t_struct *repo, void *inf)
+{
+	char	cwd[1000];
+
+	(void) repo;
+	(void) inf;
+	getcwd(cwd, sizeof(cwd));
+	printf("%s\n", cwd);
+}
+
 void	ft_cd(t_struct *repo, void *inf)
 {
-	t_info *info;
+	char	*home;
+	t_info	*info;
 
 	info = inf;
 	if (ft_count_double_string(repo->args) > 2)
@@ -75,7 +86,30 @@ void	ft_cd(t_struct *repo, void *inf)
 		printf("minishell: cd: trop d'arguments\n");
 		return ;
 	}
-	if (repo->args[1])
+	if (repo->args[1] && ft_strncmp(repo->args[1], "-", sizeof(repo->args[1])) == 0)
+	{
+		home = getenv("HOME");
+		if (!home)
+		{
+			dup2(info->saved_stdout, STDOUT_FILENO);
+			perror("getenv");
+			return ;
+		}
+		chdir(home);
+		ft_pwd(repo, inf);
+	}
+	else if (!repo->args[1] || ft_strncmp(repo->args[1], "~", sizeof(repo->args[1])) == 0)
+	{
+		home = getenv("HOME");
+		if (!home)
+		{
+			dup2(info->saved_stdout, STDOUT_FILENO);
+			perror("getenv");
+			return ;
+		}
+		chdir(home);
+	}
+	else if (repo->args[1])
 	{
 		if (access(repo->args[1], F_OK) != 0)
 		{
@@ -92,9 +126,11 @@ void	ft_init_builtins(t_info *info)
 	info->builtins[0].ptr = (void *)ft_exit;
 	info->builtins[1].ptr = (void *)ft_echo;
 	info->builtins[2].ptr = (void *)ft_cd;
-	info->builtins[3].ptr = NULL;
+	info->builtins[3].ptr = (void *)ft_pwd;
+	info->builtins[4].ptr = NULL;
 	info->builtins[0].str = "exit";
 	info->builtins[1].str = "echo";
 	info->builtins[2].str = "cd";
-	info->builtins[3].str = "deux";
+	info->builtins[3].str = "pwd";
+	info->builtins[4].str = "deux";
 }

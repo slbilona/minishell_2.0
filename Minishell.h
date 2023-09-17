@@ -35,7 +35,7 @@ typedef struct s_info {
 	int					saved_stdout;
 	int					saved_stderr;
 	char				**env;
-	struct s_builtins	builtins[3];
+	struct s_builtins	builtins[5];
 }	t_info;
 
 // Utils
@@ -64,6 +64,7 @@ t_struct	*ft_init_struct(char **str);
 // Exec
 
 int			ft_execution_coordinateur(t_struct *repo, t_info *info);
+char		*ft_cherche_path(t_struct *repo, t_info *info);
 
 // Builtins
 

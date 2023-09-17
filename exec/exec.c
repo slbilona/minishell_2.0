@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/17 17:58:58 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/17 20:51:01 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 	int	i;
 
 	i = 0;
-	while (i < 3)
+	while (i < 5)
 	{
 		if (strncmp(repo->cmd, info->builtins[i].str,
 				strlen(info->builtins[i].str)) == 0)
