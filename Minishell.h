@@ -29,8 +29,8 @@ typedef struct s_builtins {
 
 typedef struct s_info {
 	int					nb_de_cmd;
-    int					saved_stdin;
-    int					saved_stdout;
+	int					saved_stdin;
+	int					saved_stdout;
 	int					saved_stderr;
 	char				**env;
 	struct s_builtins	builtins[3];

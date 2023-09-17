@@ -1,13 +1,13 @@
 #include "../Minishell.h"
 
 //initialise et renvoie le tableau de structure comptenant les commandes
-t_struct *ft_init_struct(char **str)
+t_struct	*ft_init_struct(char **str)
 {
 	t_struct	*repo;
 
 	repo = malloc (sizeof(t_struct) * ft_count_double_string(str)); //eventuellement uriliser calloc comme ca tout est deja initialiser a 0
 	ft_split_command(str, repo);
-	return repo;
+	return (repo);
 }
 
 void	ft_split_command(char **str, t_struct *repo)
@@ -15,12 +15,10 @@ void	ft_split_command(char **str, t_struct *repo)
 	int		i;
 	int		j;
 	int		count;
-	//int	k;
 	char	**s;
 	char	*str_joined;
 
 	i = 0;
-	//k = 0;
 	while (str[i])
 	{
 		ft_memset(&repo[i], 0, sizeof(repo[i]));
@@ -65,15 +63,15 @@ void	ft_split_command(char **str, t_struct *repo)
 }
 
 //ajoute une sous chaine a une double chaine en la realouant
-char **mange(char **str, char *s, int n)
+char	**mange(char **str, char *s, int n)
 {
-	int i;
-	int j;
-	char **s2;
+	int		i;
+	int		j;
+	char	**s2;
 
 	i = 0;
 	j = 0;
-	if(!str)
+	if (!str)
 	{
 		s2 = malloc(sizeof(char *) * 2);
 	}

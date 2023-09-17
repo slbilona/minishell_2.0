@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/17 01:41:32 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/17 01:52:49 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,8 +215,8 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 	// ft_free_struct(repo, info, 0);//free la structure repo
 	// return (0);
 	
-	int i;
-	int redir;
+	int	i;
+	int	redir;
 
 	i = 0;
 	redir = 0;

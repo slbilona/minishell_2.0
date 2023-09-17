@@ -1,6 +1,6 @@
 #include "../Minishell.h"
 
-int ft_exit(t_struct *repo, void *inf)
+int	ft_exit(t_struct *repo, void *inf)
 {
 	int				exit_num;
 	long long int	num;
@@ -37,9 +37,9 @@ int ft_exit(t_struct *repo, void *inf)
 
 void	ft_echo(t_struct *repo, void *inf)
 {
-	int i;
-	int j;
-	int n;
+	int	i;
+	int	j;
+	int	n;
 
 	(void)inf;
 	j = 1;

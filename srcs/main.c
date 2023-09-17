@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/17 00:57:06 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/17 01:58:48 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,29 @@ void	ft_putstr(char *str)
 }
 
 //print le tableau de structure entier
-void ft_print_repo(t_struct *repo, t_info *info)
+void	ft_print_repo(t_struct *repo, t_info *info)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-	while(i < info->nb_de_cmd)
+	while (i < info->nb_de_cmd)
 	{
 		printf("repo[%d] :\ncmd : %s\n", i, repo[i].cmd);
 		if (repo[i].args)
 		{
 			j = 0;
-			while(repo[i].args[j])
+			while (repo[i].args[j])
 			{
 				printf("args[%d] : %s\n", j, repo[i].args[j]);
 				j++;
 			}
 		}
-		if(repo[i].redirection)
+		if (repo[i].redirection)
 		{
 			j = 0;
-			while(repo[i].redirection[j])
+			while (repo[i].redirection[j])
 			{
 				printf("redirection[%d] : %s\n", j, repo[i].redirection[j]);
 				j++;
@@ -61,12 +61,12 @@ void ft_print_repo(t_struct *repo, t_info *info)
 
 int	main(int ac, char **av, char **env)
 {
-	char	*entree;
-	char	**str;
-	t_struct *repo;
-	t_info	*info;
-	(void) av;
+	char		*entree;
+	char		**str;
+	t_info		*info;
+	t_struct	*repo;
 
+	(void) av;
 	if (ac == 1)
 	{
 		info = malloc(sizeof(t_info)); //j'ai mis ca la mais je te laisserais le mettre dans une fonction speciale qui initialise la structure info etc
@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **env)
 			entree = readline("Minishell$ ");
 			add_history(entree);
 			//parsing
-			if(!main_parsing(entree))
+			if (!main_parsing(entree))
 			{
 				entree = ft_pre_parsing(entree);
 				if (!entree)
