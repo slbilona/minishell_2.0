@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/17 01:58:48 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/17 17:01:04 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	main(int ac, char **av, char **env)
 				free(entree);
 				repo = ft_init_struct(str); //renvoie le tableau de structure
 				info->nb_de_cmd = ft_count_double_string(str);//pareil je te laisserai le mettre autre part si besoin
+				info->nb_de_pipe = info->nb_de_cmd - 1;
 				ft_free_double_string(str);
 				//ft_print_repo(repo, info);
 				//execution

@@ -35,6 +35,7 @@ int	ft_exit(t_struct *repo, void *inf)
 	exit(num);
 }
 
+//pb lorsqu'on redirige et qu'on utilise l'argument -n
 void	ft_echo(t_struct *repo, void *inf)
 {
 	int	i;
@@ -63,12 +64,37 @@ void	ft_echo(t_struct *repo, void *inf)
 		printf("\n");
 }
 
+void	ft_cd(t_struct *repo, void *inf)
+{
+	t_info *info;
+
+	info = inf;
+	if (ft_count_double_string(repo->args) > 2)
+	{
+		dup2(info->saved_stdout, STDOUT_FILENO);
+		printf("minishell: cd: trop d'arguments\n");
+		return ;
+	}
+	if (repo->args[1])
+	{
+		if (access(repo->args[1], F_OK) != 0)
+		{
+			dup2(info->saved_stdout, STDOUT_FILENO);
+			printf("minishell: cd: %s: Aucun fichier ou dossier de ce type\n", repo->args[1]);
+			return ;
+		}
+		chdir(repo->args[1]);
+	}
+}
+
 void	ft_init_builtins(t_info *info)
 {
 	info->builtins[0].ptr = (void *)ft_exit;
 	info->builtins[1].ptr = (void *)ft_echo;
-	info->builtins[2].ptr = NULL;
+	info->builtins[2].ptr = (void *)ft_cd;
+	info->builtins[3].ptr = NULL;
 	info->builtins[0].str = "exit";
 	info->builtins[1].str = "echo";
-	info->builtins[2].str = "deux";
+	info->builtins[2].str = "cd";
+	info->builtins[3].str = "deux";
 }

@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/17 01:52:49 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/17 17:58:58 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	char	**splited_path;
 
 	i = 0;
-	if (access(repo->cmd, F_OK) == 0)
-		return (repo->cmd);
+	if (access(repo->cmd, X_OK) == 0)
+		return (ft_strdup(repo->cmd));
 	while (info->env[i])
 	{
 		path_entier = ft_strnstr(info->env[i], "PATH=", 5);
@@ -110,7 +110,7 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 		path = ft_strjoin(splited_path[i], "/");
 		path_cmd = ft_strjoin(path, repo->cmd);
 		free(path);
-		if (access(path_cmd, F_OK) == 0)
+		if (access(path_cmd, X_OK) == 0)
 			return (ft_free_double_string(splited_path), path_cmd);
 		free(path_cmd);
 		i++;
@@ -121,9 +121,9 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 
 void	ft_execve(t_struct *repo, t_info *info)
 {
-	//printf("repo->args[0] : %s\n", repo->args[0]);
 	if (execve(repo->path, repo->args, info->env) == -1)
 	{
+		dup2(info->saved_stdout, STDOUT_FILENO);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
@@ -139,13 +139,6 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 		if (strncmp(repo->cmd, info->builtins[i].str,
 				strlen(info->builtins[i].str)) == 0)
 		{
-			if (repo->redirection)
-			{
-				if (ft_redirection(repo->redirection, info))
-					return (0);
-			}
-			else //pas obligatoire
-				dup2(info->saved_stdout, STDOUT_FILENO);
 			info->builtins[i].ptr(repo, info);
 			return (0);
 		}
@@ -157,7 +150,7 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 int	ft_fork(t_struct *repo, t_info *info)
 {
 	pid_t	pid;
-
+					
 	pid = fork();
 	if (pid == -1)
 	{
@@ -166,7 +159,14 @@ int	ft_fork(t_struct *repo, t_info *info)
 	}
 	else if (pid == 0)
 	{
+		close(repo->pipe_fd[0]);
+		dup2(repo->pipe_fd[1], STDOUT_FILENO);
 		ft_execve(repo, info);
+	}
+	else
+	{
+		close(repo->pipe_fd[1]);
+		dup2(repo->pipe_fd[0], STDOUT_FILENO);
 	}
 	return (0);
 }
@@ -189,32 +189,6 @@ int	ft_fork(t_struct *repo, t_info *info)
 
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
-	// int i;
-
-	// i = 0;
-	// while (i < info->nb_de_cmd)
-	// {
-	// 	if (!repo[i].cmd && repo[i].redirection)
-	// 	{
-	// 		ft_redirection(repo[i].redirection);
-	// 	}
-	// 	else if (ft_builtins_ou_non(&repo[i], info))
-	// 	{
-	// 			repo[i].path = ft_cherche_path(&repo[i], info);
-	// 			//printf("%s\n", repo[i].path);
-	// 			if (!repo[i].path)
-	// 				printf("minishell: %s : commande introuvable\n", repo[i].cmd);
-	// 			else
-	// 				ft_fork(&repo[i], info);
-	// 	}
-	// 	dup2(0, STDIN_FILENO);
-	// 	dup2(1, STDOUT_FILENO);
-	// 	i++;
-	// }
-	// wait(NULL);
-	// ft_free_struct(repo, info, 0);//free la structure repo
-	// return (0);
-	
 	int	i;
 	int	redir;
 
@@ -224,14 +198,21 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 	{
 		if (repo[i].redirection)
 			redir = ft_redirection(repo[i].redirection, info);
+		if (i < info->nb_de_pipe)
+		{
+			if(pipe(repo[i].pipe_fd) == -1)
+			{
+				dup2(info->saved_stdout, STDOUT_FILENO);
+				perror("pipe");
+			}
+		}
 		if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info))
 		{
-			//printf("ceci est untest\n");
 			repo[i].path = ft_cherche_path(&repo[i], info);
 			if (!repo[i].path)
 			{
 				dup2(info->saved_stdout, STDOUT_FILENO);
-				// trpuver un moyen pour que le message d'erreur soit rediriger dans la bonne sortie
+				// trouver un moyen pour que le message d'erreur soit rediriger dans la bonne sortie
 				printf("minishell: %s : commande introuvable\n", repo[i].cmd);
 			}
 			else

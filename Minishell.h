@@ -16,6 +16,7 @@
 # include "libft_printf_gnl/get_next_line.h"
 
 typedef struct s_struct {
+	int		pipe_fd[2];
 	char	*cmd;
 	char	*path;
 	char	**args;
@@ -29,6 +30,7 @@ typedef struct s_builtins {
 
 typedef struct s_info {
 	int					nb_de_cmd;
+	int					nb_de_pipe;
 	int					saved_stdin;
 	int					saved_stdout;
 	int					saved_stderr;

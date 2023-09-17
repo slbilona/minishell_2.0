@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/17 00:21:13 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/17 16:45:00 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int check_right_direction(char *str)
 
 	i = 0;
 	j = 0;
-	
 	while(str && str[i])
 	{
 		while(str[i] == '>')
