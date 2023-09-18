@@ -6,7 +6,7 @@
 /*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/13 13:09:17 by soleil           ###   ########.fr       */
+/*   Updated: 2023/09/14 14:30:27 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int check_right_direction(char *str)
 		if(j >= 3)
 		{
 			if(j == 3)
-				printf("bash: erreur de syntaxe près du symbole inattendu « > » \n\n");
+				printf("Minishell: syntax error near unexpected token `>'\n\n");
 			else
-				printf("bash: erreur de syntaxe près du symbole inattendu « >> » \n\n");
+				printf("Minishell: syntax error near unexpected token `>>'\n\n");
 			
 			return (1);
 		}
@@ -77,9 +77,9 @@ int check_left_direction(char *str)
 		if(j >= 4)
 		{
 			if(j == 4)
-				printf("bash: erreur de syntaxe près du symbole inattendu « < » \n\n");
+				printf("Minishell: syntax error near unexpected token `<'\n\n");
 			else
-				printf("bash: erreur de syntaxe près du symbole inattendu « << » \n\n");
+				printf("Minishell: syntax error near unexpected token `<<'\n\n");
 			return (1);
 		}
 		j = 0;
@@ -87,6 +87,7 @@ int check_left_direction(char *str)
 	}
 	return (0);
 }
+
 
 
 

@@ -29,7 +29,7 @@ typedef struct s_info {
 // Struct
 
 t_struct	*ft_init_struct(char **str);
-void	ft_split_command(char **str, t_struct *repo);
+int	ft_split_command(char **str, t_struct *repo);
 
 // Utils
 

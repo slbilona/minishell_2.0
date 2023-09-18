@@ -10,7 +10,7 @@ t_struct *ft_init_struct(char **str)
 	return repo;
 }
 
-void	ft_split_command(char **str, t_struct *repo)
+int	ft_split_command(char **str, t_struct *repo)
 {
 	int		i;
 	int		j;
@@ -57,6 +57,7 @@ void	ft_split_command(char **str, t_struct *repo)
 		free(s);
 		i++;
 	}
+	return (0);
 }
 
 char **mange(char **str, char *s)
