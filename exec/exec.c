@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/12 15:34:13 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/18 20:39:23 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void    ft_redirection(char **str)
+int	ft_redirection(char **str, t_info *info)
 {
-	int i;
-	int fd;
+	int	i;
+	int	fd;
 
 	i = 0;
 	while (str[i])
@@ -23,17 +23,60 @@ void    ft_redirection(char **str)
 		if (ft_strncmp("> ", str[i], 2) == 0)
 		{
 			fd = open(str[i] + 2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+			{
+				dup2(info->saved_stderr, STDERR_FILENO);
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				return (1);
+			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
-				perror("Erreur lors de la redirection de la sortie standard");
-        		return ;
+				dup2(info->saved_stderr, STDERR_FILENO);
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				close(fd);
+				return (1);
+			}
+		}
+		else if (ft_strncmp(">> ", str[i], 3) == 0)
+		{
+			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd == -1)
+			{
+				dup2(info->saved_stderr, STDERR_FILENO);
+				printf("minishell: %s: %s\n", str[i] + 3, strerror(errno));
+				return (1);
+			}
+			if (dup2(fd, STDOUT_FILENO) == -1)
+			{
+				dup2(info->saved_stderr, STDERR_FILENO);
+				printf("minishell: %s: %s\n", str[i] + 3, strerror(errno));
+				close(fd);
+				return (1);
+			}
+		}
+		else if (ft_strncmp("< ", str[i], 2) == 0)
+		{
+			fd = open(str[i] + 2, O_RDONLY, 0644);
+			if (fd == -1)
+			{
+				dup2(info->saved_stderr, STDERR_FILENO);
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				return (1);
+			}
+			if (dup2(fd, STDIN_FILENO) == -1)
+			{
+				dup2(info->saved_stderr, STDERR_FILENO);
+				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				close(fd);
+				return (1);
 			}
 		}
 		else
 			printf("ilona\n");
+		close(fd);
 		i++;
 	}
-	close(fd);
+	return (0);
 }
 
 /*Cherche la ligne "PATH=" dans l'environnement
@@ -47,6 +90,8 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	char	**splited_path;
 
 	i = 0;
+	if (access(repo->cmd, X_OK) == 0)
+		return (ft_strdup(repo->cmd));
 	while (info->env[i])
 	{
 		path_entier = ft_strnstr(info->env[i], "PATH=", 5);
@@ -57,13 +102,15 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	if (!path_entier)
 		return (NULL);
 	splited_path = ft_split(info->env[i] + 5, ':');
+	if (!splited_path)
+		return (NULL);
 	i = 0;
 	while (splited_path[i])
 	{
 		path = ft_strjoin(splited_path[i], "/");
 		path_cmd = ft_strjoin(path, repo->cmd);
 		free(path);
-		if (access(path_cmd, F_OK) == 0)
+		if (access(path_cmd, X_OK) == 0)
 			return (ft_free_double_string(splited_path), path_cmd);
 		free(path_cmd);
 		i++;
@@ -74,41 +121,106 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 
 void	ft_execve(t_struct *repo, t_info *info)
 {
-	info->path = ft_cherche_path(repo, info);
-	if (!info->path)
-		return ;
-	//printf("repo->args[0] : %s\n", repo->args[0]);
-	if (execve(info->path, repo->args, info->env) == -1)
+	if (execve(repo->path, repo->args, info->env) == -1)
 	{
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
 }
 
-int ft_execution(t_struct *repo, t_info *info)
+int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 {
-	int i;
-	pid_t pid;
+	int	i;
 
 	i = 0;
-	while(i < info->nb_de_cmd)
+	while (i < 7)
 	{
-		pid = fork();
-		if (pid == -1)
+		if (strncmp(repo->cmd, info->builtins[i].str,
+				strlen(info->builtins[i].str)) == 0)
 		{
-			perror("fork");
-			return (1);
-		}
-		if(pid == 0)
-		{
-			if (repo[i].redirection)
-				ft_redirection(repo[i].redirection);
-			else
-				dup2(STDOUT_FILENO, STDOUT_FILENO);
-			ft_execve(&repo[i], info);
+			info->builtins[i].ptr(repo, info);
+			return (0);
 		}
 		i++;
-		wait(NULL);
 	}
+	return (1);
+}
+
+int	ft_fork(t_struct *repo, t_info *info)
+{
+	pid_t	pid;
+					
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return (1);
+	}
+	else if (pid == 0)
+	{
+		// close(repo->pipe_fd[0]);
+		// dup2(repo->pipe_fd[1], STDOUT_FILENO);
+		ft_execve(repo, info);
+	}
+	else
+	{
+		// close(repo->pipe_fd[1]);
+		// dup2(repo->pipe_fd[0], STDOUT_FILENO);
+	}
+	return (0);
+}
+
+// int	ft_execution(t_struct *repo, t_info *info)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < info->nb_de_cmd)
+// 	{
+// 		if (ft_builtins_ou_non(&repo[i], info))
+// 			ft_fork(repo, info, i);
+// 		i++;
+// 	}
+// 	wait(NULL);
+// 	ft_free_struct(repo, info, 0);//free la structure repo
+// 	return (0);
+// }
+
+int	ft_execution_coordinateur(t_struct *repo, t_info *info)
+{
+	int	i;
+	int	redir;
+
+	i = 0;
+	redir = 0;
+	while (i < info->nb_de_cmd)
+	{
+		if (repo[i].redirection)
+			redir = ft_redirection(repo[i].redirection, info);
+		if (i < info->nb_de_pipe)
+		{
+			if(pipe(repo[i].pipe_fd) == -1)
+			{
+				perror("pipe");
+			}
+		}
+		if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info))
+		{
+			repo[i].path = ft_cherche_path(&repo[i], info);
+			if (!repo[i].path)
+			{
+				dup2(info->saved_stderr, STDERR_FILENO);
+				// trouver un moyen pour que le message d'erreur soit rediriger dans la bonne sortie
+				printf("minishell: %s : commande introuvable\n", repo[i].cmd);
+			}
+			else
+				ft_fork(&repo[i], info);
+		}
+		dup2(info->saved_stdout, STDOUT_FILENO);
+		dup2(info->saved_stdin, STDIN_FILENO);
+		i++;
+	}
+	wait(NULL);
+	ft_free_struct(repo, info, 0);//free la structure repo
 	return (0);
 }

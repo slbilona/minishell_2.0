@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:52:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/10 00:07:40 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/16 23:52:16 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_compte_espaces(char *str)
 				i++;
 		}
 	}
-	return count;
+	return (count);
 }
 
 char	*ft_ajoute_espace(char *entree)
@@ -64,6 +64,8 @@ char	*ft_ajoute_espace(char *entree)
 
 	i = 0;
 	j = 0;
+	if (!entree)
+		return (NULL);
 	str = malloc(sizeof(char) * (ft_compte_espaces(entree) + ft_strlen(entree) + 1));
 	if (!str)
 		return (NULL);

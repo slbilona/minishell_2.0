@@ -40,3 +40,11 @@ Remarque execution :
 
 cat test/src1 > a > test/src2
     rien ne s'ecrit dans le fichier 'a' mais il est créé si il n'existe pas encore et est vidé si il existe deja et contient du contenu  wtfff
+
+changer la sortie si il y a une redirection d'une commande qui ne fonctionne pas
+    le > fichier
+
+si on fait exit >hey il faut quand mm ecrire exit dans la sorti standard
+
+modifier la variable _ dans l'environement a chaque fois que j'execute une commande
+creer une variable ? dans l'environement et la modifier avec le return de la commande precedente

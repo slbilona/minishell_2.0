@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/14 14:30:27 by soleil           ###   ########.fr       */
+=======
+/*   Updated: 2023/09/17 16:45:00 by ilona            ###   ########.fr       */
+>>>>>>> 5de234407ef87fa2131afcb231be8f51d8523ddc
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
 
 int	main_parsing(char *str)
 {
@@ -36,8 +39,7 @@ int check_right_direction(char *str)
 
 	i = 0;
 	j = 0;
-	
-	while(str[i])
+	while(str && str[i])
 	{
 		while(str[i] == '>')
 		{
@@ -67,7 +69,7 @@ int check_left_direction(char *str)
 	i = 0;
 	j = 0;
 	
-	while(str[i])
+	while(str && str[i])
 	{
 		while(str[i] == '<')
 		{
@@ -173,4 +175,3 @@ char	*ft_pre_parsing(char *entree)
 		return (NULL);
 	return (n_entree);
 }
-

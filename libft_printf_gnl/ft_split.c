@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:52:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2022/11/21 14:57:44 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:40:51 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
 
-static	char	**ft_free_split(char **str, int k)
+char	**ft_free_split(char **str, int k)
 {
 	while (k >= 0)
 	{
