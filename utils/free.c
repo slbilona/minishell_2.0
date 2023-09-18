@@ -39,7 +39,9 @@ void	ft_free_struct(t_struct *repo, t_info *info, int j)
 	}
 	if (info && (j == 1 || j == 2))
 	{
-		close(info->saved_stdin);
+		ft_free_double_string(info->env);
+		//if(info->saved_stdin)
+			close(info->saved_stdin);
 		close(info->saved_stdout);
 		close(info->saved_stderr);
 		free(info);

@@ -4,13 +4,14 @@ DEPDIR = dep
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
 SRCS = main.c \
-		utils.c \
-		parsing.c \
-		pre_parsing.c \
-		ft_space.c \
 		exec.c \
 		free.c \
+		utils.c \
+		parsing.c \
+		ft_space.c \
 		builtins.c \
+		builtins_2.c \
+		pre_parsing.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))

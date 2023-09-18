@@ -3,15 +3,17 @@
 int	ft_exit(t_struct *repo, void *inf)
 {
 	int				exit_num;
+	t_info			*info;
 	long long int	num;
 
 	num = 0;
+	info = inf;
 	exit_num = 0;
-	// if (dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
-	// {
-	// 	perror("Erreur lors de la redirection de la sortie standard");
-	// 	return (1);
-	// }
+	if (dup2(info->saved_stdout, STDOUT_FILENO) == -1)
+	{
+		perror("dup2");
+		return (1);
+	}
 	printf("exit\n");
 	if (ft_count_double_string(repo->args) > 2)
 	{
@@ -27,11 +29,11 @@ int	ft_exit(t_struct *repo, void *inf)
 		}
 		if (exit_num)
 		{
-			ft_free_struct(repo, (t_info *)inf, 2);
+			ft_free_struct(repo, info, 2);
 			exit(exit_num);
 		}
 	}
-	ft_free_struct(repo, (t_info *)inf, 2);
+	ft_free_struct(repo, info, 2);
 	exit(num);
 }
 
@@ -127,10 +129,12 @@ void	ft_init_builtins(t_info *info)
 	info->builtins[1].ptr = (void *)ft_echo;
 	info->builtins[2].ptr = (void *)ft_cd;
 	info->builtins[3].ptr = (void *)ft_pwd;
-	info->builtins[4].ptr = NULL;
+	info->builtins[4].ptr = (void *)ft_env;
+	info->builtins[5].ptr = NULL;
 	info->builtins[0].str = "exit";
 	info->builtins[1].str = "echo";
 	info->builtins[2].str = "cd";
 	info->builtins[3].str = "pwd";
-	info->builtins[4].str = "deux";
+	info->builtins[4].str = "env";
+	info->builtins[5].str = "deux";
 }

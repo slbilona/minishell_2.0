@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/17 20:51:01 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/18 19:46:59 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 	int	i;
 
 	i = 0;
-	while (i < 5)
+	while (i < 6)
 	{
 		if (strncmp(repo->cmd, info->builtins[i].str,
 				strlen(info->builtins[i].str)) == 0)
@@ -159,14 +159,14 @@ int	ft_fork(t_struct *repo, t_info *info)
 	}
 	else if (pid == 0)
 	{
-		close(repo->pipe_fd[0]);
-		dup2(repo->pipe_fd[1], STDOUT_FILENO);
+		// close(repo->pipe_fd[0]);
+		// dup2(repo->pipe_fd[1], STDOUT_FILENO);
 		ft_execve(repo, info);
 	}
 	else
 	{
-		close(repo->pipe_fd[1]);
-		dup2(repo->pipe_fd[0], STDOUT_FILENO);
+		// close(repo->pipe_fd[1]);
+		// dup2(repo->pipe_fd[0], STDOUT_FILENO);
 	}
 	return (0);
 }
@@ -211,7 +211,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 			repo[i].path = ft_cherche_path(&repo[i], info);
 			if (!repo[i].path)
 			{
-				dup2(info->saved_stdout, STDOUT_FILENO);
+				dup2(info->saved_stderr, STDERR_FILENO);
 				// trouver un moyen pour que le message d'erreur soit rediriger dans la bonne sortie
 				printf("minishell: %s : commande introuvable\n", repo[i].cmd);
 			}

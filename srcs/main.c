@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/17 17:01:04 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/18 19:19:23 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,22 @@ int	main(int ac, char **av, char **env)
 	char		**str;
 	t_info		*info;
 	t_struct	*repo;
+	(void) env;
 
 	(void) av;
 	if (ac == 1)
 	{
 		info = malloc(sizeof(t_info)); //j'ai mis ca la mais je te laisserais le mettre dans une fonction speciale qui initialise la structure info etc
-		info->env = env;
 		info->saved_stdin = dup(STDIN_FILENO);
 		info->saved_stdout = dup(STDOUT_FILENO);
 		info->saved_stderr = dup(STDERR_FILENO);
+		info->env = ft_cp_env(env);
+		if (!info->env)
+		{
+			printf("Erreur lors de la copie de l'environement\n");
+			ft_free_struct(NULL, info, 1);
+			return (1);
+		}
 		ft_init_builtins(info);
 		while (1)
 		{

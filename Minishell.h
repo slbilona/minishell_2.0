@@ -35,7 +35,7 @@ typedef struct s_info {
 	int					saved_stdout;
 	int					saved_stderr;
 	char				**env;
-	struct s_builtins	builtins[5];
+	struct s_builtins	builtins[6];
 }	t_info;
 
 // Utils
@@ -43,6 +43,7 @@ typedef struct s_info {
 int			ft_que_des_chiffres(char *str);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
+char		**ft_cp_env(char **ancien_env);
 void		ft_init_builtins(t_info *info);
 void		ft_print_tab(char **str, int j);
 void		ft_free_double_string(char **str);
@@ -69,6 +70,9 @@ char		*ft_cherche_path(t_struct *repo, t_info *info);
 // Builtins
 
 int			ft_exit(t_struct *repo, void *inf);
+void		ft_cd(t_struct *repo, void *inf);
+void		ft_env(t_struct *repo, void *inf);
+void		ft_pwd(t_struct *repo, void *inf);
 void		ft_echo(t_struct *repo, void *inf);
 
 #endif
