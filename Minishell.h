@@ -35,7 +35,7 @@ typedef struct s_info {
 	int					saved_stdout;
 	int					saved_stderr;
 	char				**env;
-	struct s_builtins	builtins[6];
+	struct s_builtins	builtins[7];
 }	t_info;
 
 // Utils
@@ -74,5 +74,6 @@ void		ft_cd(t_struct *repo, void *inf);
 void		ft_env(t_struct *repo, void *inf);
 void		ft_pwd(t_struct *repo, void *inf);
 void		ft_echo(t_struct *repo, void *inf);
+void		ft_unset(t_struct *repo, void *inf);
 
 #endif

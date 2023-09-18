@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/18 19:46:59 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/18 20:39:23 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	ft_redirection(char **str, t_info *info)
 			fd = open(str[i] + 2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 			{
-				dup2(info->saved_stdout, STDOUT_FILENO);
+				dup2(info->saved_stderr, STDERR_FILENO);
 				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
-				dup2(info->saved_stdout, STDOUT_FILENO);
+				dup2(info->saved_stderr, STDERR_FILENO);
 				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				close(fd);
 				return (1);
@@ -42,13 +42,13 @@ int	ft_redirection(char **str, t_info *info)
 			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 			{
-				dup2(info->saved_stdout, STDOUT_FILENO);
+				dup2(info->saved_stderr, STDERR_FILENO);
 				printf("minishell: %s: %s\n", str[i] + 3, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
-				dup2(info->saved_stdout, STDOUT_FILENO);
+				dup2(info->saved_stderr, STDERR_FILENO);
 				printf("minishell: %s: %s\n", str[i] + 3, strerror(errno));
 				close(fd);
 				return (1);
@@ -59,13 +59,13 @@ int	ft_redirection(char **str, t_info *info)
 			fd = open(str[i] + 2, O_RDONLY, 0644);
 			if (fd == -1)
 			{
-				dup2(info->saved_stdout, STDOUT_FILENO);
+				dup2(info->saved_stderr, STDERR_FILENO);
 				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 			{
-				dup2(info->saved_stdout, STDOUT_FILENO);
+				dup2(info->saved_stderr, STDERR_FILENO);
 				printf("minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				close(fd);
 				return (1);
@@ -123,7 +123,6 @@ void	ft_execve(t_struct *repo, t_info *info)
 {
 	if (execve(repo->path, repo->args, info->env) == -1)
 	{
-		dup2(info->saved_stdout, STDOUT_FILENO);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
@@ -134,7 +133,7 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 	int	i;
 
 	i = 0;
-	while (i < 6)
+	while (i < 7)
 	{
 		if (strncmp(repo->cmd, info->builtins[i].str,
 				strlen(info->builtins[i].str)) == 0)
@@ -202,7 +201,6 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		{
 			if(pipe(repo[i].pipe_fd) == -1)
 			{
-				dup2(info->saved_stdout, STDOUT_FILENO);
 				perror("pipe");
 			}
 		}

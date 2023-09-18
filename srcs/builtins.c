@@ -76,6 +76,7 @@ void	ft_pwd(t_struct *repo, void *inf)
 	printf("%s\n", cwd);
 }
 
+// a faire : modifier la variable PWD dans l'environement apres avoir effectue le cd
 void	ft_cd(t_struct *repo, void *inf)
 {
 	char	*home;
@@ -84,7 +85,7 @@ void	ft_cd(t_struct *repo, void *inf)
 	info = inf;
 	if (ft_count_double_string(repo->args) > 2)
 	{
-		dup2(info->saved_stdout, STDOUT_FILENO);
+		dup2(info->saved_stderr, STDERR_FILENO);
 		printf("minishell: cd: trop d'arguments\n");
 		return ;
 	}
@@ -93,7 +94,6 @@ void	ft_cd(t_struct *repo, void *inf)
 		home = getenv("HOME");
 		if (!home)
 		{
-			dup2(info->saved_stdout, STDOUT_FILENO);
 			perror("getenv");
 			return ;
 		}
@@ -105,7 +105,6 @@ void	ft_cd(t_struct *repo, void *inf)
 		home = getenv("HOME");
 		if (!home)
 		{
-			dup2(info->saved_stdout, STDOUT_FILENO);
 			perror("getenv");
 			return ;
 		}
@@ -130,11 +129,13 @@ void	ft_init_builtins(t_info *info)
 	info->builtins[2].ptr = (void *)ft_cd;
 	info->builtins[3].ptr = (void *)ft_pwd;
 	info->builtins[4].ptr = (void *)ft_env;
-	info->builtins[5].ptr = NULL;
+	info->builtins[5].ptr = (void *)ft_unset;
+	info->builtins[6].ptr = NULL;
 	info->builtins[0].str = "exit";
 	info->builtins[1].str = "echo";
 	info->builtins[2].str = "cd";
 	info->builtins[3].str = "pwd";
 	info->builtins[4].str = "env";
-	info->builtins[5].str = "deux";
+	info->builtins[5].str = "unset";
+	info->builtins[6].str = "deux";
 }
