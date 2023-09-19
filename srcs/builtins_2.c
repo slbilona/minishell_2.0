@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:50:46 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/19 15:00:29 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:41:44 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,44 @@ void	ft_env(t_struct *repo, void *inf)
 	{
 		printf("%s\n", info->env[i]);
 		i++;
+	}
+}
+
+// return 1 si il y a un white space dans la chaine
+int	ft_white_spaces(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	ft_export(t_struct *repo, void *inf)
+{
+	int		i;
+	int		j;
+	t_info	*info;
+
+	i = 0;
+	j = 1;
+	info = inf;
+	while (repo->args[j])
+	{
+		if (ft_strchr(repo->args[j] + 1, '=') && !ft_white_spaces(repo->args[j]))
+		{
+			info->env = mange(info->env, repo->args[j], 0);
+		}
+		else if (ft_strchr(repo->args[j], '=') || ft_white_spaces(repo->args[j]))
+		{
+			dup2(info->saved_stderr, STDERR_FILENO);
+			printf("Minishell: export: `%s': not a valid identifier\n", repo->args[j]);
+		}
+		j++;
 	}
 }

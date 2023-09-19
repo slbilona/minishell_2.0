@@ -17,14 +17,14 @@ int	ft_exit(t_struct *repo, void *inf)
 	printf("exit\n");
 	if (ft_count_double_string(repo->args) > 2)
 	{
-		printf("minishell: exit: too many arguments\n");
+		printf("Minishell: exit: too many arguments\n");
 		return (1);
 	}
 	else if (ft_count_double_string(repo->args) == 2)
 	{
 		if (ft_long_atoi(repo->args[1], &num) || ft_que_des_chiffres(repo->args[1]))
 		{
-			printf("minishell: exit: %s: numeric argument required\n", repo->args[1]);
+			printf("Minishell: exit: %s: numeric argument required\n", repo->args[1]);
 			exit_num = 2;
 		}
 		if (exit_num)
@@ -87,7 +87,7 @@ void	ft_cd(t_struct *repo, void *inf)
 	if (ft_count_double_string(repo->args) > 2)
 	{
 		dup2(info->saved_stderr, STDERR_FILENO);
-		printf("minishell: cd: trop d'arguments\n");
+		printf("Minishell: cd: trop d'arguments\n");
 		return ;
 	}
 	if (repo->args[1] && ft_strncmp(repo->args[1], "-", sizeof(repo->args[1])) == 0)
@@ -116,7 +116,7 @@ void	ft_cd(t_struct *repo, void *inf)
 		if (access(repo->args[1], F_OK) != 0)
 		{
 			dup2(info->saved_stdout, STDOUT_FILENO);
-			printf("minishell: cd: %s: Aucun fichier ou dossier de ce type\n", repo->args[1]);
+			printf("Minishell: cd: %s: Aucun fichier ou dossier de ce type\n", repo->args[1]);
 			return ;
 		}
 		chdir(repo->args[1]);
@@ -131,12 +131,12 @@ void	ft_init_builtins(t_info *info)
 	info->builtins[3].ptr = (void *)ft_pwd;
 	info->builtins[4].ptr = (void *)ft_env;
 	info->builtins[5].ptr = (void *)ft_unset;
-	info->builtins[6].ptr = NULL;
+	info->builtins[6].ptr = (void *)ft_export;
 	info->builtins[0].str = "exit";
 	info->builtins[1].str = "echo";
 	info->builtins[2].str = "cd";
 	info->builtins[3].str = "pwd";
 	info->builtins[4].str = "env";
 	info->builtins[5].str = "unset";
-	info->builtins[6].str = "deux";
+	info->builtins[6].str = "export";
 }

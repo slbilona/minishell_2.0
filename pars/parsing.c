@@ -78,7 +78,8 @@ int	ft_split_command(char **str, t_struct *repo)
 	return (0);
 }
 
-//ajoute une sous chaine a une double chaine en la realouant
+/* ajoute une sous chaine a une double chaine en la realouant
+si n est egal a 1 s est free sinon non*/
 char	**mange(char **str, char *s, int n)
 {
 	int		i;

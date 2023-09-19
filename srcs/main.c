@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/18 19:19:23 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:06:24 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	main(int ac, char **av, char **env)
 		while (1)
 		{
 			entree = readline("Minishell$ ");
-			add_history(entree);
+			if (ft_strlen(entree) > 0)
+				add_history(entree);
 			//parsing
 			if (!main_parsing(entree))
 			{
