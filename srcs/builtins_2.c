@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:50:46 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/19 17:45:36 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/19 20:04:58 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	ft_unset(t_struct *repo, void *inf)
 	char	*var;
 	t_info	*info;
 
-	i = 0;
 	j = 1;
 	info = inf;
 	while (repo->args[j])
 	{
 		var = ft_strjoin(repo->args[j], "=");
+		i = 0;
 		while (info->env[i])
 		{
 			if (ft_strnstr(info->env[i], var, ft_strlen(var)))
@@ -57,24 +57,73 @@ void	ft_env(t_struct *repo, void *inf)
 	}
 }
 
-void	ft_export(t_struct *repo, void *inf)
+int	ft_trouve_egal(char *str)
 {
-	int		i;
-	int		j;
-	t_info	*info;
+	int i;
+
+	if (str && !ft_isalpha(str[0]) && str[0] != '_')
+		return (-1);
+	i = 1;
+	while (str && str[i])
+	{
+		if (str[i] == '=')
+			return (i);
+		else if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (-1);
+		i++;
+	}
+	return (-2);
+}
+
+int	ft_cherche_dans_env(char *str, t_info *info, int o)
+{
+	int i;
 
 	i = 0;
+	while (info->env[i])
+	{
+		if (!ft_strncmp(info->env[i], str, o + 1))
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	ft_export(t_struct *repo, void *inf)
+{
+	int		j;
+	int		o;
+	//char	*var;
+	t_info	*info;
+
 	j = 1;
+	o = 0;
 	info = inf;
 	while (repo->args[j])
 	{
-		if (ft_strchr(repo->args[j] + 1, '=') && !ft_white_spaces(repo->args[j]))
-			info->env = mange(info->env, repo->args[j], 0);
-		else if (ft_strchr(repo->args[j], '=') || ft_white_spaces(repo->args[j]))
+		o = ft_trouve_egal(repo->args[j]);
+		if (!ft_white_spaces(repo->args[j]) && o > 0)
+		{
+			if(ft_cherche_dans_env(repo->args[j], info, o))
+			{
+				printf("trouve\n");
+				//remplacer l'ancienne chaine par la nouvelle
+			}
+			else
+			{
+				printf("pas trouve\n");
+				//info->env = mange(info->env, repo->args[j], 0);
+				//verifier si il n'y a pas une erreur;
+			}
+		}
+		else if (o == -1)
 		{
 			dup2(info->saved_stderr, STDERR_FILENO);
 			printf("Minishell: export: `%s': not a valid identifier\n", repo->args[j]);
 		}
 		j++;
 	}
+	printf("rien a faire\n");
 }
