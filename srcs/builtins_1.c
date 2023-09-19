@@ -76,7 +76,8 @@ void	ft_pwd(t_struct *repo, void *inf)
 	printf("%s\n", cwd);
 }
 
-// a faire : modifier la variable PWD dans l'environement apres avoir effectue le cd
+/* a faire : modifier la variable PWD dans
+l'environement apres avoir effectue le cd */
 void	ft_cd(t_struct *repo, void *inf)
 {
 	char	*home;

@@ -50,6 +50,7 @@ int			ft_que_des_chiffres(char *str);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
 char		**ft_cp_env(char **ancien_env);
+char		**ft_supprime_sous_chaine(char **str, int i);
 void		ft_init_builtins(t_info *info);
 void		ft_print_tab(char **str, int j);
 void		ft_free_double_string(char **str);
@@ -65,7 +66,6 @@ int			check_right_direction(char *str);
 char		*ft_pre_parsing(char *entree);
 char		*ft_ajoute_espace(char *entree);
 char		**mange(char **str, char *s, int n);
-
 t_struct	*ft_init_struct(char **str);
 
 // Exec
@@ -81,5 +81,6 @@ void		ft_env(t_struct *repo, void *inf);
 void		ft_pwd(t_struct *repo, void *inf);
 void		ft_echo(t_struct *repo, void *inf);
 void		ft_unset(t_struct *repo, void *inf);
+void		ft_export(t_struct *repo, void *inf);
 
 #endif

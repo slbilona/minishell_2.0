@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/18 19:40:50 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:45:04 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	**ft_cp_env(char **ancien_env)
 {
 	int		i;
 	char	**env;
-	
+
 	i = 0;
 	env = malloc(sizeof(char *) * (ft_count_double_string(ancien_env) + 1));
 	while (ancien_env[i])

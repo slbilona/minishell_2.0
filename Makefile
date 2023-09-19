@@ -6,10 +6,11 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 SRCS = main.c \
 		exec.c \
 		free.c \
-		utils.c \
+		utils_1.c \
+		utils_2.c \
 		parsing.c \
 		ft_space.c \
-		builtins.c \
+		builtins_1.c \
 		builtins_2.c \
 		pre_parsing.c \
 

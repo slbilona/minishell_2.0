@@ -1,39 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/19 14:50:46 by ilselbon          #+#    #+#             */
+/*   Updated: 2023/09/19 15:00:29 by ilselbon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Minishell.h"
-
-char	**ft_supprime_sous_chaine(char **str, int i)
-{
-	int		j;
-	int		k;
-	char	**s;
-
-	j = 0;
-	k = 0;
-	s = malloc(sizeof(char *) * ft_count_double_string(str));
-	if (!s)
-		return (NULL);
-	printf("test\n");
-	while (str && str[k])
-	{
-		if (k == i)
-		{
-			k++;
-		}
-		else
-		{
-			s[j] = ft_strdup(str[k]);
-			if (!s[j])
-			{
-				ft_free_split(s, j);
-				return (NULL);
-			}
-			j++;
-			k++;
-		}
-	}
-	s[j] = NULL;
-	ft_free_double_string(str);
-	return (s);
-}
 
 // ne fonctionne pqs lorsqu'on qppelle la fonction env
 void	ft_unset(t_struct *repo, void *inf)
@@ -41,7 +18,7 @@ void	ft_unset(t_struct *repo, void *inf)
 	int		i;
 	int		j;
 	char	*var;
-	t_info  *info;
+	t_info	*info;
 
 	i = 0;
 	j = 1;
@@ -49,7 +26,6 @@ void	ft_unset(t_struct *repo, void *inf)
 	while (repo->args[j])
 	{
 		var = ft_strjoin(repo->args[j], "=");
-		printf("var : %s\n", var);
 		while (info->env[i])
 		{
 			if (ft_strnstr(info->env[i], var, ft_strlen(var)))
@@ -68,8 +44,8 @@ void	ft_unset(t_struct *repo, void *inf)
 
 void	ft_env(t_struct *repo, void *inf)
 {
-	int     i;
-	t_info  *info;
+	int		i;
+	t_info	*info;
 
 	i = 0;
 	info = inf;
