@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/19 17:34:31 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:47:04 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,22 +170,6 @@ int	ft_fork(t_struct *repo, t_info *info)
 	return (0);
 }
 
-// int	ft_execution(t_struct *repo, t_info *info)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < info->nb_de_cmd)
-// 	{
-// 		if (ft_builtins_ou_non(&repo[i], info))
-// 			ft_fork(repo, info, i);
-// 		i++;
-// 	}
-// 	wait(NULL);
-// 	ft_free_struct(repo, info, 0);//free la structure repo
-// 	return (0);
-// }
-
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
 	int	i;
@@ -199,7 +183,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 			redir = ft_redirection(repo[i].redirection, info);
 		if (i < info->nb_de_pipe)
 		{
-			if(pipe(repo[i].pipe_fd) == -1)
+			if (pipe(repo[i].pipe_fd) == -1)
 			{
 				perror("pipe");
 			}

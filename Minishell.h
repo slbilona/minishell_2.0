@@ -46,6 +46,7 @@ int	ft_split_command(char **str, t_struct *repo);
 
 // Utils
 
+int			ft_white_spaces(char *str);
 int			ft_que_des_chiffres(char *str);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);

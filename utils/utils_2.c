@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:23 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/19 14:45:23 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:45:41 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,19 @@ char	**ft_supprime_sous_chaine(char **str, int i)
 	s[j] = NULL;
 	ft_free_double_string(str);
 	return (s);
+}
+
+// return 1 si il y a un white space dans la chaine
+int	ft_white_spaces(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
+			return (1);
+		i++;
+	}
+	return (0);
 }

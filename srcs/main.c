@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/19 17:06:24 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:46:20 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	main(int ac, char **av, char **env)
 	char		**str;
 	t_info		*info;
 	t_struct	*repo;
-	(void) env;
 
+	(void) env;
 	(void) av;
 	if (ac == 1)
 	{
