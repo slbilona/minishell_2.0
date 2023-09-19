@@ -24,7 +24,22 @@ int	ft_split_command(char **str, t_struct *repo)
 		ft_memset(&repo[i], 0, sizeof(repo[i]));
 		count = 0;
 		s = ft_split(str[i], ' ');
-		//ici
+		j = 0;
+		while(s[j])
+		{
+			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0
+				|| ft_strncmp(s[j], ">>", sizeof(s[j])) == 0
+				|| ft_strncmp(s[j], "<", sizeof(s[j])) == 0
+				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
+			{
+				if(s[j + 1] == NULL)
+				{
+					printf("Rajoute un truc frero\n");
+					return 1;
+				}
+			}
+			j++;
+		}
 		j = 0;
 		while (s[j])
 		{
