@@ -45,76 +45,36 @@ void	ft_env(t_struct *repo, void *inf)
 	}
 }
 
-int	ft_trouve_egal(char *str)
-{
-	int i;
-
-	if (str && !ft_isalpha(str[0]) && str[0] != '_')
-		return (-1);
-	i = 1;
-	while (str && str[i])
-	{
-		if (str[i] == '=')
-			return (i);
-		else if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (-1);
-		i++;
-	}
-	return (-2);
-}
-
-int	ft_cherche_dans_env(char *str, t_info *info, int o)
-{
-	int i;
-
-	i = 0;
-	while (info->env[i])
-	{
-		if (!ft_strncmp(info->env[i], str, o + 1))
-		{
-			free(info->env[i]);
-			info->env[i] = ft_strdup(str);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
+// definir le comportement d'export sans argument (c'est indifini donc a nous de choisir)
 int	ft_export(t_struct *repo, void *inf)
 {
 	int		j;
 	int		o;
-    int     ret;
-	//char	*var;
+	int		ret;
 	t_info	*info;
 
 	j = 1;
 	o = 0;
-    ret = 0;
+	ret = 0;
 	info = inf;
 	while (repo->args[j])
 	{
 		o = ft_trouve_egal(repo->args[j]);
 		if (!ft_white_spaces(repo->args[j]) && o > 0)
 		{
-			if(ft_cherche_dans_env(repo->args[j], info, o))
-			{
-				//remplacer l'ancienne chaine par la nouvelle
-			}
-			else
+			if (!ft_cherche_dans_env(repo->args[j], info, o))
 			{
 				info->env = mange(info->env, repo->args[j], 0);
 				//verifier si il n'y a pas une erreur;
-                ret = 1;
 			}
 		}
 		else if (o == -1)
 		{
 			dup2(info->saved_stderr, STDERR_FILENO);
 			printf("Minishell: export: `%s': not a valid identifier\n", repo->args[j]);
+			ret = 1;
 		}
 		j++;
 	}
-    return (ret);
+	return (ret);
 }
