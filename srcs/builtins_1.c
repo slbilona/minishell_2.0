@@ -121,6 +121,7 @@ void	ft_cd(t_struct *repo, void *inf)
 		}
 		chdir(repo->args[1]);
 	}
+	
 }
 
 void	ft_init_builtins(t_info *info)

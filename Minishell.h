@@ -77,11 +77,11 @@ char		*ft_cherche_path(t_struct *repo, t_info *info);
 // Builtins
 
 int			ft_exit(t_struct *repo, void *inf);
+int			ft_export(t_struct *repo, void *inf);
 void		ft_cd(t_struct *repo, void *inf);
 void		ft_env(t_struct *repo, void *inf);
 void		ft_pwd(t_struct *repo, void *inf);
 void		ft_echo(t_struct *repo, void *inf);
 void		ft_unset(t_struct *repo, void *inf);
-void		ft_export(t_struct *repo, void *inf);
 
 #endif
