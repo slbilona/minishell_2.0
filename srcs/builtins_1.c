@@ -63,7 +63,7 @@ void	ft_echo(t_struct *repo, void *inf)
 	}
 	ft_print_tab(repo->args, i);
 	if (n == 1 || j == 1)
-		printf("\n");
+		write(STDOUT_FILENO, "\n", 1);
 }
 
 void	ft_pwd(t_struct *repo, void *inf)
@@ -76,8 +76,29 @@ void	ft_pwd(t_struct *repo, void *inf)
 	printf("%s\n", cwd);
 }
 
-/* a faire : modifier la variable PWD dans
-l'environement apres avoir effectue le cd */
+void	ft_export_pwd(t_info * info)
+{
+	int		o;
+	char	*pwd;
+	char	cwd[1000];
+	
+	o = 0;
+	getcwd(cwd, sizeof(cwd));
+	pwd = ft_strjoin("PWD=", cwd);
+	if (pwd)
+	{
+		o = ft_trouve_egal(pwd);
+		if (!ft_white_spaces(pwd) && o > 0)
+		{
+			if (!ft_cherche_dans_env(pwd, info, o))
+			{
+				info->env = mange(info->env, pwd, 0);
+				//verifier si il n'y a pas une erreur;
+			}
+		}
+	}
+}
+
 void	ft_cd(t_struct *repo, void *inf)
 {
 	char	*home;
@@ -121,6 +142,7 @@ void	ft_cd(t_struct *repo, void *inf)
 		}
 		chdir(repo->args[1]);
 	}
+	ft_export_pwd(info);
 }
 
 void	ft_init_builtins(t_info *info)

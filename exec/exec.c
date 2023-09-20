@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/19 17:47:04 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/20 20:37:27 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	ft_redirection(char **str, t_info *info)
+int	ft_redirection(char **str, t_struct *repo, t_info *info)
 {
 	int	i;
 	int	fd;
@@ -36,6 +36,7 @@ int	ft_redirection(char **str, t_info *info)
 				close(fd);
 				return (1);
 			}
+			close(fd);
 		}
 		else if (ft_strncmp(">> ", str[i], 3) == 0)
 		{
@@ -53,6 +54,7 @@ int	ft_redirection(char **str, t_info *info)
 				close(fd);
 				return (1);
 			}
+			close(fd);
 		}
 		else if (ft_strncmp("< ", str[i], 2) == 0)
 		{
@@ -70,10 +72,10 @@ int	ft_redirection(char **str, t_info *info)
 				close(fd);
 				return (1);
 			}
+			close(fd);
 		}
-		else
-			printf("ilona\n");
-		close(fd);
+		else if (ft_strncmp("<< ", str[i], 3) == 0)
+			ft_heredoc(str[i] + 3, repo, info);
 		i++;
 	}
 	return (0);
@@ -180,14 +182,14 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 	while (i < info->nb_de_cmd)
 	{
 		if (repo[i].redirection)
-			redir = ft_redirection(repo[i].redirection, info);
-		if (i < info->nb_de_pipe)
-		{
-			if (pipe(repo[i].pipe_fd) == -1)
-			{
-				perror("pipe");
-			}
-		}
+			redir = ft_redirection(repo[i].redirection, &repo[i], info);
+		// if (i < info->nb_de_pipe)
+		// {
+		// 	if (pipe(repo[i].pipe_fd) == -1)
+		// 	{
+		// 		perror("pipe");
+		// 	}
+		// }
 		if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info))
 		{
 			repo[i].path = ft_cherche_path(&repo[i], info);
@@ -200,6 +202,8 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 			else
 				ft_fork(&repo[i], info);
 		}
+		if (repo[i].i_heredoc)
+			unlink("/tmp/heredoc.txt");
 		dup2(info->saved_stdout, STDOUT_FILENO);
 		dup2(info->saved_stdin, STDIN_FILENO);
 		i++;

@@ -5,7 +5,8 @@ t_struct	*ft_init_struct(char **str)
 {
 	t_struct	*repo;
 
-	repo = malloc (sizeof(t_struct) * ft_count_double_string(str)); //eventuellement uriliser calloc comme ca tout est deja initialiser a 0
+	repo = ft_calloc(ft_count_double_string(str), sizeof(t_struct)); //j'ai remplacé par calloc comme ca ca initialise tous les elements a 0 et on a pas besoin d'utiliser memset plus tard
+	//verifier si l'allocation a fonctionné
 	ft_split_command(str, repo);
 	return (repo);
 }
@@ -21,7 +22,6 @@ int	ft_split_command(char **str, t_struct *repo)
 	i = 0;
 	while (str[i])
 	{
-		ft_memset(&repo[i], 0, sizeof(repo[i]));
 		count = 0;
 		s = ft_split(str[i], ' ');
 		j = 0;

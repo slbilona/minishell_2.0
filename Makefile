@@ -13,6 +13,8 @@ SRCS = main.c \
 		builtins_1.c \
 		builtins_2.c \
 		pre_parsing.c \
+		redirection.c \
+		utils_builtins.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))

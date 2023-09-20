@@ -16,6 +16,7 @@
 # include "libft_printf_gnl/get_next_line.h"
 
 typedef struct s_struct {
+	int		i_heredoc;
 	int		pipe_fd[2];
 	char	*cmd;
 	char	*path;
@@ -46,10 +47,13 @@ int	ft_split_command(char **str, t_struct *repo);
 
 // Utils
 
+int			ft_trouve_egal(char *str);
+int			ft_white_spaces(char *str);
 int			ft_white_spaces(char *str);
 int			ft_que_des_chiffres(char *str);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
+int			ft_cherche_dans_env(char *str, t_info *info, int o);
 char		**ft_cp_env(char **ancien_env);
 char		**ft_supprime_sous_chaine(char **str, int i);
 void		ft_init_builtins(t_info *info);
@@ -72,16 +76,18 @@ t_struct	*ft_init_struct(char **str);
 // Exec
 
 int			ft_execution_coordinateur(t_struct *repo, t_info *info);
+int			ft_redirection(char **str, t_struct *repo, t_info *info);
 char		*ft_cherche_path(t_struct *repo, t_info *info);
+void		ft_heredoc(char *str, t_struct *repo, t_info *info);
 
 // Builtins
 
 int			ft_exit(t_struct *repo, void *inf);
+int			ft_export(t_struct *repo, void *inf);
 void		ft_cd(t_struct *repo, void *inf);
 void		ft_env(t_struct *repo, void *inf);
 void		ft_pwd(t_struct *repo, void *inf);
 void		ft_echo(t_struct *repo, void *inf);
 void		ft_unset(t_struct *repo, void *inf);
-void		ft_export(t_struct *repo, void *inf);
 
 #endif
