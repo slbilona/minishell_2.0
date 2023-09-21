@@ -23,7 +23,7 @@ int	ft_split_command(char **str, t_struct *repo)
 	while (str[i])
 	{
 		count = 0;
-		s = ft_split(str[i], ' ');
+		s = ft_new_split(str[i], NULL); // split aux white spaces
 		j = 0;
 		while(s[j])
 		{

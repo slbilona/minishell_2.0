@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/20 20:37:27 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/21 14:44:54 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	}
 	if (!path_entier)
 		return (NULL);
-	splited_path = ft_split(info->env[i] + 5, ':');
+	splited_path = ft_new_split(info->env[i] + 5, ":");
 	if (!splited_path)
 		return (NULL);
 	i = 0;

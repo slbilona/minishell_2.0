@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/21 12:52:31 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:44:21 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	main(int ac, char **av, char **env)
 				entree = ft_pre_parsing(entree);
 				if (!entree)
 					return (1);
-				str = ft_split(entree, '|');
+				str = ft_new_split(entree, "|");
 				free(entree);
 				repo = ft_init_struct(str); //renvoie le tableau de structure
 				info->nb_de_cmd = ft_count_double_string(str);//pareil je te laisserai le mettre autre part si besoin
