@@ -56,7 +56,7 @@ int			ft_long_atoi(char *str, long long int *num);
 int			ft_cherche_dans_env(char *str, t_info *info, int o);
 char		**ft_cp_env(char **ancien_env);
 char		**ft_supprime_sous_chaine(char **str, int i);
-char		**new_split(const char *str, const char *sep);
+char		**ft_new_split(const char *str, const char *sep);
 void		ft_init_builtins(t_info *info);
 void		ft_print_tab(char **str, int j);
 void		ft_free_double_string(char **str);

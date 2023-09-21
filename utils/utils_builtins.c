@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:11:47 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/20 17:11:48 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/21 17:28:19 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	ft_white_spaces(char *str)
 	return (0);
 }
 
+/* cherche une variable dans l'environnement,
+la remplace par sa nouvelle valeur si elle existe deja et return 1
+sinn elle return 0 */ 
 int	ft_cherche_dans_env(char *str, t_info *info, int o)
 {
 	int	i;
