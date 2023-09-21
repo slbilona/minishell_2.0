@@ -29,10 +29,12 @@ int	ft_exit(t_struct *repo, void *inf)
 		}
 		if (exit_num)
 		{
+			get_next_line(-1);
 			ft_free_struct(repo, info, 2);
 			exit(exit_num);
 		}
 	}
+	get_next_line(-1);
 	ft_free_struct(repo, info, 2);
 	exit(num);
 }

@@ -3,16 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/20 20:51:50 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/21 13:31:27 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-// pb lorsque je reappelle heredoc va cause de gnl
+int	ft_verif_dollar(char *line)
+{
+	char *str;
+	
+	str = ft_strrchr(line, '$');
+	if (str && str[1] && (str[1] < 9 || 13 < str[1]) && str[1] != 32)
+		return (1);
+	return (0);
+}
+
+char	*ft_expand_heredoc(t_info *info, char *line)
+{
+	
+}
+
+// ajouter un moyen pour se balader dans la ligne qu'on est en trqin d'ecrire dans le trminal en utilisant les fleches
 void	ft_heredoc(char *str, t_struct *repo, t_info *info)
 {
 	int		fd;
@@ -28,17 +43,23 @@ void	ft_heredoc(char *str, t_struct *repo, t_info *info)
 	}
 	while (1)
 	{
+		write(1, "> ", 2);
 		line = get_next_line(0);
-		if (ft_strncmp(str, line, ft_strlen(str)) == 0)
+		if (ft_strncmp(str, line, ft_strlen(str) + 1) == 0)
 		{
-			get_next_line(-1);
 			free(line);
 			break ;
+		}
+		if (ft_verif_dollar(line))
+		{
+			printf("dollar trouve\n");
+			line = ft_expand_heredoc(info, line);
 		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
 	}
+	close(fd);
 	fd = open("/tmp/heredoc.txt", O_RDONLY, 0644);
 	if (fd == -1)
 	{

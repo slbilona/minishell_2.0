@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/19 17:46:20 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:52:31 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	main(int ac, char **av, char **env)
 	t_info		*info;
 	t_struct	*repo;
 
-	(void) env;
 	(void) av;
 	if (ac == 1)
 	{
@@ -106,6 +105,7 @@ int	main(int ac, char **av, char **env)
 			else
 				free(entree);
 		}
+		get_next_line(-1);
 		ft_free_struct(repo, info, 1);//free la structure info
 	}
 	return (0);
