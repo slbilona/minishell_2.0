@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 14:31:01 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:32:34 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_info	*ft_init_info(char **env)
 	info->saved_stdout = dup(STDOUT_FILENO);
 	info->saved_stderr = dup(STDERR_FILENO);
 	info->env = ft_cp_env(env);
-	if (info->env)
+	if (!info->env)
 	{
 		printf("Erreur lors de la copie de l'environement\n");
 		ft_free_struct(NULL, info, 1);
