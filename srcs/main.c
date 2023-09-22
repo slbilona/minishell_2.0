@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 14:27:51 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:31:01 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,13 @@ t_info	*ft_init_info(char **env)
 	info->saved_stdout = dup(STDOUT_FILENO);
 	info->saved_stderr = dup(STDERR_FILENO);
 	info->env = ft_cp_env(env);
-	if (!info->env)
+	if (info->env)
 	{
 		printf("Erreur lors de la copie de l'environement\n");
 		ft_free_struct(NULL, info, 1);
 		return (NULL);
 	}
+	return (info);
 }
 
 int	main(int ac, char **av, char **env)
@@ -89,7 +90,7 @@ int	main(int ac, char **av, char **env)
 	if (ac == 1)
 	{
 		info = ft_init_info(env); //initialise la structure info
-		if (!info->env)
+		if (!info)
 			return (1);
 		ft_init_builtins(info);
 		while (1)
@@ -128,7 +129,6 @@ int	main(int ac, char **av, char **env)
 		}
 		get_next_line(-1);
 		ft_free_struct(NULL, info, 1);//free la structure info
-
 	}
 	return (0);
 }
