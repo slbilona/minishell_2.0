@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 14:58:41 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:38:04 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 	return (1);
 }
 
-int	ft_fork(t_struct *repo, t_info *info)
+int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 {
 	pid_t	pid;
 					
@@ -164,47 +164,89 @@ int	ft_fork(t_struct *repo, t_info *info)
 	}
 	else if (pid == 0)
 	{
-		// close(repo->pipe_fd[0]);
-		// dup2(repo->pipe_fd[1], STDOUT_FILENO);
+		if (repo->nb_cmd > 0)
+		{
+			dup2(pipe_fd[repo->nb_cmd - 1][0], STDIN_FILENO); // Redirection de l'entrée standard depuis le tube précédent
+            close(pipe_fd[repo->nb_cmd - 1][0]);
+		}
+		if (info->nb_de_pipe)
+		{
+			dup2(pipe_fd[repo->nb_cmd][1], STDOUT_FILENO);
+			close(pipe_fd[repo->nb_cmd][1]);
+		}
 		ft_execve(repo, info);
 	}
 	else
 	{
-		// close(repo->pipe_fd[1]);
-		// dup2(repo->pipe_fd[0], STDOUT_FILENO);
+		if (info->nb_de_pipe && repo->nb_cmd > 0)
+		{
+			close(pipe_fd[repo->nb_cmd - 1][0]);
+			close(pipe_fd[repo->nb_cmd - 1][1]);
+		}
 	}
 	return (0);
+}
+
+/* si j == 0 : initialise pipe_fd
+sinn free pipe_fd */
+int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd)
+{
+	int i;
+	int	**pipe_fd;
+	
+	i = 0;
+	if (!j)
+	{
+		pipe_fd = malloc(sizeof(int *) * info->nb_de_pipe);
+		while (i < info->nb_de_pipe)
+		{
+			pipe_fd[i] = malloc(sizeof(int) * 2);
+			if (pipe(pipe_fd[i]) == -1)
+			{
+				perror("Erreur lors de la création des tubes");
+				return(NULL);
+			}
+			return (pipe_fd);
+		}
+	}
+	else
+	{
+		while (i < info->nb_de_pipe)
+			free(pipes_fd[i++]);
+		free(pipes_fd);
+		return (NULL);
+	}
+	return (NULL);
 }
 
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
 	int	i;
 	int	redir;
+	int **pipe_fd;
 
 	i = 0;
 	redir = 0;
+	if (info->nb_de_pipe > 0)
+		pipe_fd = ft_init_free_pipe(info, 0, NULL);
+	else
+		pipe_fd = NULL;
 	while (i < info->nb_de_cmd)
 	{
 		if (repo[i].redirection)
 			redir = ft_redirection(repo[i].redirection, &repo[i], info);
-		// if (i < info->nb_de_pipe)
-		// {
-		// 	if (pipe(repo[i].pipe_fd) == -1)
-		// 	{
-		// 		perror("pipe");
-		// 	}
-		// }
 		if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info))
 		{
 			repo[i].path = ft_cherche_path(&repo[i], info);
 			if (!repo[i].path)
 			{
+				//creer une fonction a qui j'envoie des strings et qui les ecrits dans la sorti d'erreur
 				dup2(info->saved_stderr, STDOUT_FILENO);
 				printf("Minishell: %s : commande introuvable\n", repo[i].cmd);
 				//white(2, "Minishell: "repo[i].cmd" : commande introuvable\n", )
 			}
 			else
-				ft_fork(&repo[i], info);
+				ft_fork(&repo[i], info, pipe_fd);
 		}
 		if (repo[i].i_heredoc)
 			unlink("/tmp/heredoc.txt");
@@ -212,6 +254,8 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		dup2(info->saved_stdin, STDIN_FILENO);
 		i++;
 	}
+	if (info->nb_de_pipe > 0)
+		ft_init_free_pipe(info, 1, pipe_fd);
 	wait(NULL);
 	ft_free_struct(repo, info, 0);//free la structure repo
 	return (0);

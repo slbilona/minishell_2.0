@@ -45,3 +45,6 @@ si on fait exit >hey il faut quand mm ecrire exit dans la sorti standard
 
 modifier la variable _ dans l'environement a chaque fois que j'execute une commande
 creer une variable ? dans l'environement et la modifier avec le return de la commande precedente
+
+creer une fonction a qui j'envoie des strings et qui les ecrits dans la sorti d'erreur
+

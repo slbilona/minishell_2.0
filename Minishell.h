@@ -17,7 +17,6 @@
 
 typedef struct s_struct {
 	int		i_heredoc;
-	int		pipe_fd[2];
 	int		nb_cmd;
 	char	*cmd;
 	char	*path;
