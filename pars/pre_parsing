@@ -5961,6 +5961,7 @@ int main_parsing(char *str)
 {
  if(check_direction(str))
   return(1);
+ 
  return (0);
 }
 
@@ -5991,9 +5992,9 @@ int check_right_direction(char *str)
   if(j >= 3)
   {
    if(j == 3)
-    printf("Minishell: syntax error near unexpected token `>'\n\n");
+    printf("Minishell: syntax error near unexpected token `>'\n");
    else
-    printf("Minishell: syntax error near unexpected token `>>'\n\n");
+    printf("Minishell: syntax error near unexpected token `>>'\n");
 
    return (1);
   }
@@ -6021,9 +6022,9 @@ int check_left_direction(char *str)
   if(j >= 4)
   {
    if(j == 4)
-    printf("Minishell: syntax error near unexpected token `<'\n\n");
+    printf("Minishell: syntax error near unexpected token `<'\n");
    else
-    printf("Minishell: syntax error near unexpected token `<<'\n\n");
+    printf("Minishell: syntax error near unexpected token `<<'\n");
    return (1);
   }
   j = 0;
