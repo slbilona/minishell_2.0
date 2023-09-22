@@ -11,7 +11,7 @@ t_struct	*ft_init_struct(char **str)
 	ft_split_command(str, repo);
 	return (repo);
 }
-
+void	ft_putstr(char **str);
 int	ft_split_command(char **str, t_struct *repo)
 {
 	int		i;

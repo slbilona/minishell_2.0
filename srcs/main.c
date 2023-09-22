@@ -6,20 +6,21 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 14:32:34 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:38:28 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	ft_putstr(char *str)
+void	ft_putstr(char **str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		write(1, &str[i], 1);
+		printf("%s, ", str[i]);
+		//write(1, str[i], sizeof(str[i]));
 		i++;
 	}
 	printf("\n");
@@ -35,6 +36,7 @@ void	ft_print_repo(t_struct *repo, t_info *info)
 	j = 0;
 	while (i < info->nb_de_cmd)
 	{
+		printf("----------------------------------------------\n");
 		printf("repo[%d] :\ncmd : %s\n", i, repo[i].cmd);
 		if (repo[i].args)
 		{
@@ -54,6 +56,7 @@ void	ft_print_repo(t_struct *repo, t_info *info)
 				j++;
 			}
 		}
+		printf("----------------------------------------------\n");
 		printf("\n\n");
 		i++;
 	}
@@ -129,6 +132,22 @@ int	main(int ac, char **av, char **env)
 		}
 		get_next_line(-1);
 		ft_free_struct(NULL, info, 1);//free la structure info
+	}
+	else
+	{
+		entree = ft_pre_parsing(ft_strdup(av[1]));
+		str = ft_new_split(entree, NULL);
+		int i = 0;
+		printf("--------------------------------\n");
+		printf("entree : \'%s\'\n", entree);
+		while (str[i])
+		{
+			printf("\'%s\'\n", str[i]);
+			i++;
+		}
+		printf("--------------------------------\n");
+		ft_free_double_string(str);
+		free(entree);
 	}
 	return (0);
 }

@@ -70,7 +70,7 @@ int	ft_export(t_struct *repo, void *inf)
 		}
 		else if (o == -1)
 		{
-			dup2(info->saved_stderr, STDERR_FILENO);
+			dup2(info->saved_stderr, STDOUT_FILENO);
 			printf("Minishell: export: `%s': not a valid identifier\n", repo->args[j]);
 			ret = 1;
 		}

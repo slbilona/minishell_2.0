@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/21 19:12:21 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:59:18 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	ft_heredoc(char *str, t_struct *repo, t_info *info)
 	fd = open("/tmp/heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		dup2(info->saved_stderr, STDERR_FILENO);
+		dup2(info->saved_stderr, STDOUT_FILENO);
 		printf("Minishell: %s: %s\n", "/tmp/heredoc.txt", strerror(errno));
 		return ;
 	}
@@ -162,13 +162,13 @@ void	ft_heredoc(char *str, t_struct *repo, t_info *info)
 	fd = open("/tmp/heredoc.txt", O_RDONLY, 0644);
 	if (fd == -1)
 	{
-		dup2(info->saved_stderr, STDERR_FILENO);
+		dup2(info->saved_stderr, STDOUT_FILENO);
 		printf("Minishell: %s: %s\n", "/tmp/heredoc.txt", strerror(errno));
 		return ;
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		dup2(info->saved_stderr, STDERR_FILENO);
+		dup2(info->saved_stderr, STDOUT_FILENO);
 		printf("Minishell: %s: %s\n", "/tmp/heredoc.txt", strerror(errno));
 		close(fd);
 		return ;

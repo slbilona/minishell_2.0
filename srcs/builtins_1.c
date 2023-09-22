@@ -87,7 +87,9 @@ void	ft_pwd(t_struct *repo, void *inf)
 	printf("%s\n", cwd);
 }
 
-void	ft_export_pwd(t_info * info)
+/* si i == 1 : change la valeur de la variable PWD
+sinon : change la variable de OLDPWD */
+void	ft_export_pwd(t_info * info, int i)
 {
 	int		o;
 	char	*pwd;
@@ -95,7 +97,10 @@ void	ft_export_pwd(t_info * info)
 	
 	o = 0;
 	getcwd(cwd, sizeof(cwd));
-	pwd = ft_strjoin("PWD=", cwd);
+	if (i)
+		pwd = ft_strjoin("PWD=", cwd);
+	else
+		pwd = ft_strjoin("OLDPWD=", cwd);
 	if (pwd)
 	{
 		o = ft_trouve_egal(pwd);
@@ -103,9 +108,11 @@ void	ft_export_pwd(t_info * info)
 		{
 			if (!ft_cherche_dans_env(pwd, info, o))
 			{
-				info->env = mange(info->env, pwd, 0);
+				info->env = mange(info->env, pwd, 1);
 				//verifier si il n'y a pas une erreur;
 			}
+			else
+				free(pwd);
 		}
 	}
 }
@@ -118,7 +125,7 @@ void	ft_cd(t_struct *repo, void *inf)
 	info = inf;
 	if (ft_count_double_string(repo->args) > 2)
 	{
-		dup2(info->saved_stderr, STDERR_FILENO);
+		dup2(info->saved_stderr, STDOUT_FILENO);
 		printf("Minishell: cd: trop d'arguments\n");
 		return ;
 	}
@@ -130,6 +137,7 @@ void	ft_cd(t_struct *repo, void *inf)
 			perror("getenv");
 			return ;
 		}
+		ft_export_pwd(info, 0);
 		chdir(home);
 		ft_pwd(repo, inf);
 	}
@@ -141,6 +149,7 @@ void	ft_cd(t_struct *repo, void *inf)
 			perror("getenv");
 			return ;
 		}
+		ft_export_pwd(info, 0);
 		chdir(home);
 	}
 	else if (repo->args[1])
@@ -151,9 +160,10 @@ void	ft_cd(t_struct *repo, void *inf)
 			printf("Minishell: cd: %s: Aucun fichier ou dossier de ce type\n", repo->args[1]);
 			return ;
 		}
+		ft_export_pwd(info, 0);
 		chdir(repo->args[1]);
 	}
-	ft_export_pwd(info);
+	ft_export_pwd(info, 1);
 }
 
 void	ft_init_builtins(t_info *info)

@@ -31,18 +31,15 @@ Minishell$ ls | ls <<<>ilona">hey"
 avant : ls | ls <<<>ilona">hey", size : 23
 2
 apres : ls | ls <<< > ilona">hey", size : 25
-    trouver un moyen de gere lmes guillemet sans ajouter les espaces a certains moment mais en ajouter dans d'autre franchement je sais pas trop
+	trouver un moyen de gere lmes guillemet sans ajouter les espaces a certains moment mais en ajouter dans d'autre franchement je sais pas trop
 
 verifier si il n'y a pas trop de chevrons ou de pipe ou ou si il y a bien un ellement derriere un chevron
 
 
 Remarque execution :
 
-cat test/src1 > a > test/src2
-    rien ne s'ecrit dans le fichier 'a' mais il est créé si il n'existe pas encore et est vidé si il existe deja et contient du contenu  wtfff
-
 changer la sortie si il y a une redirection d'une commande qui ne fonctionne pas
-    le > fichier
+	le > fichier
 
 si on fait exit >hey il faut quand mm ecrire exit dans la sorti standard
 

@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:48:28 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/21 14:49:20 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:37:46 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	**ft_new_split(const char *str, const char *sep)
 	int			i;
 	int			j;
 	char		**dest;
-	char		autre_sep[6];
+	char		autre_sep[7];
 	const char	*vrai_sep;
 
 	i = 0;
@@ -87,6 +87,7 @@ char	**ft_new_split(const char *str, const char *sep)
 	}
 	else
 		vrai_sep = sep;
+	
 	dest = malloc(sizeof(char *) * (ft_new_compte_mot(str, vrai_sep) + 1));
 	while (j < ft_new_compte_mot(str, vrai_sep))
 	{
