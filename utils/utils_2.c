@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:23 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/20 17:12:04 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/22 23:30:49 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,17 @@ char	**ft_supprime_sous_chaine(char **str, int i)
 	ft_free_double_string(str);
 	return (s);
 }
+
+// Ecrit les char * qu'on lui envoie dans la sortie d'erreur
+void	ft_put_str_error(char *str1, char *str2, char *str3, char *str4)
+{
+	write(2, str1, ft_strlen(str1));
+	if (str2)
+		write(2, str2, ft_strlen(str2));
+	if (str3)
+		write(2, str3, ft_strlen(str3));
+	if (str4)
+		write(2, str4, ft_strlen(str4));
+	write(2, "\n", 1);
+}
+

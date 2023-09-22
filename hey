@@ -1,4 +1,9 @@
-[?2004hMinishell$ le
-[?2004lMinishell: le : commande introuvable
+[?2004hMinishell$ export =hey=
+[?2004l[?2004hMinishell$ le
+[?2004l[?2004hMinishell$ cd pars/
+[?2004l[?2004hMinishell$ pz[Kwd*
+[?2004l[?2004hMinishell$ 
+[?2004l[?2004hMinishell$ pwd
+[?2004l/home/ilona/Cursus/Cercle_4/minishell_2.0/pars
 [?2004hMinishell$ exit
 [?2004lexit

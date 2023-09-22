@@ -61,6 +61,7 @@ void		ft_init_builtins(t_info *info);
 void		ft_print_tab(char **str, int j);
 void		ft_free_double_string(char **str);
 void		ft_free_struct(t_struct *repo, t_info *info, int j);
+void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 // Parsing
 

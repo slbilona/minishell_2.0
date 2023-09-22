@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 19:38:04 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 23:10:28 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
 int	ft_redirection(char **str, t_struct *repo, t_info *info)
 {
 	int	i;
@@ -25,14 +24,16 @@ int	ft_redirection(char **str, t_struct *repo, t_info *info)
 			fd = open(str[i] + 2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 			{
-				dup2(info->saved_stderr, STDOUT_FILENO);
-				printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
+				// dup2(info->saved_stderr, STDOUT_FILENO);
+				// printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
-				dup2(info->saved_stderr, STDOUT_FILENO);
-				printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
+				// dup2(info->saved_stderr, STDOUT_FILENO);
+				// printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				close(fd);
 				return (1);
 			}
@@ -43,14 +44,16 @@ int	ft_redirection(char **str, t_struct *repo, t_info *info)
 			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 			{
-				dup2(info->saved_stderr, STDOUT_FILENO);
-				printf("Minishell: %s: %s\n", str[i] + 3, strerror(errno));
+				ft_put_str_error("Minishell: ", str[i] + 3, ": ", strerror(errno));
+				// dup2(info->saved_stderr, STDOUT_FILENO);
+				// printf("Minishell: %s: %s\n", str[i] + 3, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
-				dup2(info->saved_stderr, STDOUT_FILENO);
-				printf("Minishell: %s: %s\n", str[i] + 3, strerror(errno));
+				ft_put_str_error("Minishell: ", str[i] + 3, ": ", strerror(errno));
+				// dup2(info->saved_stderr, STDOUT_FILENO);
+				// printf("Minishell: %s: %s\n", str[i] + 3, strerror(errno));
 				close(fd);
 				return (1);
 			}
@@ -61,14 +64,16 @@ int	ft_redirection(char **str, t_struct *repo, t_info *info)
 			fd = open(str[i] + 2, O_RDONLY, 0644);
 			if (fd == -1)
 			{
-				dup2(info->saved_stderr, STDOUT_FILENO);
-				printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
+				// dup2(info->saved_stderr, STDOUT_FILENO);
+				// printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 			{
-				dup2(info->saved_stderr, STDOUT_FILENO);
-				printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
+				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
+				// dup2(info->saved_stderr, STDOUT_FILENO);
+				// printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				close(fd);
 				return (1);
 			}
@@ -240,9 +245,10 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 			repo[i].path = ft_cherche_path(&repo[i], info);
 			if (!repo[i].path)
 			{
+				ft_put_str_error("Minishell: ", repo[i].cmd, " : commande introuvable", NULL);
 				//creer une fonction a qui j'envoie des strings et qui les ecrits dans la sorti d'erreur
-				dup2(info->saved_stderr, STDOUT_FILENO);
-				printf("Minishell: %s : commande introuvable\n", repo[i].cmd);
+				// dup2(info->saved_stderr, STDOUT_FILENO);
+				// printf("Minishell: %s : commande introuvable\n", repo[i].cmd);
 				//white(2, "Minishell: "repo[i].cmd" : commande introuvable\n", )
 			}
 			else
