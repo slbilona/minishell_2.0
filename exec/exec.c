@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/21 14:44:54 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:59:29 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ void	ft_execve(t_struct *repo, t_info *info)
 	}
 }
 
+/* Verifie si la commande fait partie des builtins.
+Si c'est le cas la fonction associe est appelle */
 int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 {
 	int	i;
@@ -138,6 +140,8 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 	while (i < 7)
 	{
 		if (strncmp(repo->cmd, info->builtins[i].str,
+				strlen(repo->cmd)) == 0 
+				&& strncmp(repo->cmd, info->builtins[i].str,
 				strlen(info->builtins[i].str)) == 0)
 		{
 			info->builtins[i].ptr(repo, info);
@@ -196,7 +200,6 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 			if (!repo[i].path)
 			{
 				dup2(info->saved_stderr, STDERR_FILENO);
-				// trouver un moyen pour que le message d'erreur soit rediriger dans la bonne sortie
 				printf("Minishell: %s : commande introuvable\n", repo[i].cmd);
 			}
 			else

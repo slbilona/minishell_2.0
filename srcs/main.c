@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/21 14:44:21 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:18:17 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int ac, char **av, char **env)
 	if (ac == 1)
 	{
 		info = malloc(sizeof(t_info)); //j'ai mis ca la mais je te laisserais le mettre dans une fonction speciale qui initialise la structure info etc
+		// verifier si l'alocation a reussi
 		info->saved_stdin = dup(STDIN_FILENO);
 		info->saved_stdout = dup(STDOUT_FILENO);
 		info->saved_stderr = dup(STDERR_FILENO);
@@ -93,20 +94,31 @@ int	main(int ac, char **av, char **env)
 				if (!entree)
 					return (1);
 				str = ft_new_split(entree, "|");
-				free(entree);
-				repo = ft_init_struct(str); //renvoie le tableau de structure
-				info->nb_de_cmd = ft_count_double_string(str);//pareil je te laisserai le mettre autre part si besoin
-				info->nb_de_pipe = info->nb_de_cmd - 1;
-				ft_free_double_string(str);
-				//ft_print_repo(repo, info);
-				//execution
-				ft_execution_coordinateur(repo, info);
+				if (str)
+				{
+					repo = ft_init_struct(str); //renvoie le tableau de structure
+					if(repo)
+					{
+						info->nb_de_cmd = ft_count_double_string(str);//pareil je te laisserai le mettre autre part si besoin
+						info->nb_de_pipe = info->nb_de_cmd - 1;
+						free(entree);
+						ft_free_double_string(str);
+						//ft_print_repo(repo, info);
+						//execution
+						ft_execution_coordinateur(repo, info);			
+					}
+					else
+						ft_free_double_string(str);
+				}
+				else
+					free(entree);
 			}
 			else
 				free(entree);
 		}
 		get_next_line(-1);
-		ft_free_struct(repo, info, 1);//free la structure info
+		ft_free_struct(NULL, info, 1);//free la structure info
+
 	}
 	return (0);
 }

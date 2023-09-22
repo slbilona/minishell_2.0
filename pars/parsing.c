@@ -6,7 +6,8 @@ t_struct	*ft_init_struct(char **str)
 	t_struct	*repo;
 
 	repo = ft_calloc(ft_count_double_string(str), sizeof(t_struct)); //j'ai remplacé par calloc comme ca ca initialise tous les elements a 0 et on a pas besoin d'utiliser memset plus tard
-	//verifier si l'allocation a fonctionné
+	if (!repo)
+		return (NULL);
 	ft_split_command(str, repo);
 	return (repo);
 }
@@ -22,6 +23,7 @@ int	ft_split_command(char **str, t_struct *repo)
 	i = 0;
 	while (str[i])
 	{
+		repo[i].nb_cmd = i;
 		count = 0;
 		s = ft_new_split(str[i], NULL); // split aux white spaces
 		j = 0;
