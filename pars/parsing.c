@@ -5,11 +5,13 @@ t_struct	*ft_init_struct(char **str)
 {
 	t_struct	*repo;
 
-	repo = malloc (sizeof(t_struct) * ft_count_double_string(str)); //eventuellement uriliser calloc comme ca tout est deja initialiser a 0
+	repo = ft_calloc(ft_count_double_string(str), sizeof(t_struct)); //j'ai remplacé par calloc comme ca ca initialise tous les elements a 0 et on a pas besoin d'utiliser memset plus tard
+	if (!repo)
+		return (NULL);
 	ft_split_command(str, repo);
 	return (repo);
 }
-
+void	ft_putstr(char **str);
 int	ft_split_command(char **str, t_struct *repo)
 {
 	int		i;
@@ -21,10 +23,25 @@ int	ft_split_command(char **str, t_struct *repo)
 	i = 0;
 	while (str[i])
 	{
-		ft_memset(&repo[i], 0, sizeof(repo[i]));
+		repo[i].nb_cmd = i;
 		count = 0;
-		s = ft_split(str[i], ' ');
-		//ici
+		s = ft_new_split(str[i], NULL); // split aux white spaces
+		j = 0;
+		while(s[j])
+		{
+			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0
+				|| ft_strncmp(s[j], ">>", sizeof(s[j])) == 0
+				|| ft_strncmp(s[j], "<", sizeof(s[j])) == 0
+				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
+			{
+				if(s[j + 1] == NULL)
+				{
+					printf("Rajoute un truc frero\n");
+					return 1;
+				}
+			}
+			j++;
+		}
 		j = 0;
 		while (s[j])
 		{
@@ -63,7 +80,8 @@ int	ft_split_command(char **str, t_struct *repo)
 	return (0);
 }
 
-//ajoute une sous chaine a une double chaine en la realouant
+/* ajoute une sous chaine a une double chaine en la realouant
+si n est egal a 1 s est free sinon non*/
 char	**mange(char **str, char *s, int n)
 {
 	int		i;

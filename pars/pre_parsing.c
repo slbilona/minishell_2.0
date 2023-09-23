@@ -6,7 +6,7 @@
 /*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/18 23:14:11 by soleil           ###   ########.fr       */
+/*   Updated: 2023/09/22 18:17:09 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main_parsing(char *str)
 		return(1);
 	return (0);
 }
+
 
 int	check_direction(char *str)
 {
