@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:23 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/22 23:30:49 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/23 11:28:02 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,3 @@ void	ft_put_str_error(char *str1, char *str2, char *str3, char *str4)
 		write(2, str4, ft_strlen(str4));
 	write(2, "\n", 1);
 }
-

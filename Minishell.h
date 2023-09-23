@@ -51,6 +51,7 @@ int			ft_trouve_egal(char *str);
 int			ft_white_spaces(char *str);
 int			ft_white_spaces(char *str);
 int			ft_que_des_chiffres(char *str);
+int			ft_print_tab(char **str, int j);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
 int			ft_cherche_dans_env(char *str, t_info *info, int o);
@@ -58,7 +59,6 @@ char		**ft_cp_env(char **ancien_env);
 char		**ft_supprime_sous_chaine(char **str, int i);
 char		**ft_new_split(const char *str, const char *sep);
 void		ft_init_builtins(t_info *info);
-void		ft_print_tab(char **str, int j);
 void		ft_free_double_string(char **str);
 void		ft_free_struct(t_struct *repo, t_info *info, int j);
 void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
@@ -84,12 +84,12 @@ void		ft_heredoc(char *str, t_struct *repo, t_info *info);
 
 // Builtins
 
+int			ft_pwd(t_struct *repo, void *inf);
+int			ft_env(t_struct *repo, void *inf);
+int			ft_echo(t_struct *repo, void *inf);
 int			ft_exit(t_struct *repo, void *inf);
 int			ft_export(t_struct *repo, void *inf);
 void		ft_cd(t_struct *repo, void *inf);
-void		ft_env(t_struct *repo, void *inf);
-void		ft_pwd(t_struct *repo, void *inf);
-void		ft_echo(t_struct *repo, void *inf);
 void		ft_unset(t_struct *repo, void *inf);
 
 #endif

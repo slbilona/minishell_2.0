@@ -30,7 +30,7 @@ void	ft_unset(t_struct *repo, void *inf)
 	}
 }
 
-void	ft_env(t_struct *repo, void *inf)
+int	ft_env(t_struct *repo, void *inf)
 {
 	int		i;
 	t_info	*info;
@@ -40,9 +40,13 @@ void	ft_env(t_struct *repo, void *inf)
 	(void) repo;
 	while (info->env[i])
 	{
-		printf("%s\n", info->env[i]);
+		if (write(1, info->env[i], ft_strlen(info->env[i])) == -1)
+			return (perror("Minishell: env: erreur d'écriture "), 1);
+		if (write(1, "\n", 1) == -1)
+			return (perror("Minishell: env: erreur d'écriture "), 1);
 		i++;
 	}
+	return (0);
 }
 
 // definir le comportement d'export sans argument (c'est indifini donc a nous de choisir)
