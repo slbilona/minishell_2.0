@@ -37,6 +37,7 @@ typedef struct s_info {
 	int					saved_stdout;
 	int					saved_stderr;
 	char				**env;
+	pid_t				*diff_pid;
 	struct s_builtins	builtins[7];
 }	t_info;
 

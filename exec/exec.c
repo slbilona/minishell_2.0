@@ -6,11 +6,12 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 23:10:28 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/25 17:05:46 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
 int	ft_redirection(char **str, t_struct *repo, t_info *info)
 {
 	int	i;
@@ -25,15 +26,11 @@ int	ft_redirection(char **str, t_struct *repo, t_info *info)
 			if (fd == -1)
 			{
 				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
-				// dup2(info->saved_stderr, STDOUT_FILENO);
-				// printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
 				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
-				// dup2(info->saved_stderr, STDOUT_FILENO);
-				// printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				close(fd);
 				return (1);
 			}
@@ -45,15 +42,11 @@ int	ft_redirection(char **str, t_struct *repo, t_info *info)
 			if (fd == -1)
 			{
 				ft_put_str_error("Minishell: ", str[i] + 3, ": ", strerror(errno));
-				// dup2(info->saved_stderr, STDOUT_FILENO);
-				// printf("Minishell: %s: %s\n", str[i] + 3, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDOUT_FILENO) == -1)
 			{
 				ft_put_str_error("Minishell: ", str[i] + 3, ": ", strerror(errno));
-				// dup2(info->saved_stderr, STDOUT_FILENO);
-				// printf("Minishell: %s: %s\n", str[i] + 3, strerror(errno));
 				close(fd);
 				return (1);
 			}
@@ -65,15 +58,11 @@ int	ft_redirection(char **str, t_struct *repo, t_info *info)
 			if (fd == -1)
 			{
 				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
-				// dup2(info->saved_stderr, STDOUT_FILENO);
-				// printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				return (1);
 			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 			{
 				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
-				// dup2(info->saved_stderr, STDOUT_FILENO);
-				// printf("Minishell: %s: %s\n", str[i] + 2, strerror(errno));
 				close(fd);
 				return (1);
 			}
@@ -136,21 +125,37 @@ void	ft_execve(t_struct *repo, t_info *info)
 }
 
 /* Verifie si la commande fait partie des builtins.
-Si c'est le cas la fonction associe est appelle */
-int	ft_builtins_ou_non(t_struct *repo, t_info *info)
+Si c'est le cas la fonction associée est appellée */
+int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 {
 	int	i;
+	int redir;
 
 	i = 0;
+	redir = 0;
 	while (i < 7)
 	{
-		if (strncmp(repo->cmd, info->builtins[i].str,
-				strlen(repo->cmd)) == 0 
-				&& strncmp(repo->cmd, info->builtins[i].str,
-				strlen(info->builtins[i].str)) == 0)
+		if (j)
 		{
-			info->builtins[i].ptr(repo, info);
-			return (0);
+			if (strncmp(repo->cmd, info->builtins[i].str,
+					strlen(repo->cmd)) == 0 
+					&& strncmp(repo->cmd, info->builtins[i].str,
+					strlen(info->builtins[i].str)) == 0)
+				return (0);
+		}
+		else
+		{
+			if (strncmp(repo->cmd, info->builtins[i].str,
+					strlen(repo->cmd)) == 0 
+					&& strncmp(repo->cmd, info->builtins[i].str,
+					strlen(info->builtins[i].str)) == 0)
+			{
+				if (repo->redirection)
+					redir = ft_redirection(repo->redirection, repo, info);
+				if (!redir)
+					info->builtins[i].ptr(repo, info);
+				return (0);
+			}
 		}
 		i++;
 	}
@@ -159,27 +164,40 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 
 int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 {
-	pid_t	pid;
-					
-	pid = fork();
-	if (pid == -1)
+	int		redir;
+
+	redir = 0;		
+	info->diff_pid[repo->nb_cmd] = fork();
+	if (info->diff_pid[repo->nb_cmd] == -1)
 	{
 		perror("fork");
 		return (1);
 	}
-	else if (pid == 0)
+	else if (info->diff_pid[repo->nb_cmd] == 0)
 	{
-		if (repo->nb_cmd > 0)
+		if (repo->nb_cmd > 0 && info->nb_de_pipe > 0)
 		{
 			dup2(pipe_fd[repo->nb_cmd - 1][0], STDIN_FILENO); // Redirection de l'entrée standard depuis le tube précédent
-            close(pipe_fd[repo->nb_cmd - 1][0]);
+			close(pipe_fd[repo->nb_cmd - 1][0]);
+			close(pipe_fd[repo->nb_cmd - 1][1]);
 		}
-		if (info->nb_de_pipe)
+		if (info->nb_de_pipe > repo->nb_cmd && info->nb_de_pipe > 0)
 		{
 			dup2(pipe_fd[repo->nb_cmd][1], STDOUT_FILENO);
+			close(pipe_fd[repo->nb_cmd][0]);
 			close(pipe_fd[repo->nb_cmd][1]);
 		}
-		ft_execve(repo, info);
+		if (repo->redirection)
+			redir = ft_redirection(repo->redirection, repo, info);
+		if (repo->cmd && !redir && ft_builtins_ou_non(repo, info, 0))
+		{
+			repo->path = ft_cherche_path(repo, info);
+			if (!repo->path)
+				ft_put_str_error("Minishell: ", repo->cmd, " : commande introuvable", NULL);
+			else
+				ft_execve(repo, info);
+		}
+		printf("fin\n");
 	}
 	else
 	{
@@ -206,13 +224,15 @@ int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd)
 		while (i < info->nb_de_pipe)
 		{
 			pipe_fd[i] = malloc(sizeof(int) * 2);
+			// Verifier si l'allocation n'a pas echoue
 			if (pipe(pipe_fd[i]) == -1)
 			{
 				perror("Erreur lors de la création des tubes");
 				return(NULL);
 			}
-			return (pipe_fd);
+			i++;
 		}
+		return (pipe_fd);
 	}
 	else
 	{
@@ -224,45 +244,74 @@ int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd)
 	return (NULL);
 }
 
+void ft_wait(t_info *info)
+{
+	int i = 0;
+	int status;
+
+	while(i < info->nb_de_cmd && info->diff_pid[i])
+		waitpid(info->diff_pid[i++], &status, 0);
+}
+
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
-	int	i;
-	int	redir;
+	// int	i;
+	// int	redir;
+	// int **pipe_fd;
+
+	// i = 0;
+	// redir = 0;
+	// if (info->nb_de_pipe > 0)
+	// 	pipe_fd = ft_init_free_pipe(info, 0, NULL);
+	// else
+	// 	pipe_fd = NULL;
+	// while (i < info->nb_de_cmd)
+	// {
+	// 	if (repo[i].redirection)
+	// 		redir = ft_redirection(repo[i].redirection, &repo[i], info);
+	// 	if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info))
+	// 	{
+	// 		repo[i].path = ft_cherche_path(&repo[i], info);
+	// 		if (!repo[i].path)
+	// 			ft_put_str_error("Minishell: ", repo[i].cmd, " : commande introuvable", NULL);
+	// 		else
+	// 			ft_fork(&repo[i], info, pipe_fd);
+	// 	}
+	// 	if (repo[i].i_heredoc)
+	// 		unlink("/tmp/heredoc.txt");
+	// 	i++;
+	// }
+	// if (info->nb_de_pipe > 0)
+	// 	ft_init_free_pipe(info, 1, pipe_fd);
+	// wait(NULL);
+	// dup2(info->saved_stdout, STDOUT_FILENO);
+	// dup2(info->saved_stdin, STDIN_FILENO);
+	// ft_free_struct(repo, info, 0);//free la structure repo
+	// return (0);
+
+	int i;
 	int **pipe_fd;
 
 	i = 0;
-	redir = 0;
 	if (info->nb_de_pipe > 0)
 		pipe_fd = ft_init_free_pipe(info, 0, NULL);
 	else
 		pipe_fd = NULL;
 	while (i < info->nb_de_cmd)
 	{
-		if (repo[i].redirection)
-			redir = ft_redirection(repo[i].redirection, &repo[i], info);
-		if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info))
-		{
-			repo[i].path = ft_cherche_path(&repo[i], info);
-			if (!repo[i].path)
-			{
-				ft_put_str_error("Minishell: ", repo[i].cmd, " : commande introuvable", NULL);
-				//creer une fonction a qui j'envoie des strings et qui les ecrits dans la sorti d'erreur
-				// dup2(info->saved_stderr, STDOUT_FILENO);
-				// printf("Minishell: %s : commande introuvable\n", repo[i].cmd);
-				//white(2, "Minishell: "repo[i].cmd" : commande introuvable\n", )
-			}
-			else
-				ft_fork(&repo[i], info, pipe_fd);
-		}
+		if (info->nb_de_pipe != 0 || ft_builtins_ou_non(&repo[i], info, 1))
+			ft_fork(&repo[i], info, pipe_fd);
+		else
+			ft_builtins_ou_non(&repo[i], info, 0);
 		if (repo[i].i_heredoc)
 			unlink("/tmp/heredoc.txt");
-		dup2(info->saved_stdout, STDOUT_FILENO);
-		dup2(info->saved_stdin, STDIN_FILENO);
+		//printf("i : %d, info->nb_de_cmd : %d\n", i, info->nb_de_cmd);
 		i++;
 	}
-	if (info->nb_de_pipe > 0)
-		ft_init_free_pipe(info, 1, pipe_fd);
-	wait(NULL);
+	ft_wait(info);
+	ft_init_free_pipe(info, 1, pipe_fd);
+	dup2(info->saved_stdout, STDOUT_FILENO);
+	dup2(info->saved_stdin, STDIN_FILENO);
 	ft_free_struct(repo, info, 0);//free la structure repo
 	return (0);
 }
