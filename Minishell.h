@@ -31,6 +31,7 @@ typedef struct s_builtins {
 }	t_builtins;
 
 typedef struct s_info {
+	int					fork;
 	int					nb_de_cmd;
 	int					nb_de_pipe;
 	int					saved_stdin;

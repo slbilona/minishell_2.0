@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/25 17:05:46 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/25 17:54:03 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,11 +162,38 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 	return (1);
 }
 
+void ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
+{
+	if (repo->nb_cmd > 0 && info->nb_de_pipe > 0)
+	{
+		dup2(pipe_fd[repo->nb_cmd - 1][0], STDIN_FILENO); // Redirection de l'entrée standard depuis le tube précédent
+		close(pipe_fd[repo->nb_cmd - 1][0]);
+		close(pipe_fd[repo->nb_cmd - 1][1]);
+	}
+	if (info->nb_de_pipe > repo->nb_cmd && info->nb_de_pipe > 0)
+	{
+		dup2(pipe_fd[repo->nb_cmd][1], STDOUT_FILENO);
+		close(pipe_fd[repo->nb_cmd][0]);
+		close(pipe_fd[repo->nb_cmd][1]);
+	}
+	if (repo->redirection)
+		redir = ft_redirection(repo->redirection, repo, info);
+	if (repo->cmd && !redir && ft_builtins_ou_non(repo, info, 0))
+	{
+		repo->path = ft_cherche_path(repo, info);
+		if (!repo->path)
+			ft_put_str_error("Minishell: ", repo->cmd, " : commande introuvable", NULL);
+		else
+			ft_execve(repo, info);
+	}
+}
+
 int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 {
 	int		redir;
 
-	redir = 0;		
+	redir = 0;
+	info->fork = 1;
 	info->diff_pid[repo->nb_cmd] = fork();
 	if (info->diff_pid[repo->nb_cmd] == -1)
 	{
@@ -175,29 +202,7 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 	}
 	else if (info->diff_pid[repo->nb_cmd] == 0)
 	{
-		if (repo->nb_cmd > 0 && info->nb_de_pipe > 0)
-		{
-			dup2(pipe_fd[repo->nb_cmd - 1][0], STDIN_FILENO); // Redirection de l'entrée standard depuis le tube précédent
-			close(pipe_fd[repo->nb_cmd - 1][0]);
-			close(pipe_fd[repo->nb_cmd - 1][1]);
-		}
-		if (info->nb_de_pipe > repo->nb_cmd && info->nb_de_pipe > 0)
-		{
-			dup2(pipe_fd[repo->nb_cmd][1], STDOUT_FILENO);
-			close(pipe_fd[repo->nb_cmd][0]);
-			close(pipe_fd[repo->nb_cmd][1]);
-		}
-		if (repo->redirection)
-			redir = ft_redirection(repo->redirection, repo, info);
-		if (repo->cmd && !redir && ft_builtins_ou_non(repo, info, 0))
-		{
-			repo->path = ft_cherche_path(repo, info);
-			if (!repo->path)
-				ft_put_str_error("Minishell: ", repo->cmd, " : commande introuvable", NULL);
-			else
-				ft_execve(repo, info);
-		}
-		printf("fin\n");
+		ft_processus_fils(info, repo, redir, pipe_fd);
 	}
 	else
 	{
@@ -214,7 +219,7 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 sinn free pipe_fd */
 int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd)
 {
-	int i;
+	int	i;
 	int	**pipe_fd;
 	
 	i = 0;
@@ -244,53 +249,20 @@ int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd)
 	return (NULL);
 }
 
-void ft_wait(t_info *info)
+void	ft_wait(t_info *info)
 {
-	int i = 0;
-	int status;
+	int	i;
+	int	status;
 
-	while(i < info->nb_de_cmd && info->diff_pid[i])
+	i = 0;
+	while (i < info->nb_de_cmd && info->diff_pid[i])
 		waitpid(info->diff_pid[i++], &status, 0);
 }
 
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
-	// int	i;
-	// int	redir;
-	// int **pipe_fd;
-
-	// i = 0;
-	// redir = 0;
-	// if (info->nb_de_pipe > 0)
-	// 	pipe_fd = ft_init_free_pipe(info, 0, NULL);
-	// else
-	// 	pipe_fd = NULL;
-	// while (i < info->nb_de_cmd)
-	// {
-	// 	if (repo[i].redirection)
-	// 		redir = ft_redirection(repo[i].redirection, &repo[i], info);
-	// 	if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info))
-	// 	{
-	// 		repo[i].path = ft_cherche_path(&repo[i], info);
-	// 		if (!repo[i].path)
-	// 			ft_put_str_error("Minishell: ", repo[i].cmd, " : commande introuvable", NULL);
-	// 		else
-	// 			ft_fork(&repo[i], info, pipe_fd);
-	// 	}
-	// 	if (repo[i].i_heredoc)
-	// 		unlink("/tmp/heredoc.txt");
-	// 	i++;
-	// }
-	// if (info->nb_de_pipe > 0)
-	// 	ft_init_free_pipe(info, 1, pipe_fd);
-	// wait(NULL);
-	// dup2(info->saved_stdout, STDOUT_FILENO);
-	// dup2(info->saved_stdin, STDIN_FILENO);
-	// ft_free_struct(repo, info, 0);//free la structure repo
-	// return (0);
-
-	int i;
-	int **pipe_fd;
+	int		i;
+	int 	**pipe_fd;
 
 	i = 0;
 	if (info->nb_de_pipe > 0)
@@ -305,10 +277,12 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 			ft_builtins_ou_non(&repo[i], info, 0);
 		if (repo[i].i_heredoc)
 			unlink("/tmp/heredoc.txt");
-		//printf("i : %d, info->nb_de_cmd : %d\n", i, info->nb_de_cmd);
 		i++;
 	}
-	ft_wait(info);
+	if (info->fork)
+		ft_wait(info);
+	info->fork = 0;
+	free(info->diff_pid);
 	ft_init_free_pipe(info, 1, pipe_fd);
 	dup2(info->saved_stdout, STDOUT_FILENO);
 	dup2(info->saved_stdin, STDIN_FILENO);

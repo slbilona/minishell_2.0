@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 23:08:35 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/25 18:01:15 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	ft_heredoc(char *str, t_struct *repo, t_info *info)
 	}
 	while (1)
 	{
-		write(1, "> ", 2);
+		write(info->saved_stdout, "> ", 2);
 		line = get_next_line(0);
 		if (ft_strncmp(str, line, ft_strlen(str) + 1) == 0)
 		{

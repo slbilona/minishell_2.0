@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:55 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/25 16:53:41 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/25 17:27:14 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ void	ft_free_struct(t_struct *repo, t_info *info, int j)
 	{
 		ft_free_double_string(info->env);
 		i = 0;
-		// while(i < info->nb_de_cmd)
-		// 	free(&info->diff_pid[i]);
-		//free(info->diff_pid);
+		if (info->diff_pid)
+			free(info->diff_pid);
 		close(info->saved_stdin);
 		close(info->saved_stdout);
 		close(info->saved_stderr);
