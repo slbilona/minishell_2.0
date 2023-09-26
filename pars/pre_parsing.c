@@ -6,7 +6,7 @@
 /*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/23 13:02:28 by soleil           ###   ########.fr       */
+/*   Updated: 2023/09/26 19:28:02 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,47 @@ int  check_pipe(char *str)
      int i;
      int j;
      int k;
+	 int count_pipe;
 
+	 count_pipe = 0;
      i = 0;
      j = 0;
      k = 0;     
      while(str[i])
      {
           if(str[i] == '|')
-          {
-               j = i;
+          {	   count_pipe = 1;
+               j = i + 1;
                while(str[j])
                {
-                    if((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || (str[j] >= '0' && str[j] <= '9'))
+					if(str[j] == '|')
+					{
+						count_pipe++;
+					}
+                    else if((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || (str[j] >= '0' && str[j] <= '9'))
                     {
 						
                          k = 1;
+						 count_pipe = 1;
                     }
                     j++;
                }
+			if(count_pipe >= 3)
+			{
+				printf("syntax error near unexpected token `||'\n");
+				return(1);
+			}
+			if(count_pipe == 2)
+			{
+				printf("syntax error near unexpected token `|'\n");
+				return(1);
+			}
 			if(k == 0)
-               return(1);
+			{
+				return(1);
+			}
+			
+               
           }
           i++;
      }

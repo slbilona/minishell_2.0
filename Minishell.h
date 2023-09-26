@@ -4,6 +4,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <stddef.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <unistd.h>

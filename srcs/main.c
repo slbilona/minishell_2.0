@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/25 17:54:32 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/26 19:15:21 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int ft_init_info_deux(t_info *info, int i)
 	return (0);
 }
 
+
 int	main(int ac, char **av, char **env)
 {
 	char		*entree;
@@ -102,8 +103,10 @@ int	main(int ac, char **av, char **env)
 	t_struct	*repo;
 
 	(void) av;
+	
 	if (ac == 1)
 	{
+	
 		info = ft_init_info(env); //initialise la structure info
 		if (!info)
 			return (1);
