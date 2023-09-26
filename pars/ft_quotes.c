@@ -6,13 +6,13 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:31:19 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/26 16:16:31 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/26 18:40:31 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	ft_guillemet_simple(char *str, int *i_str, int *j, int *k)
+int	ft_guillemet_simple(const char *str, int *i_str, int *j, int *k)
 {
 	i_str[*k] = 3;
 	*k += 1;
@@ -34,7 +34,7 @@ int	ft_guillemet_simple(char *str, int *i_str, int *j, int *k)
 	return (0);
 }
 
-int	ft_double_guillemet(char *str, int *i_str, int *j, int *k)
+int	ft_double_guillemet(const char *str, int *i_str, int *j, int *k)
 {
 	i_str[*k] = 4;
 	*k += 1;
@@ -62,7 +62,7 @@ Renvoie 1 si str[i] est à l'intérieur de guillemets simples
 Renvoie 2 si str[i] est à l'intérieur de guillemets doubles
 Renvoie 3 si str[i] est un guillemet simple
 Renvoie 4 si str[i] est un guillemet double */
-int	ft_quotes(char *str, int i)
+int	ft_quotes(const char *str, int i)
 {
 	int	j;
 	int	k;
