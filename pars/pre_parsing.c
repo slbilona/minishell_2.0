@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/14 14:30:27 by soleil           ###   ########.fr       */
+/*   Updated: 2023/09/26 16:16:31 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	main_parsing(char *str)
 {
+	if (ft_quotes(str, 0) == -1) // si il y a un guillemet non fermé
+		return (1);
 	if(check_direction(str))
 		return(1);
 	return (0);

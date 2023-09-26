@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/25 17:54:32 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/26 16:04:00 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int ft_init_info_deux(t_info *info, int i)
 int	main(int ac, char **av, char **env)
 {
 	char		*entree;
-	char		**str;
+	// char		**str;
 	t_info		*info;
-	t_struct	*repo;
+	// t_struct	*repo;
 
 	(void) av;
 	if (ac == 1)
@@ -116,28 +116,31 @@ int	main(int ac, char **av, char **env)
 			if (!main_parsing(entree))
 			{
 				entree = ft_pre_parsing(entree);
+				printf("entree : %s\n", entree);
 				if (!entree)
 					return (1);
-				str = ft_new_split(entree, "|");
-				if (str)
-				{
-					repo = ft_init_struct(str); //renvoie le tableau de structure
-					if(repo)
-					{
-						ft_init_info_deux(info, ft_count_double_string(str));
-						free(entree);
-						ft_free_double_string(str);
-						//execution
-						ft_execution_coordinateur(repo, info);
-					}
-					else
-						ft_free_double_string(str);
-				}
-				else
-					free(entree);
-			}
-			else
 				free(entree);
+			}
+			// 	str = ft_new_split(entree, "|");
+			// 	if (str)
+			// 	{
+			// 		repo = ft_init_struct(str); //renvoie le tableau de structure
+			// 		if(repo)
+			// 		{
+			// 			ft_init_info_deux(info, ft_count_double_string(str));
+			// 			free(entree);
+			// 			ft_free_double_string(str);
+			// 			//execution
+			// 			ft_execution_coordinateur(repo, info);
+			// 		}
+			// 		else
+			// 			ft_free_double_string(str);
+			// 	}
+			// 	else
+			// 		free(entree);
+			// }
+			// else
+			// 	free(entree);
 		}
 		get_next_line(-1);
 		ft_free_struct(NULL, info, 1);//free la structure info
