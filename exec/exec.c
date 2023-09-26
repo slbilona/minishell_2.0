@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/26 12:54:30 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/26 20:38:05 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,18 +137,18 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 	{
 		if (j)
 		{
-			if (strncmp(repo->cmd, info->builtins[i].str,
-					strlen(repo->cmd)) == 0 
+			if (ft_strncmp(repo->cmd, info->builtins[i].str,
+					ft_strlen(repo->cmd)) == 0 
 					&& strncmp(repo->cmd, info->builtins[i].str,
 					strlen(info->builtins[i].str)) == 0)
 				return (0);
 		}
 		else
 		{
-			if (strncmp(repo->cmd, info->builtins[i].str,
+			if (ft_strncmp(repo->cmd, info->builtins[i].str,
 					strlen(repo->cmd)) == 0 
 					&& strncmp(repo->cmd, info->builtins[i].str,
-					strlen(info->builtins[i].str)) == 0)
+					ft_strlen(info->builtins[i].str)) == 0)
 			{
 				if (repo->redirection)
 					redir = ft_redirection(repo->redirection, repo, info);
@@ -180,14 +180,7 @@ void ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 		redir = ft_redirection(repo->redirection, repo, info);
 	if (repo->cmd && !redir && ft_builtins_ou_non(repo, info, 0))
 	{
-		repo->path = ft_cherche_path(repo, info);
-		if (!repo->path)
-		{
-			printf("path : %s\n", repo->path);
-			ft_put_str_error("Minishell: ", repo->cmd, " : commande introuvable", NULL);
-		}
-		else
-			ft_execve(repo, info);
+		ft_execve(repo, info);
 	}
 }
 
@@ -196,6 +189,15 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 	int		redir;
 
 	redir = 0;
+	if (ft_builtins_ou_non(repo, info, 1))
+	{
+		repo->path = ft_cherche_path(repo, info);
+		if (!repo->path)
+		{
+			ft_put_str_error("Minishell: ", repo->cmd, " : commande introuvable", NULL);
+			return (1);
+		}
+	}
 	info->fork = 1;
 	info->diff_pid[repo->nb_cmd] = fork();
 	if (info->diff_pid[repo->nb_cmd] == -1)

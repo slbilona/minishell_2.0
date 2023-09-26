@@ -67,17 +67,18 @@ void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 // Parsing
 
+int			check_pipe(char *str);
 int			main_parsing(char *str);
 int			check_direction(char *str);
 int			ft_compte_espaces(char *str);
 int			check_left_direction(char *str);
 int			check_right_direction(char *str);
 int			ft_quotes(const char *str, int i);
+char		**ft_clean_quotes(char **str);
 char		*ft_pre_parsing(char *entree);
 char		*ft_ajoute_espace(char *entree);
 char		**mange(char **str, char *s, int n);
 t_struct	*ft_init_struct(char **str);
-int			check_pipe(char *str);
 
 // Exec
 

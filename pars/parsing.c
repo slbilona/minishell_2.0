@@ -27,6 +27,8 @@ int	ft_split_command(char **str, t_struct *repo)
 		repo[i].nb_cmd = i;
 		count = 0;
 		s = ft_new_split(str[i], NULL); // split aux white spaces
+		s = ft_clean_quotes(s);
+		// verifier si ca a fontionné
 		j = 0;
 		while(s[j])
 		{

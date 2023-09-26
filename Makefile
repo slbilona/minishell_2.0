@@ -17,6 +17,7 @@ SRCS = main.c \
 		redirection.c \
 		ft_new_split.c \
 		utils_builtins.c \
+		ft_clean_quotes.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))
