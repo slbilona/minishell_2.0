@@ -6,7 +6,11 @@
 /*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/26 19:15:21 by soleil           ###   ########.fr       */
+=======
+/*   Updated: 2023/09/26 19:08:50 by ilona            ###   ########.fr       */
+>>>>>>> f8ba30d7cc18ae1641bf620ddcf6dc42132ab973
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,31 +123,32 @@ int	main(int ac, char **av, char **env)
 			if (!main_parsing(entree))
 			{
 				entree = ft_pre_parsing(entree);
-				if (!entree)
-					return (1);
-				str = ft_new_split(entree, "|");
-				if (str)
+				if (entree)
 				{
-					repo = ft_init_struct(str); //renvoie le tableau de structure
-					if(repo)
+					str = ft_new_split(entree, "|");
+					if (str)
 					{
-						ft_init_info_deux(info, ft_count_double_string(str));
-						free(entree);
-						ft_free_double_string(str);
-						//execution
-						ft_execution_coordinateur(repo, info);
+						repo = ft_init_struct(str); //renvoie le tableau de structure
+						if(repo)
+						{
+							ft_init_info_deux(info, ft_count_double_string(str));
+							free(entree);
+							ft_free_double_string(str);
+							//execution
+							ft_execution_coordinateur(repo, info);
+						}
+						else
+							ft_free_double_string(str);
 					}
 					else
-						ft_free_double_string(str);
+						free(entree);
 				}
-				else
-					free(entree);
 			}
 			else
 				free(entree);
 		}
 		get_next_line(-1);
-		ft_free_struct(NULL, info, 1);//free la structure info
+		ft_free_struct(NULL, info, 1); //free la structure info
 	}
 	return (0);
 }

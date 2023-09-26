@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_new_split.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:48:28 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/22 16:37:46 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/26 19:07:57 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	ft_new_compte_mot(const char *str, const char *sep)
 	compte = 0;
 	while (str && str[i])
 	{
-		while (str[i] && ft_strchr(sep, str[i]))
+		while (str[i] && ft_strchr(sep, str[i]) && ft_quotes(str, i) == 0)
 			i++;
 		if (str[i])
 			compte++;
-		while (str[i] && !ft_strchr(sep, str[i]))
+		while (str[i] && (!ft_strchr(sep, str[i]) || ft_quotes(str, i) > 0))
 			i++;
 	}
 	return (compte);
@@ -59,7 +59,7 @@ int	ft_new_taille_mot(const char *str, const char *sep, int i)
 	taille = 0;
 	while (str[i])
 	{
-		if (str[i] && ft_strchr(sep, str[i]))
+		if (str[i] && (ft_strchr(sep, str[i]) && ft_quotes(str, i) == 0))
 			return (taille);
 		else
 			taille++;
@@ -87,13 +87,12 @@ char	**ft_new_split(const char *str, const char *sep)
 	}
 	else
 		vrai_sep = sep;
-	
 	dest = malloc(sizeof(char *) * (ft_new_compte_mot(str, vrai_sep) + 1));
 	while (j < ft_new_compte_mot(str, vrai_sep))
 	{
-		while (str[i] && ft_strchr(vrai_sep, str[i]))
+		while (str[i] && ft_strchr(vrai_sep, str[i]) && ft_quotes(str, i) == 0)
 			i++;
-		if (str[i] && !ft_strchr(vrai_sep, str[i]))
+		if (str[i] && (!ft_strchr(vrai_sep, str[i]) || ft_quotes(str, i) > 0))
 		{
 			dest[j] = malloc(sizeof(char)
 					* (ft_new_taille_mot(str, vrai_sep, i) + 1));
@@ -107,4 +106,5 @@ char	**ft_new_split(const char *str, const char *sep)
 	}
 	dest[j] = NULL;
 	return (dest);
+	return (NULL);
 }

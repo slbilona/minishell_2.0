@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/26 19:28:02 by soleil           ###   ########.fr       */
+=======
+/*   Updated: 2023/09/26 19:11:07 by ilona            ###   ########.fr       */
+>>>>>>> f8ba30d7cc18ae1641bf620ddcf6dc42132ab973
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +18,8 @@
 
 int	main_parsing(char *str)
 {
+	if (ft_quotes(str, 0) == -1) // si il y a un guillemet non fermé
+		return (1);
 	if(check_direction(str))
 		return(1);
 	if(check_pipe(str))
