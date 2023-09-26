@@ -14,17 +14,16 @@ int	ft_exit(t_struct *repo, void *inf)
 		perror("dup2");
 		return (1);
 	}
-	printf("exit\n");
+	ft_put_str_error("exit", NULL, NULL, NULL);
 	if (ft_count_double_string(repo->args) > 2)
 	{
-		printf("Minishell: exit: too many arguments\n");
-		return (1);
+		return (ft_put_str_error("Minishell:",  "exit:", " too many arguments", NULL), 1);
 	}
 	else if (ft_count_double_string(repo->args) == 2)
 	{
 		if (ft_long_atoi(repo->args[1], &num) || ft_que_des_chiffres(repo->args[1]))
 		{
-			printf("Minishell: exit: %s: numeric argument required\n", repo->args[1]);
+			ft_put_str_error("Minishell: exit: ", repo->args[1], ": numeric argument required", NULL);
 			exit_num = 2;
 		}
 		if (exit_num)
@@ -40,7 +39,7 @@ int	ft_exit(t_struct *repo, void *inf)
 }
 
 //pb lorsqu'on redirige et qu'on utilise l'argument -n
-void	ft_echo(t_struct *repo, void *inf)
+int	ft_echo(t_struct *repo, void *inf)
 {
 	int	i;
 	int	j;
@@ -72,19 +71,26 @@ void	ft_echo(t_struct *repo, void *inf)
 		else
 			break ;
 	}
-	ft_print_tab(repo->args, i);
+	if (ft_print_tab(repo->args, i))
+		return (1);
 	if (n == 1 || j == 1)
-		write(STDOUT_FILENO, "\n", 1);
+		if (write(STDOUT_FILENO, "\n", 1) == -1)
+			return (perror("Minishell: echo: erreur d'écriture "), 1);
+	return (0);
 }
 
-void	ft_pwd(t_struct *repo, void *inf)
+int	ft_pwd(t_struct *repo, void *inf)
 {
 	char	cwd[1000];
 
 	(void) repo;
 	(void) inf;
 	getcwd(cwd, sizeof(cwd));
-	printf("%s\n", cwd);
+	if (write(1, cwd, ft_strlen(cwd)) == -1)
+		return (perror("Minishell: pwd: erreur d'écriture "), 1);
+	if (write(1, "\n", 1) == -1)
+		return (perror("Minishell: pwd: erreur d'écriture "), 1);
+	return (0);
 }
 
 /* si i == 1 : change la valeur de la variable PWD

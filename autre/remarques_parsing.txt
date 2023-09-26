@@ -48,4 +48,8 @@ creer une variable ? dans l'environement et la modifier avec le return de la com
 
 creer une fonction a qui j'envoie des strings et qui les ecrits dans la sorti d'erreur
 
-verifier tous les printf et les write
+remplacer tous les printf par des writes et les verifier
+
+heredoc ne fonctionne pas lorsqu'on pipe
+
+si on fork mais que la commande n'existe pas on reste dans le processus enfant

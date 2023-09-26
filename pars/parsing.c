@@ -11,7 +11,7 @@ t_struct	*ft_init_struct(char **str)
 	ft_split_command(str, repo);
 	return (repo);
 }
-void	ft_putstr(char **str);
+
 int	ft_split_command(char **str, t_struct *repo)
 {
 	int		i;
@@ -23,6 +23,7 @@ int	ft_split_command(char **str, t_struct *repo)
 	i = 0;
 	while (str[i])
 	{
+		repo[i].i_heredoc = 0;
 		repo[i].nb_cmd = i;
 		count = 0;
 		s = ft_new_split(str[i], NULL); // split aux white spaces

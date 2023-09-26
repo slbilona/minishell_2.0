@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/20 20:32:38 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/23 11:20:31 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,16 @@ int	ft_que_des_chiffres(char *str)
 }
 
 //print un char ** en separent chaque string avec un espace
-void	ft_print_tab(char **str, int j)
+int	ft_print_tab(char **str, int j)
 {
 	while (str[j])
 	{
-		write(STDOUT_FILENO, str[j], ft_strlen(str[j]));
+		if (write(STDOUT_FILENO, str[j], ft_strlen(str[j])) == -1)
+			return (perror("Minishell: echo: erreur d'écriture "), 1);
 		if (str[j + 1])
-			write(STDOUT_FILENO, " ", 1);
+			if (write(STDOUT_FILENO, " ", 1) == -1)
+				return (perror("Minishell: echo: erreur d'écriture "), 1);
 		j++;
 	}
+	return (0);
 }

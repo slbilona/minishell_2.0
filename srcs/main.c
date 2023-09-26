@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 23:24:47 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/25 17:54:32 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_info	*ft_init_info(char **env)
 	info = malloc(sizeof(t_info));
 	if (!info)
 		return (ft_put_str_error("Erreur de la creation de la structure info", NULL, NULL, NULL), NULL);
+	info->fork = 0;
 	info->saved_stdin = dup(STDIN_FILENO);
 	info->saved_stdout = dup(STDOUT_FILENO);
 	info->saved_stderr = dup(STDERR_FILENO);
@@ -81,6 +82,16 @@ t_info	*ft_init_info(char **env)
 		return (NULL);
 	}
 	return (info);
+}
+
+int ft_init_info_deux(t_info *info, int i)
+{
+	info->nb_de_cmd = i;
+	info->nb_de_pipe = info->nb_de_cmd - 1;
+	info->diff_pid = malloc(sizeof(pid_t) * info->nb_de_cmd);
+	if (!info->diff_pid)
+		return (1);
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)
@@ -113,8 +124,7 @@ int	main(int ac, char **av, char **env)
 					repo = ft_init_struct(str); //renvoie le tableau de structure
 					if(repo)
 					{
-						info->nb_de_cmd = ft_count_double_string(str); //pareil je te laisserai le mettre autre part si besoin
-						info->nb_de_pipe = info->nb_de_cmd - 1;
+						ft_init_info_deux(info, ft_count_double_string(str));
 						free(entree);
 						ft_free_double_string(str);
 						//execution
@@ -134,3 +144,4 @@ int	main(int ac, char **av, char **env)
 	}
 	return (0);
 }
+	
