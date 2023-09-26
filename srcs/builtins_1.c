@@ -125,8 +125,9 @@ void	ft_cd(t_struct *repo, void *inf)
 	info = inf;
 	if (ft_count_double_string(repo->args) > 2)
 	{
-		dup2(info->saved_stderr, STDOUT_FILENO);
-		printf("Minishell: cd: trop d'arguments\n");
+		ft_put_str_error("Minishell: cd: trop d'arguments", NULL, NULL, NULL);
+		// dup2(info->saved_stderr, STDOUT_FILENO);
+		// printf("Minishell: cd: trop d'arguments\n");
 		return ;
 	}
 	if (repo->args[1] && ft_strncmp(repo->args[1], "-", sizeof(repo->args[1])) == 0)
@@ -156,8 +157,9 @@ void	ft_cd(t_struct *repo, void *inf)
 	{
 		if (access(repo->args[1], F_OK) != 0)
 		{
-			dup2(info->saved_stdout, STDOUT_FILENO);
-			printf("Minishell: cd: %s: Aucun fichier ou dossier de ce type\n", repo->args[1]);
+			ft_put_str_error("Minishell: cd: ", repo->args[1], ": Aucun fichier ou dossier de ce type", NULL);
+			// dup2(info->saved_stdout, STDOUT_FILENO);
+			// printf("Minishell: cd: %s: Aucun fichier ou dossier de ce type\n", repo->args[1]);
 			return ;
 		}
 		ft_export_pwd(info, 0);

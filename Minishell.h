@@ -17,7 +17,6 @@
 
 typedef struct s_struct {
 	int		i_heredoc;
-	int		pipe_fd[2];
 	int		nb_cmd;
 	char	*cmd;
 	char	*path;
@@ -62,6 +61,7 @@ void		ft_init_builtins(t_info *info);
 void		ft_print_tab(char **str, int j);
 void		ft_free_double_string(char **str);
 void		ft_free_struct(t_struct *repo, t_info *info, int j);
+void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 // Parsing
 
@@ -74,6 +74,7 @@ char		*ft_pre_parsing(char *entree);
 char		*ft_ajoute_espace(char *entree);
 char		**mange(char **str, char *s, int n);
 t_struct	*ft_init_struct(char **str);
+int			check_pipe(char *str);
 
 // Exec
 

@@ -741,6 +741,35 @@ extern int __overflow (FILE *, int);
 # 902 "/usr/include/stdio.h" 3 4
 
 # 5 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 1 "/usr/include/errno.h" 1 3 4
+# 28 "/usr/include/errno.h" 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/errno.h" 1 3 4
+# 26 "/usr/include/x86_64-linux-gnu/bits/errno.h" 3 4
+# 1 "/usr/include/linux/errno.h" 1 3 4
+# 1 "/usr/include/x86_64-linux-gnu/asm/errno.h" 1 3 4
+# 1 "/usr/include/asm-generic/errno.h" 1 3 4
+
+
+
+
+# 1 "/usr/include/asm-generic/errno-base.h" 1 3 4
+# 6 "/usr/include/asm-generic/errno.h" 2 3 4
+# 2 "/usr/include/x86_64-linux-gnu/asm/errno.h" 2 3 4
+# 2 "/usr/include/linux/errno.h" 2 3 4
+# 27 "/usr/include/x86_64-linux-gnu/bits/errno.h" 2 3 4
+# 29 "/usr/include/errno.h" 2 3 4
+
+
+
+
+
+
+
+
+extern int *__errno_location (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+# 52 "/usr/include/errno.h" 3 4
+
+# 6 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h" 1 3 4
 # 143 "/usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h" 3 4
 typedef long int ptrdiff_t;
@@ -752,7 +781,7 @@ typedef struct {
   long double __max_align_ld __attribute__((__aligned__(__alignof__(long double))));
 # 426 "/usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h" 3 4
 } max_align_t;
-# 6 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 7 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/usr/include/stdlib.h" 1 3 4
 # 26 "/usr/include/stdlib.h" 3 4
 # 1 "/usr/include/x86_64-linux-gnu/bits/libc-header-start.h" 1 3 4
@@ -1840,7 +1869,7 @@ extern int getloadavg (double __loadavg[], int __nelem)
 # 1024 "/usr/include/stdlib.h" 2 3 4
 # 1035 "/usr/include/stdlib.h" 3 4
 
-# 7 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 8 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h" 1 3 4
 # 34 "/usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h" 3 4
 # 1 "/usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h" 1 3 4
@@ -1882,7 +1911,7 @@ extern int getloadavg (double __loadavg[], int __nelem)
 # 204 "/usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h" 2 3 4
 # 8 "/usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h" 2 3 4
 # 35 "/usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h" 2 3 4
-# 8 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 9 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/usr/include/unistd.h" 1 3 4
 # 27 "/usr/include/unistd.h" 3 4
 
@@ -3122,7 +3151,7 @@ int getentropy (void *__buffer, size_t __length)
 # 1219 "/usr/include/unistd.h" 2 3 4
 
 
-# 9 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 10 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/usr/include/x86_64-linux-gnu/sys/stat.h" 1 3 4
 # 99 "/usr/include/x86_64-linux-gnu/sys/stat.h" 3 4
 
@@ -3276,7 +3305,7 @@ extern int utimensat (int __fd, const char *__path,
 extern int futimens (int __fd, const struct timespec __times[2]) __attribute__ ((__nothrow__ , __leaf__));
 # 468 "/usr/include/x86_64-linux-gnu/sys/stat.h" 3 4
 
-# 10 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 11 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/usr/include/x86_64-linux-gnu/sys/wait.h" 1 3 4
 # 27 "/usr/include/x86_64-linux-gnu/sys/wait.h" 3 4
 
@@ -4073,7 +4102,7 @@ extern __pid_t wait4 (__pid_t __pid, int *__stat_loc, int __options,
         struct rusage *__usage) __attribute__ ((__nothrow__));
 # 178 "/usr/include/x86_64-linux-gnu/sys/wait.h" 3 4
 
-# 11 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 12 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/usr/include/readline/history.h" 1 3 4
 # 29 "/usr/include/readline/history.h" 3 4
 # 1 "/usr/include/time.h" 1 3 4
@@ -4564,7 +4593,7 @@ extern int max_input_history;
 
 
 extern rl_linebuf_func_t *history_inhibit_expansion_function;
-# 12 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 13 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/usr/include/readline/readline.h" 1 3 4
 # 38 "/usr/include/readline/readline.h" 3 4
 # 1 "/usr/include/readline/keymaps.h" 1 3 4
@@ -5781,7 +5810,7 @@ struct readline_state {
 
 extern int rl_save_state (struct readline_state *);
 extern int rl_restore_state (struct readline_state *);
-# 13 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 14 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/home/soleil/Desktop/minishell_2.0/pars/../libft_printf_gnl/libft.h" 1
 # 18 "/home/soleil/Desktop/minishell_2.0/pars/../libft_printf_gnl/libft.h"
 
@@ -5803,6 +5832,7 @@ char *ft_strdup(const char *s);
 char *ft_strchr(const char *s, int c);
 char *ft_strrchr(const char *s, int c);
 char **ft_split(char const *s, char c);
+char **ft_free_split(char **str, int k);
 char *ft_strjoin(char const *s1, char const *s2);
 char *ft_strtrim(char const *s1, char const *set);
 char *ft_substr(char const *s, unsigned int start, size_t len);
@@ -5822,7 +5852,7 @@ void ft_striteri(char *s, void (*f)(unsigned int, char*));
 size_t ft_strlen(const char *s);
 size_t ft_strlcpy(char *dst, const char *src, size_t size);
 size_t ft_strlcat(char *dst, const char *src, size_t size);
-# 14 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 15 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/home/soleil/Desktop/minishell_2.0/pars/../libft_printf_gnl/ft_printf.h" 1
 # 15 "/home/soleil/Desktop/minishell_2.0/pars/../libft_printf_gnl/ft_printf.h"
 # 1 "/usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h" 1 3 4
@@ -5840,7 +5870,7 @@ int ft_put_x(va_list list);
 int ft_put_xmaj(va_list list);
 int ft_put_p(va_list list);
 int ft_printf(const char *str, ...);
-# 15 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 16 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 # 1 "/home/soleil/Desktop/minishell_2.0/pars/../libft_printf_gnl/get_next_line.h" 1
 # 23 "/home/soleil/Desktop/minishell_2.0/pars/../libft_printf_gnl/get_next_line.h"
 # 1 "/usr/include/fcntl.h" 1 3 4
@@ -5910,18 +5940,31 @@ char *ft_cat(char *str, char *buf);
 char *ft_copy(const char *str);
 char *ft_read(int fd, char *str);
 char *ft_free(char *str);
-# 16 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
+# 17 "/home/soleil/Desktop/minishell_2.0/pars/../Minishell.h" 2
 
 typedef struct s_struct {
+ int i_heredoc;
+ int nb_cmd;
  char *cmd;
+ char *path;
  char **args;
  char **redirection;
+ int num_after_chevron;
 } t_struct;
+
+typedef struct s_builtins {
+ char *str;
+ void (*ptr)(t_struct *, void *);
+} t_builtins;
 
 typedef struct s_info {
  int nb_de_cmd;
- char *path;
+ int nb_de_pipe;
+ int saved_stdin;
+ int saved_stdout;
+ int saved_stderr;
  char **env;
+ struct s_builtins builtins[7];
 } t_info;
 
 
@@ -5931,38 +5974,90 @@ int ft_split_command(char **str, t_struct *repo);
 
 
 
-int ft_count_cmd(char **str);
-char **mange(char **str, char *s);
+int ft_trouve_egal(char *str);
+int ft_white_spaces(char *str);
+int ft_white_spaces(char *str);
+int ft_que_des_chiffres(char *str);
+int ft_count_double_string(char **str);
+int ft_long_atoi(char *str, long long int *num);
+int ft_cherche_dans_env(char *str, t_info *info, int o);
+char **ft_cp_env(char **ancien_env);
+char **ft_supprime_sous_chaine(char **str, int i);
+char **ft_new_split(const char *str, const char *sep);
+void ft_init_builtins(t_info *info);
+void ft_print_tab(char **str, int j);
 void ft_free_double_string(char **str);
-
-
-
-char *ft_pre_parsing(char *entree);
-
-
-
-char *ft_ajoute_espace(char *entree);
+void ft_free_struct(t_struct *repo, t_info *info, int j);
+void ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 
 
 int main_parsing(char *str);
 int check_direction(char *str);
-int check_right_direction(char *str);
+int ft_compte_espaces(char *str);
 int check_left_direction(char *str);
-int douane_direction(char *str);
+int check_right_direction(char *str);
+char *ft_pre_parsing(char *entree);
+char *ft_ajoute_espace(char *entree);
+char **mange(char **str, char *s, int n);
+t_struct *ft_init_struct(char **str);
+int check_pipe(char *str);
 
 
 
-int ft_execution(t_struct *repo, t_info *info);
+int ft_execution_coordinateur(t_struct *repo, t_info *info);
+int ft_redirection(char **str, t_struct *repo, t_info *info);
+char *ft_cherche_path(t_struct *repo, t_info *info);
+void ft_heredoc(char *str, t_struct *repo, t_info *info);
+
+
+
+int ft_exit(t_struct *repo, void *inf);
+int ft_export(t_struct *repo, void *inf);
+void ft_cd(t_struct *repo, void *inf);
+void ft_env(t_struct *repo, void *inf);
+void ft_pwd(t_struct *repo, void *inf);
+void ft_echo(t_struct *repo, void *inf);
+void ft_unset(t_struct *repo, void *inf);
 # 14 "/home/soleil/Desktop/minishell_2.0/pars/pre_parsing.c" 2
-
 
 int main_parsing(char *str)
 {
  if(check_direction(str))
   return(1);
- 
+ if(check_pipe(str))
+  return (1);
  return (0);
+}
+
+int check_pipe(char *str)
+{
+     int i;
+     int j;
+     int k;
+
+     i = 0;
+     j = 0;
+     k = 0;
+     while(str[i])
+     {
+          if(str[i] == '|')
+          {
+               j = i + 1;
+               while(str[j])
+               {
+                    if((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'a' && str[j] <= 'z'))
+                    {
+                         k = 1;
+                    }
+                    j++;
+               }
+          }
+          if(k == 0)
+               return(1);
+          i++;
+     }
+     return (0);
 }
 
 int check_direction(char *str)
@@ -5981,8 +6076,7 @@ int check_right_direction(char *str)
 
  i = 0;
  j = 0;
-
- while(str[i])
+ while(str && str[i])
  {
   while(str[i] == '>')
   {
@@ -5992,9 +6086,9 @@ int check_right_direction(char *str)
   if(j >= 3)
   {
    if(j == 3)
-    printf("Minishell: syntax error near unexpected token `>'\n");
+    printf("Minishell: syntax error near unexpected token `>'\n\n");
    else
-    printf("Minishell: syntax error near unexpected token `>>'\n");
+    printf("Minishell: syntax error near unexpected token `>>'\n\n");
 
    return (1);
   }
@@ -6012,7 +6106,7 @@ int check_left_direction(char *str)
  i = 0;
  j = 0;
 
- while(str[i])
+ while(str && str[i])
  {
   while(str[i] == '<')
   {
@@ -6022,9 +6116,9 @@ int check_left_direction(char *str)
   if(j >= 4)
   {
    if(j == 4)
-    printf("Minishell: syntax error near unexpected token `<'\n");
+    printf("Minishell: syntax error near unexpected token `<'\n\n");
    else
-    printf("Minishell: syntax error near unexpected token `<<'\n");
+    printf("Minishell: syntax error near unexpected token `<<'\n\n");
    return (1);
   }
   j = 0;
@@ -6032,41 +6126,7 @@ int check_left_direction(char *str)
  }
  return (0);
 }
-
-
-int douane_direction(char *str)
-{
- int i = 0;
-    int j = 0;
-
-    while (str[i])
-    {
-        if (str[i] == '<' || str[i] == '>')
-        {
-            j++;
-            if (str[i + 1] == '<' || str[i + 1] == '>')
-            {
-                i++;
-                while (str[i] == '<' || str[i] == '>')
-                {
-                    i++;
-                }
-            }
-        }
-        else
-        {
-            i++;
-        }
-
-        if (j >= 4)
-        {
-            return 1;
-        }
-    }
-
-    return 0;
-}
-# 199 "/home/soleil/Desktop/minishell_2.0/pars/pre_parsing.c"
+# 197 "/home/soleil/Desktop/minishell_2.0/pars/pre_parsing.c"
 char *ft_pre_parsing(char *entree)
 {
  char *n_entree;
@@ -6074,9 +6134,9 @@ char *ft_pre_parsing(char *entree)
  n_entree = ft_ajoute_espace(entree);
  if (!n_entree)
   return (
-# 205 "/home/soleil/Desktop/minishell_2.0/pars/pre_parsing.c" 3 4
+# 203 "/home/soleil/Desktop/minishell_2.0/pars/pre_parsing.c" 3 4
          ((void *)0)
-# 205 "/home/soleil/Desktop/minishell_2.0/pars/pre_parsing.c"
+# 203 "/home/soleil/Desktop/minishell_2.0/pars/pre_parsing.c"
              );
  return (n_entree);
 }

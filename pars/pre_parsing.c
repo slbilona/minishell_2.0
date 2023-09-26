@@ -6,7 +6,7 @@
 /*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/22 18:17:09 by soleil           ###   ########.fr       */
+/*   Updated: 2023/09/23 13:02:28 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,41 @@ int	main_parsing(char *str)
 {
 	if(check_direction(str))
 		return(1);
+	if(check_pipe(str))
+		return (1);
 	return (0);
 }
 
+int  check_pipe(char *str)
+{
+     int i;
+     int j;
+     int k;
+
+     i = 0;
+     j = 0;
+     k = 0;     
+     while(str[i])
+     {
+          if(str[i] == '|')
+          {
+               j = i;
+               while(str[j])
+               {
+                    if((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || (str[j] >= '0' && str[j] <= '9'))
+                    {
+						
+                         k = 1;
+                    }
+                    j++;
+               }
+			if(k == 0)
+               return(1);
+          }
+          i++;
+     }
+     return (0);     
+}
 
 int	check_direction(char *str)
 {

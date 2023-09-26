@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:55 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/19 14:45:55 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/22 23:21:03 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	ft_free_double_string(char **str)
 	}
 }
 
-//free la structure repo ou info ou les deux
+/* si j == 0 free la structure repo 
+si j == 1 free la structure info
+si j == 2 free les deux */
 void	ft_free_struct(t_struct *repo, t_info *info, int j)
 {
 	int	i;
