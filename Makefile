@@ -10,6 +10,7 @@ SRCS = main.c \
 		utils_2.c \
 		parsing.c \
 		ft_space.c \
+		ft_quotes.c \
 		builtins_1.c \
 		builtins_2.c \
 		pre_parsing.c \

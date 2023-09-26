@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/25 17:54:03 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/26 12:54:30 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,10 @@ void ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	{
 		repo->path = ft_cherche_path(repo, info);
 		if (!repo->path)
+		{
+			printf("path : %s\n", repo->path);
 			ft_put_str_error("Minishell: ", repo->cmd, " : commande introuvable", NULL);
+		}
 		else
 			ft_execve(repo, info);
 	}
