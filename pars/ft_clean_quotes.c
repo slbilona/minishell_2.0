@@ -16,6 +16,7 @@ int	ft_q_taille(char *str)
 	return (ft_strlen(str) - ret);
 }
 
+// Retire les guillemets ouvrant et fermant de str
 char **ft_clean_quotes(char **str)
 {
 	int		i;
@@ -32,25 +33,20 @@ char **ft_clean_quotes(char **str)
 		j = 0;
 		k = 0;
 		taille = ft_q_taille(str[i]);
-		if (taille == 0)
-			s[i] = NULL;
-		else
+		s[i] = malloc(sizeof(char) * (taille + 1));
+		// verifier
+		while (str[i][j])
 		{
-			s[i] = malloc(sizeof(char) * (taille + 1));
-			// verifier
-			while (str[i][j])
+			if (ft_quotes(str[i], j) == 3 || ft_quotes(str[i], j) == 4)
+				j++;
+			else
 			{
-				if (ft_quotes(str[i], j) == 3 || ft_quotes(str[i], j) == 4)
-					j++;
-				else
-				{
-					s[i][k] = str[i][j];
-					j++;
-					k++;
-				}
+				s[i][k] = str[i][j];
+				j++;
+				k++;
 			}
-			s[i][ft_q_taille(str[i])] = 0;
 		}
+		s[i][taille] = 0;
 		i++;
 	}
 	s[i] = NULL;

@@ -6,6 +6,7 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 SRCS = main.c \
 		exec.c \
 		free.c \
+		expand.c \
 		utils_1.c \
 		utils_2.c \
 		parsing.c \

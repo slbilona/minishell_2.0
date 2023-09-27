@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/26 19:11:07 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/27 14:23:48 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ int check_right_direction(char *str)
 		if(j >= 3)
 		{
 			if(j == 3)
-				printf("Minishell: syntax error near unexpected token `>'\n\n");
+				ft_put_str_error("Minishell: syntax ", "error near ", "unexpected token `>'", NULL);
 			else
-				printf("Minishell: syntax error near unexpected token `>>'\n\n");
+				ft_put_str_error("Minishell: syntax ", "error near ", "unexpected token `>>'", NULL);
 			
 			return (1);
 		}
@@ -110,9 +110,9 @@ int check_left_direction(char *str)
 		if(j >= 4)
 		{
 			if(j == 4)
-				printf("Minishell: syntax error near unexpected token `<'\n\n");
+				ft_put_str_error("Minishell: syntax ", "error near ", "unexpected token `<'", NULL);
 			else
-				printf("Minishell: syntax error near unexpected token `<<'\n\n");
+				ft_put_str_error("Minishell: syntax ", "error near ", "unexpected token `<<'", NULL);
 			return (1);
 		}
 		j = 0;

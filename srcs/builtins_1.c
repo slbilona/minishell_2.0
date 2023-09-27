@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_1.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
+/*   Updated: 2023/09/27 17:17:01 by ilselbon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Minishell.h"
 
 int	ft_exit(t_struct *repo, void *inf)
@@ -17,7 +29,7 @@ int	ft_exit(t_struct *repo, void *inf)
 	ft_put_str_error("exit", NULL, NULL, NULL);
 	if (ft_count_double_string(repo->args) > 2)
 	{
-		return (ft_put_str_error("Minishell:",  "exit:", " too many arguments", NULL), 1);
+		return (ft_put_str_error("Minishell: ", "exit:", " too many arguments", NULL), 1);
 	}
 	else if (ft_count_double_string(repo->args) == 2)
 	{
@@ -95,12 +107,12 @@ int	ft_pwd(t_struct *repo, void *inf)
 
 /* si i == 1 : change la valeur de la variable PWD
 sinon : change la variable de OLDPWD */
-void	ft_export_pwd(t_info * info, int i)
+void	ft_export_pwd(t_info *info, int i)
 {
 	int		o;
 	char	*pwd;
 	char	cwd[1000];
-	
+
 	o = 0;
 	getcwd(cwd, sizeof(cwd));
 	if (i)

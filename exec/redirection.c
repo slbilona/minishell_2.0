@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/25 18:01:15 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/27 17:14:40 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	ft_verif_dollar(char *line)
 
 	str = ft_strrchr(line, '$');
 	if (str && str[1] && (str[1] < 9 || 13 < str[1]) && str[1] != 32)
+	{
 		return (1);
+	}
 	return (0);
 }
 
@@ -70,7 +72,10 @@ int	ft_change_j_et_k(t_info *info, char *str, int *j, int *k)
 	return (-1);
 }
 
-char	*ft_cree_dest(t_info *info, char *line, int k)
+/* Si n == 1 free line
+Si n == 0 ne free pas line
+*/
+char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 {
 	int		i; // parcours line
 	int		j; // parcours dest
@@ -101,6 +106,8 @@ char	*ft_cree_dest(t_info *info, char *line, int k)
 			dest[j++] = line[i++];
 	}
 	dest[j] = 0;
+	if (n)
+		free(line);
 	return (dest);
 }
 
@@ -122,7 +129,8 @@ char	*ft_expand_heredoc(t_info *info, char *line)
 			ft_change_j_et_k(info, &line[i], &j, &k);
 		i++;
 	}
-	dest = ft_cree_dest(info, line, ft_strlen(line) - j + k);
+	dest = ft_cree_dest(info, line, ft_strlen(line) - j + k, 0);
+	// Verifier la string
 	free(line);
 	return (dest);
 }
@@ -170,7 +178,7 @@ void	ft_heredoc(char *str, t_struct *repo, t_info *info)
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		ft_put_str_error("Minishell: /tmp/heredoc.txt: ",strerror(errno), NULL, NULL);
+		ft_put_str_error("Minishell: /tmp/heredoc.txt: ", strerror(errno), NULL, NULL);
 		// dup2(info->saved_stderr, STDOUT_FILENO);
 		// printf("Minishell: %s: %s\n", "/tmp/heredoc.txt", strerror(errno));
 		close(fd);

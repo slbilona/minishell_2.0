@@ -54,3 +54,6 @@ si on fork mais que la commande n'existe pas on reste dans le processus enfant
 
 gerer le cas ou il y a un pipe et un heredoc
 	ex : << hey cat | grep il | ls
+
+pb lorsque je pipe avec une fonction builtins
+gerer echo hey | cat il y a un pb
