@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/26 12:54:30 by ilona            ###   ########.fr       */
+/*   Updated: 2023/09/27 18:00:42 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	char	**splited_path;
 
 	i = 0;
+	if (repo->cmd && ft_strlen(repo->cmd) == 0)
+		return (NULL);
 	if (access(repo->cmd, X_OK) == 0)
 		return (ft_strdup(repo->cmd));
 	while (info->env[i])
@@ -129,7 +131,7 @@ Si c'est le cas la fonction associée est appellée */
 int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 {
 	int	i;
-	int redir;
+	int	redir;
 
 	i = 0;
 	redir = 0;
@@ -137,18 +139,18 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 	{
 		if (j)
 		{
-			if (strncmp(repo->cmd, info->builtins[i].str,
-					strlen(repo->cmd)) == 0 
-					&& strncmp(repo->cmd, info->builtins[i].str,
-					strlen(info->builtins[i].str)) == 0)
+			if (ft_strncmp(repo->cmd, info->builtins[i].str,
+					ft_strlen(repo->cmd)) == 0
+				&& ft_strncmp(repo->cmd, info->builtins[i].str,
+					ft_strlen(info->builtins[i].str)) == 0)
 				return (0);
 		}
 		else
 		{
-			if (strncmp(repo->cmd, info->builtins[i].str,
-					strlen(repo->cmd)) == 0 
-					&& strncmp(repo->cmd, info->builtins[i].str,
-					strlen(info->builtins[i].str)) == 0)
+			if (ft_strncmp(repo->cmd, info->builtins[i].str,
+					ft_strlen(repo->cmd)) == 0
+				&& ft_strncmp(repo->cmd, info->builtins[i].str,
+					ft_strlen(info->builtins[i].str)) == 0)
 			{
 				if (repo->redirection)
 					redir = ft_redirection(repo->redirection, repo, info);
@@ -162,7 +164,7 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 	return (1);
 }
 
-void ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
+void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 {
 	if (repo->nb_cmd > 0 && info->nb_de_pipe > 0)
 	{
@@ -180,15 +182,9 @@ void ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 		redir = ft_redirection(repo->redirection, repo, info);
 	if (repo->cmd && !redir && ft_builtins_ou_non(repo, info, 0))
 	{
-		repo->path = ft_cherche_path(repo, info);
-		if (!repo->path)
-		{
-			printf("path : %s\n", repo->path);
-			ft_put_str_error("Minishell: ", repo->cmd, " : commande introuvable", NULL);
-		}
-		else
-			ft_execve(repo, info);
+		ft_execve(repo, info);
 	}
+	exit(0);
 }
 
 int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
@@ -196,6 +192,16 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 	int		redir;
 
 	redir = 0;
+	if (ft_builtins_ou_non(repo, info, 1))
+	{
+		repo->path = ft_cherche_path(repo, info);
+		if (!repo->path)
+		{
+			ft_put_str_error("Minishell: ", repo->cmd,
+				" : commande introuvable", NULL);
+			return (1);
+		}
+	}
 	info->fork = 1;
 	info->diff_pid[repo->nb_cmd] = fork();
 	if (info->diff_pid[repo->nb_cmd] == -1)
@@ -224,7 +230,7 @@ int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd)
 {
 	int	i;
 	int	**pipe_fd;
-	
+
 	i = 0;
 	if (!j)
 	{
@@ -236,7 +242,7 @@ int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd)
 			if (pipe(pipe_fd[i]) == -1)
 			{
 				perror("Erreur lors de la création des tubes");
-				return(NULL);
+				return (NULL);
 			}
 			i++;
 		}
@@ -265,7 +271,7 @@ void	ft_wait(t_info *info)
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
 	int		i;
-	int 	**pipe_fd;
+	int		**pipe_fd;
 
 	i = 0;
 	if (info->nb_de_pipe > 0)

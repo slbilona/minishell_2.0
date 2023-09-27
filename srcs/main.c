@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/27 14:14:46 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:10:58 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ int	main(int ac, char **av, char **env)
 	char		**str;
 	t_info		*info;
 	t_struct	*repo;
+	int			i;
 
+	i = 0;
 	(void) av;
 	
 	if (ac == 1)
@@ -112,7 +114,10 @@ int	main(int ac, char **av, char **env)
 			return (1);
 		while (1)
 		{
-			entree = readline("Minishell$ ");
+			if (i % 2)
+				entree = readline("🌺 \x1b[35mMinishell$ \x1b[0m");
+			else
+				entree = readline("🐙 \x1b[31mMinishell$ \x1b[0m");
 			if (ft_strlen(entree) > 0)
 				add_history(entree);
 			//parsing
@@ -124,7 +129,7 @@ int	main(int ac, char **av, char **env)
 					str = ft_new_split(entree, "|");
 					if (str)
 					{
-						repo = ft_init_struct(str); //renvoie le tableau de structure
+						repo = ft_init_struct(info, str); //renvoie le tableau de structure
 						if(repo)
 						{
 							ft_init_info_deux(info, ft_count_double_string(str));
@@ -142,6 +147,7 @@ int	main(int ac, char **av, char **env)
 			}
 			else
 				free(entree);
+			i++;
 		}
 		get_next_line(-1);
 		ft_free_struct(NULL, info, 1); //free la structure info

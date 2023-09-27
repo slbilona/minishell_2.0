@@ -45,8 +45,8 @@ typedef struct s_info {
 
 // Struct
 
-t_struct	*ft_init_struct(char **str);
-int	ft_split_command(char **str, t_struct *repo);
+int			ft_split_command(t_info *info, char **str, t_struct *repo);
+t_struct	*ft_init_struct(t_info *info, char **str);
 
 // Utils
 
@@ -68,17 +68,27 @@ void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 // Parsing
 
+int			check_pipe(char *str);
 int			main_parsing(char *str);
 int			check_direction(char *str);
 int			ft_compte_espaces(char *str);
 int			check_left_direction(char *str);
 int			check_right_direction(char *str);
 int			ft_quotes(const char *str, int i);
+char		**ft_clean_quotes(char **str);
 char		*ft_pre_parsing(char *entree);
 char		*ft_ajoute_espace(char *entree);
 char		**mange(char **str, char *s, int n);
-t_struct	*ft_init_struct(char **str);
-int			check_pipe(char *str);
+t_struct	*ft_init_struct(t_info *info, char **str);
+
+// Expand
+
+int			ft_verif_dollar(char *line);
+int			ft_change_j_et_k(t_info *info, char *str, int *j, int *k);
+char		*ft_cree_var(int j, char *str);
+char		*ft_expand_heredoc(t_info *info, char *line);
+char		*ft_cree_dest(t_info *info, char *line, int k, int n);
+void		ft_expand(t_info *info, char **str);
 
 // Exec
 

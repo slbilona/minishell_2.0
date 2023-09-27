@@ -6,6 +6,7 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 SRCS = main.c \
 		exec.c \
 		free.c \
+		expand.c \
 		utils_1.c \
 		utils_2.c \
 		parsing.c \
@@ -17,6 +18,7 @@ SRCS = main.c \
 		redirection.c \
 		ft_new_split.c \
 		utils_builtins.c \
+		ft_clean_quotes.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))

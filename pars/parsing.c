@@ -1,18 +1,18 @@
 #include "../Minishell.h"
 
 //initialise et renvoie le tableau de structure comptenant les commandes
-t_struct	*ft_init_struct(char **str)
+t_struct	*ft_init_struct(t_info *info, char **str)
 {
 	t_struct	*repo;
 
 	repo = ft_calloc(ft_count_double_string(str), sizeof(t_struct)); //j'ai remplacé par calloc comme ca ca initialise tous les elements a 0 et on a pas besoin d'utiliser memset plus tard
 	if (!repo)
 		return (NULL);
-	ft_split_command(str, repo);
+	ft_split_command(info, str, repo);
 	return (repo);
 }
 
-int	ft_split_command(char **str, t_struct *repo)
+int	ft_split_command(t_info *info, char **str, t_struct *repo)
 {
 	int		i;
 	int		j;
@@ -27,6 +27,9 @@ int	ft_split_command(char **str, t_struct *repo)
 		repo[i].nb_cmd = i;
 		count = 0;
 		s = ft_new_split(str[i], NULL); // split aux white spaces
+		ft_expand(info, s);
+		s = ft_clean_quotes(s);
+		// verifier si ca a fontionné
 		j = 0;
 		while(s[j])
 		{
