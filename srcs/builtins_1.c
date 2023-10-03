@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/27 17:17:01 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/03 18:29:04 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_echo(t_struct *repo, void *inf)
 	j = 1;
 	i = 1;
 	n = 1;
-	while (repo->args[i])
+	while (repo->args && repo->args[i])
 	{
 		if (repo->args[i][0] == '-')
 		{
@@ -105,37 +105,39 @@ int	ft_pwd(t_struct *repo, void *inf)
 	return (0);
 }
 
-/* si i == 1 : change la valeur de la variable PWD
-sinon : change la variable de OLDPWD */
+/* Si i == 0 : change la variable de OLDPWD
+Si i == 1 : change la valeur de la variable PWD */
 void	ft_export_pwd(t_info *info, int i)
 {
 	int		o;
-	char	*pwd;
+	char	*var;
 	char	cwd[1000];
 
 	o = 0;
-	getcwd(cwd, sizeof(cwd));
-	if (i)
-		pwd = ft_strjoin("PWD=", cwd);
-	else
-		pwd = ft_strjoin("OLDPWD=", cwd);
-	if (pwd)
+	if (i == 0 || i == 1)
+		getcwd(cwd, sizeof(cwd));
+	if (i == 1)
+		var = ft_strjoin("PWD=", cwd);
+	else if (i == 0)
+		var = ft_strjoin("OLDPWD=", cwd);
+	if (var)
 	{
-		o = ft_trouve_egal(pwd);
-		if (!ft_white_spaces(pwd) && o > 0)
+		o = ft_trouve_egal(var);
+		if (!ft_white_spaces(var) && o > 0)
 		{
-			if (!ft_cherche_dans_env(pwd, info, o))
+			if (!ft_cherche_dans_env(var, info, o))
 			{
-				info->env = mange(info->env, pwd, 1);
+				info->env = mange(info->env, var, 1);
 				//verifier si il n'y a pas une erreur;
 			}
 			else
-				free(pwd);
+				free(var);
 		}
 	}
 }
 
-void	ft_cd(t_struct *repo, void *inf)
+// n'affiche pas de msg d'erreur lorque on essaye d'entrer dans un fichier
+int	ft_cd(t_struct *repo, void *inf)
 {
 	char	*home;
 	t_info	*info;
@@ -144,46 +146,40 @@ void	ft_cd(t_struct *repo, void *inf)
 	if (ft_count_double_string(repo->args) > 2)
 	{
 		ft_put_str_error("Minishell: cd: trop d'arguments", NULL, NULL, NULL);
-		// dup2(info->saved_stderr, STDOUT_FILENO);
-		// printf("Minishell: cd: trop d'arguments\n");
-		return ;
+		return (1);
 	}
 	if (repo->args[1] && ft_strncmp(repo->args[1], "-", sizeof(repo->args[1])) == 0)
 	{
 		home = getenv("HOME");
 		if (!home)
-		{
-			perror("getenv");
-			return ;
-		}
+			return (perror("getenv"), 1);
 		ft_export_pwd(info, 0);
-		chdir(home);
+		if (chdir(home))
+			return (printf("erreur\n"), 1);
 		ft_pwd(repo, inf);
 	}
 	else if (!repo->args[1] || ft_strncmp(repo->args[1], "~", sizeof(repo->args[1])) == 0)
 	{
 		home = getenv("HOME");
 		if (!home)
-		{
-			perror("getenv");
-			return ;
-		}
+			return (perror("getenv"), 1);
 		ft_export_pwd(info, 0);
-		chdir(home);
+		if (chdir(home))
+			return (printf("erreur\n"), 1);
 	}
 	else if (repo->args[1])
 	{
 		if (access(repo->args[1], F_OK) != 0)
 		{
 			ft_put_str_error("Minishell: cd: ", repo->args[1], ": Aucun fichier ou dossier de ce type", NULL);
-			// dup2(info->saved_stdout, STDOUT_FILENO);
-			// printf("Minishell: cd: %s: Aucun fichier ou dossier de ce type\n", repo->args[1]);
-			return ;
+			return (1);
 		}
 		ft_export_pwd(info, 0);
-		chdir(repo->args[1]);
+		if (chdir(repo->args[1]))
+			return (printf("erreur\n"), 1); // changer ca
 	}
 	ft_export_pwd(info, 1);
+	return (0);
 }
 
 void	ft_init_builtins(t_info *info)

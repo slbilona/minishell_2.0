@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:48:28 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/26 19:07:57 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/03 13:23:21 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_new_taille_mot(const char *str, const char *sep, int i)
 	int	taille;
 
 	taille = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] && (ft_strchr(sep, str[i]) && ft_quotes(str, i) == 0))
 			return (taille);
@@ -80,6 +80,8 @@ char	**ft_new_split(const char *str, const char *sep)
 
 	i = 0;
 	j = 0;
+	if (!str)
+		return (NULL);
 	if (!sep)
 	{
 		ft_init_sep(autre_sep);
@@ -106,5 +108,4 @@ char	**ft_new_split(const char *str, const char *sep)
 	}
 	dest[j] = NULL;
 	return (dest);
-	return (NULL);
 }

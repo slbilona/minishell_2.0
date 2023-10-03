@@ -21,8 +21,9 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 	char	*str_joined;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
+		repo[i].ret = 0;
 		repo[i].i_heredoc = 0;
 		repo[i].nb_cmd = i;
 		count = 0;
@@ -31,23 +32,23 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 		s = ft_clean_quotes(s);
 		// verifier si ca a fontionné
 		j = 0;
-		while(s[j])
+		while (s[j])
 		{
 			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0
 				|| ft_strncmp(s[j], ">>", sizeof(s[j])) == 0
 				|| ft_strncmp(s[j], "<", sizeof(s[j])) == 0
 				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
 			{
-				if(s[j + 1] == NULL)
+				if (s[j + 1] == NULL)
 				{
 					printf("Rajoute un truc frero\n");
-					return 1;
+					return (1);
 				}
 			}
 			j++;
 		}
 		j = 0;
-		while (s[j])
+		while (s && s[j])
 		{
 			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0
 				|| ft_strncmp(s[j], ">>", sizeof(s[j])) == 0
@@ -97,15 +98,28 @@ char	**mange(char **str, char *s, int n)
 	if (!str)
 	{
 		s2 = malloc(sizeof(char *) * 2);
+		if (!s2)
+		{
+			if (n)
+				free(s);
+			return (ft_free_double_string(str), NULL);
+		}
 	}
 	else
 	{
-		while (str[i])
+		while (str && str[i])
 			i++;
 		s2 = malloc(sizeof(char *) * (i + 2));
-		while (str[j])
+		if (!s2)
+		{
+			if (n)
+				free(s);
+			return (ft_free_double_string(str), NULL);
+		}
+		while (str && str[j])
 		{
 			s2[j] = ft_strdup(str[j]);
+			// eventuellement verifier l'allocaztion jsp
 			j++;
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/27 17:14:40 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/03 20:06:09 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_change_j_et_k(t_info *info, char *str, int *j, int *k)
 	}
 	var = ft_cree_var(i, str);
 	i = 0;
-	while (info->env[i])
+	while (info->env && info->env[i])
 	{
 		if (ft_strncmp(var, info->env[i], ft_strlen(var)) == 0)
 		{
@@ -73,8 +73,7 @@ int	ft_change_j_et_k(t_info *info, char *str, int *j, int *k)
 }
 
 /* Si n == 1 free line
-Si n == 0 ne free pas line
-*/
+Si n == 0 ne free pas line */
 char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 {
 	int		i; // parcours line
@@ -82,7 +81,7 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 	int		o;
 	int		l; // parcours l'env
 	char	*dest;
-
+	char	*test;
 	i = 0;
 	j = 0;
 	dest = malloc(sizeof(char) * (k + 1));
@@ -91,6 +90,16 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 	while (line && line[i])
 	{
 		if (line[i] == '$' && line[i + 1]
+			&&  line[i + 1] == '?')
+		{
+			test = ft_itoa(info->exit);
+			o = 0;
+			while (test && test[o])
+				dest[j++] = test[o++];
+			i += 2;
+			free(test);
+		}
+		else if (line[i] == '$' && line[i + 1]
 			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'))
 		{
 			o = 0;
@@ -98,7 +107,7 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 			i += o;
 			if (l > -1)
 			{
-				while (info->env[l][o])
+				while (info->env && info->env[l] && info->env[l][o])
 					dest[j++] = info->env[l][o++];
 			}
 		}
@@ -111,6 +120,7 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 	return (dest);
 }
 
+// ajouter $?
 char	*ft_expand_heredoc(t_info *info, char *line)
 {
 	int		i;
@@ -124,7 +134,11 @@ char	*ft_expand_heredoc(t_info *info, char *line)
 	(void) info;
 	while (line && line[i])
 	{
-		if (line[i] == '$' && line[i + 1]
+		if (line[i] == '$' && line[i + 1] && line[i + 1] == '?')
+		{
+			ft_j_et_k_exit(info, &j, &k);
+		}
+		else if (line[i] == '$' && line[i + 1]
 			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'))
 			ft_change_j_et_k(info, &line[i], &j, &k);
 		i++;

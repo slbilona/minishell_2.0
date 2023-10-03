@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/02 20:49:01 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/03 19:21:29 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_redirection(char **str, t_struct *repo, t_info *info)
 	int	fd;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (ft_strncmp("> ", str[i], 2) == 0)
 		{
@@ -90,7 +90,7 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 		return (NULL);
 	if (access(repo->cmd, X_OK) == 0)
 		return (ft_strdup(repo->cmd));
-	while (info->env[i])
+	while (info->env && info->env[i])
 	{
 		path_entier = ft_strnstr(info->env[i], "PATH=", 5);
 		if (path_entier)
@@ -103,7 +103,7 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	if (!splited_path)
 		return (NULL);
 	i = 0;
-	while (splited_path[i])
+	while (splited_path && splited_path[i])
 	{
 		path = ft_strjoin(splited_path[i], "/");
 		path_cmd = ft_strjoin(path, repo->cmd);
@@ -155,8 +155,8 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 				if (repo->redirection)
 					redir = ft_redirection(repo->redirection, repo, info);
 				if (!redir)
-					info->builtins[i].ptr(repo, info);
-				return (0);
+					repo->ret = info->builtins[i].ptr(repo, info);
+				return (repo->ret);
 			}
 		}
 		i++;
@@ -167,6 +167,7 @@ int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd);
 void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 {
 	int i;
+	int ex;
 
 	i = info->i;
 	if (ft_builtins_ou_non(&repo[i], info, 1))
@@ -189,7 +190,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 			}
 			ft_init_free_pipe(info, 1, pipe_fd);
 			ft_free_struct(repo, info, 2); //free les structures
-			exit(0);
+			exit(127);
 		}
 	}
 	if (repo[i].nb_cmd > 0 && info->nb_de_pipe > 0)
@@ -210,29 +211,19 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	{
 		ft_execve(&repo[i], info);
 	}
+	ex = repo[i].ret;
 	ft_init_free_pipe(info, 1, pipe_fd);
 	ft_free_struct(repo, info, 2); //free les structures
-	exit(0);
+	exit(ex);
 }
 
 int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 {
-	int i;
+	int		i;
 	int		redir;
 
 	i = info->i;
 	redir = 0;
-	// if (ft_builtins_ou_non(&repo[i], info, 1))
-	// {
-	// 	repo[i].path = ft_cherche_path(&repo[i], info);
-	// 	if (!repo[i].path)
-	// 	{
-	// 		info->fork = 0;
-	// 		ft_put_str_error("Minishell: ", repo[i].cmd,
-	// 			" : commande introuvable", NULL);
-	// 		return (1);
-	// 	}
-	// }
 	info->fork = 1;
 	info->diff_pid[repo[i].nb_cmd] = fork();
 	if (info->diff_pid[repo[i].nb_cmd] == -1)
@@ -255,40 +246,6 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 	return (0);
 }
 
-/* si j == 0 : initialise pipe_fd
-sinn free pipe_fd */
-int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd)
-{
-	int	i;
-	int	**pipe_fd;
-
-	i = 0;
-	if (!j)
-	{
-		pipe_fd = malloc(sizeof(int *) * info->nb_de_pipe);
-		while (i < info->nb_de_pipe)
-		{
-			pipe_fd[i] = malloc(sizeof(int) * 2);
-			// Verifier si l'allocation n'a pas echoue
-			if (pipe(pipe_fd[i]) == -1)
-			{
-				perror("Erreur lors de la création des tubes");
-				return (NULL);
-			}
-			i++;
-		}
-		return (pipe_fd);
-	}
-	else
-	{
-		while (i < info->nb_de_pipe)
-			free(pipes_fd[i++]);
-		free(pipes_fd);
-		return (NULL);
-	}
-	return (NULL);
-}
-
 void	ft_wait(t_info *info)
 {
 	int	i;
@@ -296,7 +253,11 @@ void	ft_wait(t_info *info)
 
 	i = 0;
 	while (i < info->nb_de_cmd && info->diff_pid[i])
+	{
 		waitpid(info->diff_pid[i++], &status, 0);
+		// if (WIFEXITED(status))
+		info->exit = WEXITSTATUS(status);
+	}
 }
 
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
@@ -313,7 +274,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		if (info->nb_de_pipe != 0 || ft_builtins_ou_non(&repo[info->i], info, 1))
 			ft_fork(repo, info, pipe_fd);
 		else
-			ft_builtins_ou_non(&repo[info->i], info, 0);
+			info->exit = ft_builtins_ou_non(&repo[info->i], info, 0);
 		if (repo[info->i].i_heredoc)
 			unlink("/tmp/heredoc.txt");
 		info->i++;

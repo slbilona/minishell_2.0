@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:11:47 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/21 17:28:19 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:11:33 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_cherche_dans_env(char *str, t_info *info, int o)
 	int	i;
 
 	i = 0;
-	while (info->env[i])
+	while (info->env && info->env[i])
 	{
 		if (!ft_strncmp(info->env[i], str, o + 1))
 		{

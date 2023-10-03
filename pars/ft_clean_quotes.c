@@ -9,7 +9,7 @@ int	ft_q_taille(char *str)
 	ret = 0;
 	while (str && str[i])
 	{
-		if(ft_quotes(str, i) == 3 || ft_quotes(str, i) == 4)
+		if (ft_quotes(str, i) == 3 || ft_quotes(str, i) == 4)
 			ret++;
 		i++;
 	}
@@ -35,7 +35,7 @@ char **ft_clean_quotes(char **str)
 		taille = ft_q_taille(str[i]);
 		s[i] = malloc(sizeof(char) * (taille + 1));
 		// verifier
-		while (str[i][j])
+		while (str && str[i] && str[i][j])
 		{
 			if (ft_quotes(str[i], j) == 3 || ft_quotes(str[i], j) == 4)
 				j++;

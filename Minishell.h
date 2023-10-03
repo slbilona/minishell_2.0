@@ -17,10 +17,11 @@
 # include "libft_printf_gnl/get_next_line.h"
 
 typedef struct s_struct {
-	int		i_heredoc;
-	int		nb_cmd;
+	int		ret;
 	char	*cmd;
 	char	*path;
+	int		nb_cmd;
+	int		i_heredoc;
 	char	**args;
 	char	**redirection;
 	int		num_after_chevron;
@@ -28,12 +29,13 @@ typedef struct s_struct {
 
 typedef struct s_builtins {
 	char	*str;
-	void	(*ptr)(t_struct *, void *);
+	int		(*ptr)(t_struct *, void *);
 }	t_builtins;
 
 typedef struct s_info {
 	int					i;
 	int					fork;
+	int					exit;
 	int					nb_de_cmd;
 	int					nb_de_pipe;
 	int					saved_stdin;
@@ -59,6 +61,7 @@ int			ft_print_tab(char **str, int j);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
 int			ft_cherche_dans_env(char *str, t_info *info, int o);
+int			**ft_init_free_pipe(t_info *info, int j, int **pipes_fd);
 char		**ft_cp_env(char **ancien_env);
 char		**ft_supprime_sous_chaine(char **str, int i);
 char		**ft_new_split(const char *str, const char *sep);
@@ -90,6 +93,7 @@ char		*ft_cree_var(int j, char *str);
 char		*ft_expand_heredoc(t_info *info, char *line);
 char		*ft_cree_dest(t_info *info, char *line, int k, int n);
 void		ft_expand(t_info *info, char **str);
+void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 
 // Exec
 
@@ -105,7 +109,8 @@ int			ft_env(t_struct *repo, void *inf);
 int			ft_echo(t_struct *repo, void *inf);
 int			ft_exit(t_struct *repo, void *inf);
 int			ft_export(t_struct *repo, void *inf);
-void		ft_cd(t_struct *repo, void *inf);
-void		ft_unset(t_struct *repo, void *inf);
+int			ft_cd(t_struct *repo, void *inf);
+int			ft_unset(t_struct *repo, void *inf);
+void		ft_export_pwd(t_info *info, int i);
 
 #endif

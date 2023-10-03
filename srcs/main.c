@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/27 18:10:58 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/03 19:16:10 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_putstr(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		printf("%s, ", str[i]);
 		//write(1, str[i], sizeof(str[i]));
@@ -70,6 +70,7 @@ t_info	*ft_init_info(char **env)
 	if (!info)
 		return (ft_put_str_error("Erreur de la creation de la structure info", NULL, NULL, NULL), NULL);
 	info->fork = 0;
+	info->exit = 0;
 	info->saved_stdin = dup(STDIN_FILENO);
 	info->saved_stdout = dup(STDOUT_FILENO);
 	info->saved_stderr = dup(STDERR_FILENO);
@@ -130,7 +131,7 @@ int	main(int ac, char **av, char **env)
 					if (str)
 					{
 						repo = ft_init_struct(info, str); //renvoie le tableau de structure
-						if(repo)
+						if (repo)
 						{
 							ft_init_info_deux(info, ft_count_double_string(str));
 							free(entree);

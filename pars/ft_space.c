@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:52:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/09/26 18:23:57 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/03 13:18:58 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	ft_compte_espaces(char *str)
 	if (str)
 	{
 		i = 0;
-		while (str[i])
+		while (str && str[i])
 		{
 			c = str[i];
 			if (ft_quotes(str, i) == 3 || ft_quotes(str, i) == 4)
 			{
 				i++;
-				while (str[i] && str[i] != c)
+				while (str && str[i] && str[i] != c)
 					i++;
 				i++;
 			}
@@ -39,7 +39,7 @@ int	ft_compte_espaces(char *str)
 			{
 				if (i > 0 && str[i - 1] != ' ')
 					count++;
-				while (str[i] == c)
+				while (str && str[i] == c)
 					i++;
 				i--;
 				if (str[i + 1] != 0 && str[i + 1] != ' ' && !ft_strchr("<>|", str[i + 1]))
