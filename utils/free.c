@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:55 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/03 16:57:13 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 14:24:59 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_free_struct(t_struct *repo, t_info *info, int j)
 		i = 0;
 		while (i < info->nb_de_cmd)
 		{
-			if (repo[i].cmd)
+			if (&repo[i] && repo[i].cmd)
 				free(repo[i].cmd);
 			if (repo[i].path)
 				free(repo[i].path);

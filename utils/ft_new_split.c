@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:48:28 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/03 13:23:21 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 13:27:08 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ char	**ft_new_split(const char *str, const char *sep)
 	}
 	else
 		vrai_sep = sep;
+	if (ft_new_compte_mot(str, vrai_sep) == 0)
+		return (NULL);
 	dest = malloc(sizeof(char *) * (ft_new_compte_mot(str, vrai_sep) + 1));
 	while (j < ft_new_compte_mot(str, vrai_sep))
 	{

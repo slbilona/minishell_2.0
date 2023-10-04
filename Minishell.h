@@ -58,6 +58,7 @@ int			ft_white_spaces(char *str);
 int			ft_white_spaces(char *str);
 int			ft_que_des_chiffres(char *str);
 int			ft_print_tab(char **str, int j);
+int			ft_directory_ou_non(char *path);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
 int			ft_cherche_dans_env(char *str, t_info *info, int o);

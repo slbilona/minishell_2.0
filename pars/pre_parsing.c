@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/03 13:27:22 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 14:35:32 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	main_parsing(char *str)
 		return (1);
 	if (check_direction(str))
 		return(1);
-	if (check_pipe(str))
-		return (1);
+	// if (check_pipe(str))
+	// 	return (1);
 	return (0);
 }
 

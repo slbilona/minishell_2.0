@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/03 19:16:10 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 13:31:21 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int ft_init_info_deux(t_info *info, int i)
 	return (0);
 }
 
-
 int	main(int ac, char **av, char **env)
 {
 	char		*entree;
@@ -120,31 +119,40 @@ int	main(int ac, char **av, char **env)
 			else
 				entree = readline("🐙 \x1b[31mMinishell$ \x1b[0m");
 			if (ft_strlen(entree) > 0)
-				add_history(entree);
-			//parsing
-			if (!main_parsing(entree))
 			{
-				entree = ft_pre_parsing(entree);
-				if (entree)
+				add_history(entree);
+				//parsing
+				if (!main_parsing(entree))
 				{
-					str = ft_new_split(entree, "|");
-					if (str)
+					entree = ft_pre_parsing(entree);
+					if (entree)
 					{
-						repo = ft_init_struct(info, str); //renvoie le tableau de structure
-						if (repo)
+						str = ft_new_split(entree, "|");
+						if (str)
 						{
-							ft_init_info_deux(info, ft_count_double_string(str));
-							free(entree);
-							ft_free_double_string(str);
-							//execution
-							ft_execution_coordinateur(repo, info);
+							repo = ft_init_struct(info, str); //renvoie le tableau de structure
+							if (repo)
+							{
+								ft_init_info_deux(info, ft_count_double_string(str));
+								free(entree);
+								ft_free_double_string(str);
+								//execution
+								ft_execution_coordinateur(repo, info);
+							}
+							else
+							{
+								ft_free_double_string(str);
+								free(entree);
+							}
 						}
 						else
-							ft_free_double_string(str);
+							free(entree);
 					}
 					else
 						free(entree);
 				}
+				else
+					free(entree);
 			}
 			else
 				free(entree);

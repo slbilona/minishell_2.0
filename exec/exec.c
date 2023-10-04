@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/03 19:21:29 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 15:31:04 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	char	**splited_path;
 
 	i = 0;
-	if (repo->cmd && ft_strlen(repo->cmd) == 0)
+	if ((repo->cmd && ft_strlen(repo->cmd) == 0) || !repo->cmd)
+		return (NULL);
+	if (ft_directory_ou_non(repo->cmd))
 		return (NULL);
 	if (access(repo->cmd, X_OK) == 0)
 		return (ft_strdup(repo->cmd));
@@ -121,8 +123,9 @@ void	ft_execve(t_struct *repo, t_info *info)
 {
 	if (execve(repo->path, repo->args, info->env) == -1)
 	{
-		perror("execve");
-		exit(EXIT_FAILURE);
+		perror("Minishell: execve:");
+		repo->ret = 1;
+		//exit(EXIT_FAILURE);
 	}
 }
 
@@ -163,7 +166,35 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 	}
 	return (1);
 }
-int	**ft_init_free_pipe(t_info *info, int j, int **pipes_fd);
+
+void ft_erreur_path(t_info *info, t_struct *repo, int **pipe_fd)
+{
+	int i;
+
+	i = info->i;
+	info->fork = 0;
+	printf("repo[%d].cmd = %s\n", i, repo[i].cmd);
+	if (ft_directory_ou_non(repo[i].cmd))
+		ft_put_str_error("Minishell: ", repo[i].cmd,
+			" : est un dossier", NULL);
+	else
+		ft_put_str_error("Minishell: ", repo[i].cmd,
+			" : commande introuvable", NULL);
+	if (repo[i].nb_cmd > 0 && info->nb_de_pipe > 0)
+	{
+		close(pipe_fd[repo[i].nb_cmd - 1][0]);
+		close(pipe_fd[repo[i].nb_cmd - 1][1]);
+	}
+	if (info->nb_de_pipe > repo[i].nb_cmd && info->nb_de_pipe > 0)
+	{
+		close(pipe_fd[repo[i].nb_cmd][0]);
+		close(pipe_fd[repo[i].nb_cmd][1]);
+	}
+	ft_init_free_pipe(info, 1, pipe_fd);
+	ft_free_struct(repo, info, 2); //free les structures
+	exit(127);
+}
+
 void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 {
 	int i;
@@ -174,24 +205,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	{
 		repo[i].path = ft_cherche_path(&repo[i], info);
 		if (!repo[i].path)
-		{
-			info->fork = 0;
-			ft_put_str_error("Minishell: ", repo[i].cmd,
-				" : commande introuvable", NULL);
-			if (repo[i].nb_cmd > 0 && info->nb_de_pipe > 0)
-			{
-				close(pipe_fd[repo[i].nb_cmd - 1][0]);
-				close(pipe_fd[repo[i].nb_cmd - 1][1]);
-			}
-			if (info->nb_de_pipe > repo[i].nb_cmd && info->nb_de_pipe > 0)
-			{
-				close(pipe_fd[repo[i].nb_cmd][0]);
-				close(pipe_fd[repo[i].nb_cmd][1]);
-			}
-			ft_init_free_pipe(info, 1, pipe_fd);
-			ft_free_struct(repo, info, 2); //free les structures
-			exit(127);
-		}
+			ft_erreur_path(info, repo, pipe_fd);
 	}
 	if (repo[i].nb_cmd > 0 && info->nb_de_pipe > 0)
 	{
@@ -228,13 +242,11 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 	info->diff_pid[repo[i].nb_cmd] = fork();
 	if (info->diff_pid[repo[i].nb_cmd] == -1)
 	{
-		perror("fork");
+		perror("Minishell: fork:");
 		return (1);
 	}
 	else if (info->diff_pid[repo[i].nb_cmd] == 0)
-	{
 		ft_processus_fils(info, repo, redir, pipe_fd);
-	}
 	else
 	{
 		if (info->nb_de_pipe && repo[i].nb_cmd > 0)
@@ -255,7 +267,6 @@ void	ft_wait(t_info *info)
 	while (i < info->nb_de_cmd && info->diff_pid[i])
 	{
 		waitpid(info->diff_pid[i++], &status, 0);
-		// if (WIFEXITED(status))
 		info->exit = WEXITSTATUS(status);
 	}
 }

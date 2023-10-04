@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/03 18:29:04 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 15:38:31 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,10 @@ int	ft_cd(t_struct *repo, void *inf)
 			return (perror("getenv"), 1);
 		ft_export_pwd(info, 0);
 		if (chdir(home))
-			return (printf("erreur\n"), 1);
+		{
+			ft_put_str_error("Minishell: cd: ", strerror(errno), NULL, NULL);
+			return (1);
+		}
 		ft_pwd(repo, inf);
 	}
 	else if (!repo->args[1] || ft_strncmp(repo->args[1], "~", sizeof(repo->args[1])) == 0)
@@ -165,7 +168,10 @@ int	ft_cd(t_struct *repo, void *inf)
 			return (perror("getenv"), 1);
 		ft_export_pwd(info, 0);
 		if (chdir(home))
-			return (printf("erreur\n"), 1);
+		{
+			ft_put_str_error("Minishell: cd: ", strerror(errno), NULL, NULL);
+			return (1);
+		}
 	}
 	else if (repo->args[1])
 	{
@@ -174,9 +180,17 @@ int	ft_cd(t_struct *repo, void *inf)
 			ft_put_str_error("Minishell: cd: ", repo->args[1], ": Aucun fichier ou dossier de ce type", NULL);
 			return (1);
 		}
+		if (!ft_directory_ou_non(repo->args[1]))
+		{
+			ft_put_str_error("Minishell: cd: ", repo->args[1], ": N'est pas", " un dossier");
+			return (1);
+		}
 		ft_export_pwd(info, 0);
 		if (chdir(repo->args[1]))
-			return (printf("erreur\n"), 1); // changer ca
+		{
+			ft_put_str_error("Minishell: cd: ", strerror(errno), NULL, NULL);
+			return (1);
+		}
 	}
 	ft_export_pwd(info, 1);
 	return (0);

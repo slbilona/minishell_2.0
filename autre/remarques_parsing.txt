@@ -35,6 +35,10 @@ apres : ls | ls <<< > ilona">hey", size : 25
 
 verifier si il n'y a pas trop de chevrons ou de pipe ou ou si il y a bien un ellement derriere un chevron
 
+changer la fonction qui verifie les pipe
+	ex : ls | /      nest pas une erreur
+
+changer l'exit staus en cas d'erreur
 
 Remarque execution :
 
@@ -50,10 +54,10 @@ creer une fonction a qui j'envoie des strings et qui les ecrits dans la sorti d'
 
 remplacer tous les printf par des writes et les verifier
 
-si on fork mais que la commande n'existe pas on reste dans le processus enfant
-
 gerer le cas ou il y a un pipe et un heredoc
 	ex : << hey cat | grep il | ls
+
+probleme lorsu'on fait plusieurs herdoc d'affilés
 
 pb lorsque je pipe avec une fonction builtins
 gerer echo hey | cat il y a un pb
