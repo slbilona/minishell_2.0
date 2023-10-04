@@ -16,6 +16,29 @@ t_struct	*ft_init_struct(t_info *info, char **str)
 	return (repo);
 }
 
+int ft_verif_chevrons(char **s)
+{
+	int j;
+	j = 0;
+	while (s[j])
+	{
+		if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0
+			|| ft_strncmp(s[j], ">>", sizeof(s[j])) == 0
+			|| ft_strncmp(s[j], "<", sizeof(s[j])) == 0
+			|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
+		{
+			if (s[j + 1] == NULL)
+			{
+				ft_put_str_error("bash: erreur ", "de syntaxe près", " du symbole inattendu", " « newline »");
+				ft_free_double_string(s);
+				return (1);
+			}
+		}
+		j++;
+	}
+	return (0);
+}
+
 int	ft_split_command(t_info *info, char **str, t_struct *repo)
 {
 	int		i;
@@ -37,22 +60,8 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 		ft_expand(info, s);
 		s = ft_clean_quotes(s);
 		// verifier si ca a fontionné
-		j = 0;
-		while (s[j])
-		{
-			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0
-				|| ft_strncmp(s[j], ">>", sizeof(s[j])) == 0
-				|| ft_strncmp(s[j], "<", sizeof(s[j])) == 0
-				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
-			{
-				if (s[j + 1] == NULL)
-				{
-					printf("Rajoute un truc frero\n");
-					return (1);
-				}
-			}
-			j++;
-		}
+		if (ft_verif_chevrons(s))
+			return (1);
 		j = 0;
 		while (s && s[j])
 		{
