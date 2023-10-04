@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/04 17:17:41 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 18:39:20 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	main_parsing(char *str)
 		return (1);
 	if (check_direction(str))
 		return(1);
-	// if (check_pipe(str))
-	// 	return (1);
+	if (check_pipe(str))
+		return (1);
 	return (0);
 }
 
@@ -27,13 +27,13 @@ int  check_pipe(char *str)
 {
      int i;
      int j;
-     int k;
+    int k;
 	 int count_pipe;
 
 	 count_pipe = 0;
      i = 0;
      j = 0;
-     k = 0;     
+    k = 0;     
      while (str && str[i])
      {
           if (str[i] == '|')
@@ -48,7 +48,7 @@ int  check_pipe(char *str)
                     else if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || (str[j] >= '0' && str[j] <= '9'))
                     {
 						
-                         k = 1;
+                        k = 1;
 						 count_pipe = 1;
                     }
                     j++;
@@ -140,82 +140,6 @@ int check_left_direction(char *str)
 	}
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 char	*ft_pre_parsing(char *entree)
 {
