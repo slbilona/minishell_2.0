@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/04 15:31:04 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 17:20:12 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	char	**splited_path;
 
 	i = 0;
-	if ((repo->cmd && ft_strlen(repo->cmd) == 0) || !repo->cmd)
+	if ((repo->cmd && ft_strlen(repo->cmd) == 0))
 		return (NULL);
 	if (ft_directory_ou_non(repo->cmd))
 		return (NULL);
@@ -201,7 +201,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	int ex;
 
 	i = info->i;
-	if (ft_builtins_ou_non(&repo[i], info, 1))
+	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info, 1))
 	{
 		repo[i].path = ft_cherche_path(&repo[i], info);
 		if (!repo[i].path)

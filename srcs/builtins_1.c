@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/04 15:38:31 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 17:15:08 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,19 @@ int	ft_echo(t_struct *repo, void *inf)
 	return (0);
 }
 
+// si getcwd echoue regarder dans l'env et si il n'y a pas dans l'env afficher une erreur
 int	ft_pwd(t_struct *repo, void *inf)
 {
 	char	cwd[1000];
 
 	(void) repo;
 	(void) inf;
-	getcwd(cwd, sizeof(cwd));
+	;
+	if (!getcwd(cwd, sizeof(cwd)))
+	{
+		printf("erreur\n"); // a changer
+		return 1;
+	}
 	if (write(1, cwd, ft_strlen(cwd)) == -1)
 		return (perror("Minishell: pwd: erreur d'écriture "), 1);
 	if (write(1, "\n", 1) == -1)
@@ -115,7 +121,7 @@ void	ft_export_pwd(t_info *info, int i)
 
 	o = 0;
 	if (i == 0 || i == 1)
-		getcwd(cwd, sizeof(cwd));
+		getcwd(cwd, sizeof(cwd)); // verifier si cwd n'echoue pas
 	if (i == 1)
 		var = ft_strjoin("PWD=", cwd);
 	else if (i == 0)

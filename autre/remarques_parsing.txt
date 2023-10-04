@@ -61,3 +61,6 @@ probleme lorsu'on fait plusieurs herdoc d'affilés
 
 pb lorsque je pipe avec une fonction builtins
 gerer echo hey | cat il y a un pb
+
+pwd a un pb lorsqu'on est dans un dossier qu'on a supprimé
+	eventuellement utiliser le pwd de l'env

@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/04 14:35:32 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 17:17:41 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ int check_right_direction(char *str)
 	int	j;
 
 	i = 0;
-	j = 0;
 	while (str && str[i])
 	{
+		j = 0;
 		while (str[i] == '>')
 		{
 			j++;
@@ -107,8 +107,8 @@ int check_right_direction(char *str)
 			
 			return (1);
 		}
-		j = 0;
-		i++;
+		if (str[i])
+			i++;
 	}
 	return (0);
 }
@@ -119,11 +119,10 @@ int check_left_direction(char *str)
 	int	j;
 
 	i = 0;
-	j = 0;
-	
 	while (str && str[i])
 	{
-		while (str[i] == '<')
+		j = 0;
+		while (str[i] && str[i] == '<')
 		{
 			j++;
 			i++;
@@ -136,8 +135,8 @@ int check_left_direction(char *str)
 				ft_put_str_error("Minishell: syntax ", "error near ", "unexpected token `<<'", NULL);
 			return (1);
 		}
-		j = 0;
-		i++;
+		if(str[i])
+			i++;
 	}
 	return (0);
 }

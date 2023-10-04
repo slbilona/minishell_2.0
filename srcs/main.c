@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/04 13:31:21 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/04 16:56:14 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	main(int ac, char **av, char **env)
 	
 	if (ac == 1)
 	{
-	
 		info = ft_init_info(env); //initialise la structure info
 		if (!info)
 			return (1);
