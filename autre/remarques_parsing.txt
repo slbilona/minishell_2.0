@@ -64,3 +64,10 @@ gerer echo hey | cat il y a un pb
 
 pwd a un pb lorsqu'on est dans un dossier qu'on a supprimé
 	eventuellement utiliser le pwd de l'env
+
+heredoc :
+	lorsqu'on fait un heredoc d'un expand il ne faut pas expand le moment
+	ex : root@ilona-VirtualBox:/home/ilona/Cursus/Cercle_4/minishell_2.0# << $USER
+			> ilona
+			> $USER
+

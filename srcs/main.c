@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/04 18:42:54 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/05 21:20:08 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,18 +140,28 @@ int	main(int ac, char **av, char **env)
 							}
 							else
 							{
+								info->exit = 2;
 								ft_free_double_string(str);
 								free(entree);
 							}
 						}
 						else
+						{
+							info->exit = 2;
 							free(entree);
+						}
 					}
 					else
+					{
+						info->exit = 2;
 						free(entree);
+					}
 				}
 				else
+				{
+					info->exit = 2;
 					free(entree);
+				}
 			}
 			else
 				free(entree);
