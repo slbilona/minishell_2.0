@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/05 22:25:03 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/05 23:48:58 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int ft_check_pipe(char *str)
 	int i;
 	int k;
 	int j;
+	int o;
 	int prems;
 	int count_pipe;
 
@@ -38,6 +39,7 @@ int ft_check_pipe(char *str)
 	prems = 0;
 	while (str && str[i])
 	{
+		o = 0;
 		while((9 <= str[i] && str[i] <= 13) || str[i] == 32 || str[i] == '>' || str[i] == '<')
 			i++;
 		if (str[i] == '|')
@@ -56,10 +58,15 @@ int ft_check_pipe(char *str)
 				count_pipe++;
 				j++;
 			}
-			while ((9 <= str[j] && str[j] <= 13) || str[j] == 32)
-				j++;
-			if (!str[j] || str[j] == '|' || count_pipe > 1 || k > 0)
+			while ((9 <= str[j] && str[j] <= 13) || str[j] == 32 || str[j] == '>' || str[j] == '<')
 			{
+				//if (str[j] == '>' || str[j] == '<')
+					o++;
+				j++;
+			}
+			if ((!str[j] && o == 0) || count_pipe > 1 || k > 0 || (o > 0 && str[j] == '|'))
+			{
+				printf("str[j] : %c, o : %d\n", str[j], o);
 				if ((str[j] && str[j + 1] && str[j + 1] == '|') || count_pipe >= 2 || k == 2)
 					ft_put_str_error("Minishell: ", "syntax error ", "near unexpected ", "token `||'");
 				else

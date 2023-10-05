@@ -29,7 +29,7 @@ int ft_verif_chevrons(char **s)
 		{
 			if (s[j + 1] == NULL)
 			{
-				ft_put_str_error("bash: erreur ", "de syntaxe près", " du symbole inattendu", " « newline »");
+				ft_put_str_error("Minishell: erreur ", "de syntaxe près", " du symbole inattendu", " « newline »");
 				ft_free_double_string(s);
 				return (1);
 			}

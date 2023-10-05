@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/03 20:17:59 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 00:35:15 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ int	ft_count_double_string(char **str)
 
 int	ft_long_atoi(char *str, long long int *num)
 {
-	int	signe;
 	int	i;
+	int	signe;
 
-	signe = 1;
 	i = 0;
+	signe = 1;
 	if (str)
 	{
-		while ((9 <= str[i] && str[i] <= 13) || str[i] == ' ')
+		while (str[i] && ((9 <= str[i] && str[i] <= 13) || str[i] == ' '))
 			i++;
 		if (str[i] == '-' || str[i] == '+')
 		{
@@ -83,5 +83,23 @@ int	ft_print_tab(char **str, int j)
 		}
 		j++;
 	}
+	return (0);
+}
+
+int	ft_signes(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str && str[i])
+	{
+		if (str[i] == '+' || str[i] == '-')
+			count++;
+		i++;
+	}
+	if (count > 1)
+		return (1);
 	return (0);
 }

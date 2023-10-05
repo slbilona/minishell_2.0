@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/04 17:15:08 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 00:35:13 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_exit(t_struct *repo, void *inf)
 	}
 	else if (ft_count_double_string(repo->args) == 2)
 	{
-		if (ft_long_atoi(repo->args[1], &num) || ft_que_des_chiffres(repo->args[1]))
+		if (ft_long_atoi(repo->args[1], &num) || ft_que_des_chiffres(repo->args[1]) || ft_signes(repo->args[1]))
 		{
 			ft_put_str_error("Minishell: exit: ", repo->args[1], ": numeric argument required", NULL);
 			exit_num = 2;

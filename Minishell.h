@@ -53,6 +53,7 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 
 // Utils
 
+int			ft_signes(char *str);
 int			ft_trouve_egal(char *str);
 int			ft_white_spaces(char *str);
 int			ft_white_spaces(char *str);
