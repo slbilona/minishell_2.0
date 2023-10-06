@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/06 15:13:39 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 16:25:53 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	ft_exit(t_struct *repo, void *inf)
 		return (1);
 	}
 	ft_put_str_error("exit", NULL, NULL, NULL);
-	if (ft_count_double_string(repo->args) > 2)
+	if (ft_count_double_string(repo->args) > 2 && !ft_que_des_chiffres(repo->args[1]))
 	{
 		return (ft_put_str_error("Minishell: ", "exit:", " too many arguments", NULL), 1);
 	}
-	else if (ft_count_double_string(repo->args) == 2)
+	else if (ft_count_double_string(repo->args) >= 1)
 	{
 		if (ft_long_atoi(repo->args[1], &num) || ft_que_des_chiffres(repo->args[1]) || ft_signes(repo->args[1]))
 		{

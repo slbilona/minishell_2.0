@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/06 15:13:42 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 15:27:20 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ t_info	*ft_init_info(char **env)
 
 int ft_init_info_deux(t_info *info, int i)
 {
+	info->i_heredoc = 0;
 	info->nb_de_cmd = i;
 	info->nb_de_pipe = info->nb_de_cmd - 1;
 	info->diff_pid = malloc(sizeof(pid_t) * info->nb_de_cmd);
@@ -133,6 +134,7 @@ int	main(int ac, char **av, char **env)
 							if (repo)
 							{
 								ft_init_info_deux(info, ft_count_double_string(str));
+								// verifier si la fonction au dessus n'échoue pas
 								free(entree);
 								ft_free_double_string(str);
 								//execution

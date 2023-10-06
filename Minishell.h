@@ -21,7 +21,6 @@ typedef struct s_struct {
 	char	*cmd;
 	char	*path;
 	int		nb_cmd;
-	int		i_heredoc;
 	char	**args;
 	char	**redirection;
 	int		num_after_chevron;
@@ -36,6 +35,7 @@ typedef struct s_info {
 	int					i;
 	int					fork;
 	int					exit;
+	int					i_heredoc;
 	int					nb_de_cmd;
 	int					nb_de_pipe;
 	int					saved_stdin;
@@ -100,9 +100,9 @@ void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 // Exec
 
 int			ft_lecture_heredoc(void);
-int			ft_redirection(t_info *info, t_struct *repo, char **str);
+int			ft_redirection(char **str);
 int			ft_execution_coordinateur(t_struct *repo, t_info *info);
-int			ft_ouverture_heredoc(char *str, t_struct *repo, t_info *info);
+int			ft_ouverture_heredoc(char *str, t_info *info);
 char		*ft_cherche_path(t_struct *repo, t_info *info);
 
 // Builtins

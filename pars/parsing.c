@@ -58,7 +58,6 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 	while (str && str[i])
 	{
 		repo[i].ret = 0;
-		repo[i].i_heredoc = 0;
 		repo[i].nb_cmd = i;
 		count = 0;
 		s = ft_new_split(str[i], NULL); // split aux white spaces

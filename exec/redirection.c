@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/06 15:12:20 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 15:33:31 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char	*ft_expand_heredoc(t_info *info, char *line)
 	i = 0;
 	j = 0;
 	k = 0;
-	(void) info;
+	//(void) info;
 	while (line && line[i])
 	{
 		if (line[i] == '$' && line[i + 1] && line[i + 1] == '?')
@@ -149,15 +149,12 @@ char	*ft_expand_heredoc(t_info *info, char *line)
 	return (dest);
 }
 
-/* ajouter un moyen pour se balader
-dans la ligne qu'on est en trqin d'ecrire
-dans le trminal en utilisant les fleches*/
-int	ft_ouverture_heredoc(char *str, t_struct *repo, t_info *info)
+int	ft_ouverture_heredoc(char *str, t_info *info)
 {
 	int		fd;
 	char	*line;
 
-	repo->i_heredoc = 1;
+	info->i_heredoc = 1;
 	fd = open("/tmp/heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -166,7 +163,6 @@ int	ft_ouverture_heredoc(char *str, t_struct *repo, t_info *info)
 	}
 	while (1)
 	{
-		//write(info->saved_stdout, "> ", 2);
 		line = readline("> ");
 		if (!line)
 		{
