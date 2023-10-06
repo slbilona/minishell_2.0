@@ -99,10 +99,11 @@ void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 
 // Exec
 
+int			ft_lecture_heredoc(void);
+int			ft_redirection(t_info *info, t_struct *repo, char **str);
 int			ft_execution_coordinateur(t_struct *repo, t_info *info);
-int			ft_redirection(char **str, t_struct *repo, t_info *info);
+int			ft_ouverture_heredoc(char *str, t_struct *repo, t_info *info);
 char		*ft_cherche_path(t_struct *repo, t_info *info);
-void		ft_heredoc(char *str, t_struct *repo, t_info *info);
 
 // Builtins
 

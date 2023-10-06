@@ -6,13 +6,13 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/04 18:37:04 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 15:06:40 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	ft_redirection(char **str, t_struct *repo, t_info *info)
+int	ft_redirection(t_info *info, t_struct *repo, char **str)
 {
 	int	i;
 	int	fd;
@@ -69,7 +69,21 @@ int	ft_redirection(char **str, t_struct *repo, t_info *info)
 			close(fd);
 		}
 		else if (ft_strncmp("<< ", str[i], 3) == 0)
-			ft_heredoc(str[i] + 3, repo, info);
+		{
+			if (ft_lecture_heredoc())
+				return (1);
+		}
+		i++;
+	}
+	i = 0;
+	while (i < info->nb_de_cmd)
+	{
+		if (repo[i].i_heredoc)
+		{
+			
+			unlink("/tmp/heredoc.txt");
+			break;
+		}
 		i++;
 	}
 	return (0);
@@ -156,7 +170,7 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 					ft_strlen(info->builtins[i].str)) == 0)
 			{
 				if (repo->redirection)
-					redir = ft_redirection(repo->redirection, repo, info);
+					redir = ft_redirection(info, repo, repo->redirection);
 				if (!redir)
 					repo->ret = info->builtins[i].ptr(repo, info);
 				return (repo->ret);
@@ -219,7 +233,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 		close(pipe_fd[repo[i].nb_cmd][1]);
 	}
 	if (repo[i].redirection)
-		redir = ft_redirection(repo[i].redirection, &repo[i], info);
+		redir = ft_redirection(info, &repo[i], repo[i].redirection);
 	if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info, 0))
 	{
 		ft_execve(&repo[i], info);
@@ -270,6 +284,39 @@ void	ft_wait(t_info *info)
 	}
 }
 
+int	ft_heredoc_ou_non(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (ft_strncmp("<< ", str[i], 3) == 0)
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	ft_heredoc(t_info *info, t_struct *repo, char **str)
+{
+	int i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (ft_strncmp("<< ", str[i], 3) == 0)
+		{
+			if (ft_ouverture_heredoc(str[i] + 3, repo, info))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
 	int		**pipe_fd;
@@ -281,14 +328,29 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		pipe_fd = NULL;
 	while (info->i < info->nb_de_cmd)
 	{
+		// ouverture du heredoc si il y en a un
+		if (ft_heredoc_ou_non(repo[info->i].redirection))
+		{
+			//ouvrir le heredoc mais ne pas rediriger l'entree pour l'instant
+			ft_heredoc(info, &repo[info->i], repo[info->i].redirection);
+		}
 		if (info->nb_de_pipe != 0 || ft_builtins_ou_non(&repo[info->i], info, 1))
+		{
 			ft_fork(repo, info, pipe_fd);
+		}
 		else
 			info->exit = ft_builtins_ou_non(&repo[info->i], info, 0);
-		if (repo[info->i].i_heredoc)
-			unlink("/tmp/heredoc.txt");
+
 		info->i++;
 	}
+	// int i;
+	// i = 0;
+	// while (i < info->nb_de_cmd)
+	// {
+	// 	if (repo[i].i_heredoc)
+	// 		unlink("/tmp/heredoc.txt");	
+	// 	i++;
+	// }
 	if (info->fork)
 		ft_wait(info);
 	info->fork = 0;

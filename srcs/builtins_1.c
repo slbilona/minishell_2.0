@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/06 00:35:13 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 15:13:39 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ int	ft_exit(t_struct *repo, void *inf)
 		}
 		if (exit_num)
 		{
-			get_next_line(-1);
 			ft_free_struct(repo, info, 2);
 			exit(exit_num);
 		}
 	}
-	get_next_line(-1);
 	ft_free_struct(repo, info, 2);
 	exit(num);
 }

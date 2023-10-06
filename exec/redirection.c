@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/04 14:45:06 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 15:12:20 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ char	*ft_expand_heredoc(t_info *info, char *line)
 /* ajouter un moyen pour se balader
 dans la ligne qu'on est en trqin d'ecrire
 dans le trminal en utilisant les fleches*/
-void	ft_heredoc(char *str, t_struct *repo, t_info *info)
+int	ft_ouverture_heredoc(char *str, t_struct *repo, t_info *info)
 {
 	int		fd;
 	char	*line;
@@ -162,14 +162,12 @@ void	ft_heredoc(char *str, t_struct *repo, t_info *info)
 	if (fd == -1)
 	{
 		ft_put_str_error("Minishell: /tmp/heredoc.txt: ",strerror(errno), NULL, NULL);
-		// dup2(info->saved_stderr, STDOUT_FILENO);
-		// printf("Minishell: %s: %s\n", "/tmp/heredoc.txt", strerror(errno));
-		return ;
+		return (1);
 	}
 	while (1)
 	{
-		write(info->saved_stdout, "> ", 2);
-		line = get_next_line(0);
+		//write(info->saved_stdout, "> ", 2);
+		line = readline("> ");
 		if (!line)
 		{
 			printf("erreur\n");
@@ -187,21 +185,26 @@ void	ft_heredoc(char *str, t_struct *repo, t_info *info)
 		free(line);
 	}
 	close(fd);
+	return (0);
+}
+
+int	ft_lecture_heredoc(void)
+{
+	int fd;
+
 	fd = open("/tmp/heredoc.txt", O_RDONLY, 0644);
 	if (fd == -1)
 	{
+		printf("ici\n");
 		ft_put_str_error("Minishell: /tmp/heredoc.txt: ",strerror(errno), NULL, NULL);
-		// dup2(info->saved_stderr, STDOUT_FILENO);
-		// printf("Minishell: %s: %s\n", "/tmp/heredoc.txt", strerror(errno));
-		return ;
+		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		ft_put_str_error("Minishell: /tmp/heredoc.txt: ", strerror(errno), NULL, NULL);
-		// dup2(info->saved_stderr, STDOUT_FILENO);
-		// printf("Minishell: %s: %s\n", "/tmp/heredoc.txt", strerror(errno));
 		close(fd);
-		return ;
+		return (1);
 	}
 	close(fd);
+	return (0);
 }

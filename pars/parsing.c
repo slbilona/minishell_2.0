@@ -16,9 +16,10 @@ t_struct	*ft_init_struct(t_info *info, char **str)
 	return (repo);
 }
 
-int ft_verif_chevrons(char **s)
+int	ft_verif_chevrons(char **s)
 {
-	int j;
+	int	j;
+
 	j = 0;
 	while (s[j])
 	{
@@ -30,6 +31,12 @@ int ft_verif_chevrons(char **s)
 			if (s[j + 1] == NULL)
 			{
 				ft_put_str_error("Minishell: erreur ", "de syntaxe près", " du symbole inattendu", " « newline »");
+				ft_free_double_string(s);
+				return (1);
+			}
+			else if ((s[j + 1] && ft_strchr(s[j + 1], '>')) || (s[j + 1] && ft_strchr(s[j + 1], '<')))
+			{
+				ft_put_str_error("Minishell: syntax ", "error near unexpected token `", s[j + 1], "'");
 				ft_free_double_string(s);
 				return (1);
 			}

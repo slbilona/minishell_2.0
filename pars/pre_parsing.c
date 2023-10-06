@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/05 23:48:58 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/06 11:19:32 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int ft_check_pipe(char *str)
 			}
 			if ((!str[j] && o == 0) || count_pipe > 1 || k > 0 || (o > 0 && str[j] == '|'))
 			{
-				printf("str[j] : %c, o : %d\n", str[j], o);
 				if ((str[j] && str[j + 1] && str[j + 1] == '|') || count_pipe >= 2 || k == 2)
 					ft_put_str_error("Minishell: ", "syntax error ", "near unexpected ", "token `||'");
 				else
@@ -180,9 +179,9 @@ int check_left_direction(char *str)
 			j++;
 			i++;
 		}
-		if (j >= 4)
+		if (j >= 3)
 		{
-			if (j == 4)
+			if (j == 3)
 				ft_put_str_error("Minishell: syntax ", "error near ", "unexpected token `<'", NULL);
 			else
 				ft_put_str_error("Minishell: syntax ", "error near ", "unexpected token `<<'", NULL);
