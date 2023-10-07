@@ -6,17 +6,37 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/07 12:47:17 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 15:23:04 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
+int	ft_ouverture_heredoc_suite(t_info *info, char **line, char *str)
+{
+	if (!*line)
+	{
+		ft_put_str_error("Minishell: avertissement : « here-document » ",
+			"délimité par la fin du fichier (au lieu de « ", str, " »)");
+		return (1);
+	}
+	if (ft_strncmp(str, *line, ft_strlen(str) + 1) == 0)
+	{
+		free(*line);
+		return (1);
+	}
+	if (ft_verif_dollar(*line))
+		*line = ft_expand_heredoc(info, *line);
+	return (0);
+}
+
 int	ft_ouverture_heredoc(char *str, t_info *info)
 {
+	int		i;
 	int		fd;
 	char	*line;
 
+	i = 1;
 	info->i_heredoc = 1;
 	fd = open("/tmp/heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
@@ -28,21 +48,12 @@ int	ft_ouverture_heredoc(char *str, t_info *info)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-		{
-			printf("erreur\n");
+		if (ft_ouverture_heredoc_suite(info, &line, str))
 			break ;
-		}
-		if (ft_strncmp(str, line, ft_strlen(str) + 1) == 0)
-		{
-			free(line);
-			break ;
-		}
-		if (ft_verif_dollar(line))
-			line = ft_expand_heredoc(info, line);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
+		i++;
 	}
 	close(fd);
 	return (0);
