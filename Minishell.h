@@ -64,6 +64,7 @@ int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
 int			ft_cherche_dans_env(char *str, t_info *info, int o);
 char		**ft_cp_env(char **ancien_env);
+char		*my_getenv(t_info *info, char *str);
 char		**ft_supprime_sous_chaine(char **str, int i);
 char		**ft_new_split(const char *str, const char *sep);
 void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
@@ -86,11 +87,11 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 // Expand
 
 int			ft_verif_dollar(char *line);
+int			ft_expand(t_info *info, char **str);
 int			ft_change_j_et_k(t_info *info, char *str, int *j, int *k);
 char		*ft_cree_var(int j, char *str, int o);
 char		*ft_expand_heredoc(t_info *info, char *line);
 char		*ft_cree_dest(t_info *info, char *line, int k, int n);
-void		ft_expand(t_info *info, char **str);
 void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 
 // Exec
@@ -109,7 +110,8 @@ int			ft_export(t_struct *repo, void *inf);
 int			ft_cd(t_struct *repo, void *inf);
 int			ft_unset(t_struct *repo, void *inf);
 void		ft_export_pwd(t_info *info, int i);
-void		ft_exit_suite(t_struct *repo, t_info *info, long long int *num, int *exit_num);
+void		ft_exit_suite(t_struct *repo, t_info *info,
+				long long int *num, int *exit_num);
 
 // Init
 

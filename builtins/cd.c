@@ -6,35 +6,11 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:08:10 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/07 14:23:39 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 19:05:34 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-char	*my_getenv(t_info *info, char *str)
-{
-	int		i;
-	int		i_var;
-	char	*var;
-	char	*res;
-
-	i = 0;
-	if (!info->env)
-		return (NULL);
-	var = ft_cree_var(ft_strlen(str) + 1, str, 0);
-	i_var = ft_strlen(var);
-	while (info->env[i])
-	{
-		if (ft_strncmp(info->env[i], var, ft_strlen(var)) == 0)
-		{
-			res = ft_strdup(&info->env[i][i_var]);
-			return (free(var), res);
-		}
-		i++;
-	}
-	return (NULL);
-}
 
 // cd dans le OLDPWD
 int	ft_cd_tiret(t_struct *repo, void *inf)

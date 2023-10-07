@@ -63,7 +63,11 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 		s = ft_new_split(str[i], NULL); // split aux white spaces
 		if (!s)
 			return (1);
-		ft_expand(info, s);
+		if (ft_expand(info, s))
+		{
+			ft_free_double_string(s);
+			return (1);
+		}
 		s = ft_clean_quotes(s);
 		// verifier si ca a fontionné
 		if (ft_verif_chevrons(s))

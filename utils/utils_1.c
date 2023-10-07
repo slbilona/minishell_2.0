@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:05:51 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/07 12:59:47 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 20:27:30 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,29 @@ int	ft_signes(char *str)
 	if (count > 1)
 		return (1);
 	return (0);
+}
+
+char	*my_getenv(t_info *info, char *str)
+{
+	int		i;
+	int		i_var;
+	char	*var;
+	char	*res;
+
+	i = 0;
+	if (!info->env)
+		return (NULL);
+	var = ft_cree_var(ft_strlen(str) + 1, str, 0);
+	i_var = ft_strlen(var);
+	while (info->env[i])
+	{
+		if (ft_strncmp(info->env[i], var, ft_strlen(var)) == 0)
+		{
+			res = ft_strdup(&info->env[i][i_var]);
+			return (free(var), res);
+		}
+		i++;
+	}
+	free(var);
+	return (NULL);
 }

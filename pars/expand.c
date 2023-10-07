@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:08:38 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/07 13:54:58 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 22:21:55 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_ex_verif_dollar(char *line)
 
 void	ft_j_et_k_exit(t_info *info, int *j, int *k)
 {
-	char *str;
+	char	*str;
 
 	str = ft_itoa(info->exit);
 	*j += 2;
@@ -39,7 +39,7 @@ void	ft_j_et_k_exit(t_info *info, int *j, int *k)
 	free(str);
 }
 
-void	ft_expand(t_info *info, char **str)
+int	ft_expand(t_info *info, char **str)
 {
 	int	i;
 	int	o;
@@ -57,21 +57,27 @@ void	ft_expand(t_info *info, char **str)
 			while (str && str[i] && str[i][o])
 			{
 				if (str[i][o] == '$' && (ft_quotes(str[i], o) == 0
-					|| ft_quotes(str[i], o) == 2) && str[i][o + 1] && str[i][o + 1] == '?')
+					|| ft_quotes(str[i], o) == 2) && str[i][o + 1]
+					&& str[i][o + 1] == '?')
 				{
 					ft_j_et_k_exit(info, &j, &k);
 				}
 				else if (str[i][o] == '$' && (ft_quotes(str[i], o) == 0
 					|| ft_quotes(str[i], o) == 2) && str[i][o + 1]
-					&& (ft_isalnum(str[i][o + 1]) || str[i][o + 1] == '_' || ft_quotes(str[i], o + 1) == 3 || ft_quotes(str[i], o + 1) == 4))
+					&& (ft_isalnum(str[i][o + 1]) || str[i][o + 1] == '_'
+						|| ft_quotes(str[i], o + 1) == 3
+						|| ft_quotes(str[i], o + 1) == 4))
 					ft_change_j_et_k(info, &str[i][o], &j, &k);
 				o++;
 			}
 			str[i] = ft_cree_dest(info, str[i], ft_strlen(str[i]) - j + k, 1);
-			// Verifier la string
+			if (!str[i])
+				return (ft_put_str_error("Minishell:", " erreur ",
+					"lors de ", "l'expand"), 1);
 		}
 		i++;
 	}
+	return (0);
 }
 
 // verifie si il y a un dollar suivi d'un caractere visible
@@ -97,6 +103,8 @@ char	*ft_cree_var(int j, char *str, int o)
 
 	i = 0;
 	var = malloc(sizeof(char) * (j + 1));
+	if (!var)
+		return (NULL);
 	while (i < j - 1)
 	{
 		if (o)
@@ -124,7 +132,6 @@ int	ft_change_j_et_k(t_info *info, char *str, int *j, int *k)
 		*j += 1;
 	}
 	var = ft_cree_var(i, str, 1);
-	printf("var : %s, str : %s\n", var, str);
 	i = 0;
 	while (info->env && info->env[i])
 	{
@@ -150,6 +157,7 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 	int		l; // parcours l'env
 	char	*dest;
 	char	*test;
+
 	i = 0;
 	j = 0;
 	dest = malloc(sizeof(char) * (k + 1));
@@ -158,7 +166,7 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 	while (line && line[i])
 	{
 		if (line[i] == '$' && line[i + 1]
-			&&  line[i + 1] == '?')
+			&& line[i + 1] == '?')
 		{
 			test = ft_itoa(info->exit);
 			o = 0;
@@ -168,7 +176,8 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 			free(test);
 		}
 		else if (line[i] == '$' && line[i + 1]
-			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_' || ft_quotes(line, i+1) == 3 || ft_quotes(line, i+1) == 4))
+			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'
+				|| ft_quotes(line, i + 1) == 3 || ft_quotes(line, i + 1) == 4))
 		{
 			o = 0;
 			l = ft_change_j_et_k(info, &line[i], &o, &k);
