@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/07 13:59:30 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/07 15:28:42 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,51 +62,14 @@ void	ft_print_repo(t_struct *repo, t_info *info)
 	}
 }
 
-t_info	*ft_init_info(char **env)
+void handle_sigint(int sig)
 {
-	t_info	*info;
-	
-	info = malloc(sizeof(t_info));
-	if (!info)
-		return (ft_put_str_error("Erreur de la creation de la structure info", NULL, NULL, NULL), NULL);
-	info->fork = 0;
-	info->exit = 0;
-	info->saved_stdin = dup(STDIN_FILENO);
-	info->saved_stdout = dup(STDOUT_FILENO);
-	info->saved_stderr = dup(STDERR_FILENO);
-	info->env = ft_cp_env(env);
-	ft_init_builtins(info);
-	if (!info->env)
+	printf("\n");
+	if(sig == 2)
 	{
-		ft_put_str_error("Erreur lors de la copie de l'environement", NULL, NULL, NULL);
-		ft_free_struct(NULL, info, 1);
-		return (NULL);
+		printf("🐙 \x1b[31mMinishell$ \x1b[0m");
 	}
-	return (info);
 }
-
-int ft_init_info_deux(t_info *info, int i)
-{
-	info->i_heredoc = 0;
-	info->nb_de_cmd = i;
-	info->nb_de_pipe = info->nb_de_cmd - 1;
-	info->diff_pid = malloc(sizeof(pid_t) * info->nb_de_cmd);
-	if (!info->diff_pid)
-		return (1);
-	return (0);
-}
-
-void handle_sigint(int sig) {
-   	
-	 printf("\n");
-
-		if(sig == 2)
-		{
-        	printf("🐙 \x1b[31mMinishell$ \x1b[0m");
-		}
-}
-
-
 
 int	main(int ac, char **av, char **env)
 {
@@ -114,13 +77,8 @@ int	main(int ac, char **av, char **env)
 	char		**str;
 	t_info		*info;
 	t_struct	*repo;
-	int			i;
-	
-	
 
-	i = 0;
 	(void) av;
-	
 	if (ac == 1)
 	{
 		info = ft_init_info(env); //initialise la structure info
@@ -129,8 +87,6 @@ int	main(int ac, char **av, char **env)
 		while (1)
 		{
 			signal(SIGINT, handle_sigint);
-			
-
 			entree = readline("🐙 \x1b[31mMinishell$ \x1b[0m");
 			if (ft_strlen(entree) > 0)
 			{
@@ -181,7 +137,6 @@ int	main(int ac, char **av, char **env)
 			}
 			else
 				free(entree);
-			i++;
 		}
 		ft_free_struct(NULL, info, 1); //free la structure info
 	}

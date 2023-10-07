@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:48:28 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/04 13:27:08 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 12:05:55 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,6 @@ int	ft_new_compte_mot(const char *str, const char *sep)
 			i++;
 	}
 	return (compte);
-}
-
-void	ft_init_sep(char *sep)
-{
-	sep[0] = 9;
-	sep[1] = 10;
-	sep[2] = 11;
-	sep[3] = 12;
-	sep[4] = 13;
-	sep[5] = 32;
-	sep[6] = 0;
 }
 
 void	ft_new_strncpy(char const *str, char *dest, int n, int i)

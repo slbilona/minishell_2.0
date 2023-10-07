@@ -63,13 +63,9 @@ int			ft_directory_ou_non(char *path);
 int			ft_count_double_string(char **str);
 int			ft_long_atoi(char *str, long long int *num);
 int			ft_cherche_dans_env(char *str, t_info *info, int o);
-int			**ft_init_free_pipe(t_info *info, int j, int **pipes_fd);
 char		**ft_cp_env(char **ancien_env);
 char		**ft_supprime_sous_chaine(char **str, int i);
 char		**ft_new_split(const char *str, const char *sep);
-void		ft_init_builtins(t_info *info);
-void		ft_free_double_string(char **str);
-void		ft_free_struct(t_struct *repo, t_info *info, int j);
 void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 // Parsing
@@ -91,7 +87,7 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 
 int			ft_verif_dollar(char *line);
 int			ft_change_j_et_k(t_info *info, char *str, int *j, int *k);
-char		*ft_cree_var(int j, char *str);
+char		*ft_cree_var(int j, char *str, int o);
 char		*ft_expand_heredoc(t_info *info, char *line);
 char		*ft_cree_dest(t_info *info, char *line, int k, int n);
 void		ft_expand(t_info *info, char **str);
@@ -99,10 +95,8 @@ void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 
 // Exec
 
-int			ft_lecture_heredoc(void);
 int			ft_redirection(char **str);
 int			ft_execution_coordinateur(t_struct *repo, t_info *info);
-int			ft_ouverture_heredoc(char *str, t_info *info);
 char		*ft_cherche_path(t_struct *repo, t_info *info);
 
 // Builtins
@@ -115,5 +109,27 @@ int			ft_export(t_struct *repo, void *inf);
 int			ft_cd(t_struct *repo, void *inf);
 int			ft_unset(t_struct *repo, void *inf);
 void		ft_export_pwd(t_info *info, int i);
+void		ft_exit_suite(t_struct *repo, t_info *info, long long int *num, int *exit_num);
+
+// Init
+
+int			**ft_init_pipe(t_info *info);
+int			ft_init_info_deux(t_info *info, int i);
+void		ft_init_builtins(t_info *info);
+void		ft_init_sep(char *sep);
+t_info		*ft_init_info(char **env);
+
+// Heredoc
+
+int			ft_lecture_heredoc(void);
+int			ft_heredoc_ou_non(char **str);
+int			ft_heredoc(t_info *info, char **str);
+int			ft_ouverture_heredoc(char *str, t_info *info);
+
+// Free
+
+int			**ft_free_pipe(t_info *info, int **pipes_fd);
+void		ft_free_double_string(char **str);
+void		ft_free_struct(t_struct *repo, t_info *info, int j);
 
 #endif

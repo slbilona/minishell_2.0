@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:23 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/04 15:31:11 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 11:59:13 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void	ft_put_str_error(char *str1, char *str2, char *str3, char *str4)
 
 int	ft_directory_ou_non(char *path)
 {
-    struct stat st;
+	struct stat	st;
 
 	if (!path)
 		return (0);
-    if (stat(path, &st) == 0)
+	if (stat(path, &st) == 0)
 	{
-        if (S_ISDIR(st.st_mode))
+		if (S_ISDIR(st.st_mode))
 			return (1);
-    }
-    return (0);
+	}
+	return (0);
 }
