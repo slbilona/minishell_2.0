@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/06 15:27:20 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 13:59:30 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,18 @@ int ft_init_info_deux(t_info *info, int i)
 	return (0);
 }
 
+void handle_sigint(int sig) {
+   	
+	 printf("\n");
+
+		if(sig == 2)
+		{
+        	printf("🐙 \x1b[31mMinishell$ \x1b[0m");
+		}
+}
+
+
+
 int	main(int ac, char **av, char **env)
 {
 	char		*entree;
@@ -103,6 +115,8 @@ int	main(int ac, char **av, char **env)
 	t_info		*info;
 	t_struct	*repo;
 	int			i;
+	
+	
 
 	i = 0;
 	(void) av;
@@ -114,10 +128,10 @@ int	main(int ac, char **av, char **env)
 			return (1);
 		while (1)
 		{
-			if (i % 2)
-				entree = readline("🌺 \x1b[35mMinishell$ \x1b[0m");
-			else
-				entree = readline("🐙 \x1b[31mMinishell$ \x1b[0m");
+			signal(SIGINT, handle_sigint);
+			
+
+			entree = readline("🐙 \x1b[31mMinishell$ \x1b[0m");
 			if (ft_strlen(entree) > 0)
 			{
 				add_history(entree);
