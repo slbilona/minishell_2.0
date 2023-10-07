@@ -40,6 +40,8 @@ changer la fonction qui verifie les pipe
 
 changer l'exit staus en cas d'erreur
 
+pas de message d'erreur lorqu'il manque un guillemet
+
 Remarque execution :
 
 changer la sortie si il y a une redirection d'une commande qui ne fonctionne pas

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_clean_quotes.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/08 00:57:38 by ilona             #+#    #+#             */
+/*   Updated: 2023/10/08 00:57:46 by ilona            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Minishell.h"
 
 int	ft_q_taille(char *str)
 {
-	int i;
+	int	i;
 	int	ret;
 
 	i = 0;
@@ -17,7 +29,7 @@ int	ft_q_taille(char *str)
 }
 
 // Retire les guillemets ouvrant et fermant de str
-char **ft_clean_quotes(char **str)
+char	**ft_clean_quotes(char **str)
 {
 	int		i;
 	int		j;

@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:11:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/07 12:11:36 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/08 00:48:57 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ int	**ft_init_pipe(t_info *info)
 
 	i = 0;
 	pipe_fd = malloc(sizeof(int *) * info->nb_de_pipe);
+	if (!pipe_fd)
+		return (NULL);
 	while (i < info->nb_de_pipe)
 	{
 		pipe_fd[i] = malloc(sizeof(int) * 2);
-		// Verifier si l'allocation n'a pas echoue
+		if (!pipe_fd[i])
+			return (ft_free_prec_pipe(pipe_fd, i));
 		if (pipe(pipe_fd[i]) == -1)
 		{
-			perror("Erreur lors de la création des tubes");
+			perror("Minishell: pipe: Erreur lors de la création des tubes");
+			ft_free_prec_pipe(pipe_fd, i);
 			return (NULL);
 		}
 		i++;

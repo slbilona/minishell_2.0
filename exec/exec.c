@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/07 12:17:11 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 23:55:31 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,20 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 
 	info->i = 0;
 	if (info->nb_de_pipe > 0)
+	{
 		pipe_fd = ft_init_pipe(info);
+		if (!pipe_fd)
+		{
+			ft_put_str_error("Minishell: ", "pipe: erreur",
+				" lors de", " l'allocation");
+			info->fork = 0;
+			free(info->diff_pid);
+			dup2(info->saved_stdout, STDOUT_FILENO);
+			dup2(info->saved_stdin, STDIN_FILENO);
+			ft_free_struct(repo, info, 0);//free la structure repo
+			return (1);
+		}
+	}
 	else
 		pipe_fd = NULL;
 	while (info->i < info->nb_de_cmd)

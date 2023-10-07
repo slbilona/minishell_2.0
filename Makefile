@@ -21,6 +21,7 @@ SRCS = main.c \
 		builtins_2.c \
 		pre_parsing.c \
 		redirection.c \
+		utils_expand.c \
 		ft_new_split.c \
 		utils_builtins.c \
 		ft_clean_quotes.c \
