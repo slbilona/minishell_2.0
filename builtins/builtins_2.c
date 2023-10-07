@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:19 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/03 13:29:19 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 14:28:14 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int	ft_export(t_struct *repo, void *inf)
 		}
 		else if (o == -1)
 		{
-			ft_put_str_error("Minishell: export: `", repo->args[j], "': not a valid identifier", NULL);
+			ft_put_str_error("Minishell: export: `", repo->args[j],
+				"': not a", " valid identifier");
 			ret = 1;
 		}
 		j++;

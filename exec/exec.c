@@ -6,77 +6,11 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/06 15:37:09 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 12:17:11 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-int	ft_redirection(char **str)
-{
-	int	i;
-	int	fd;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (ft_strncmp("> ", str[i], 2) == 0)
-		{
-			fd = open(str[i] + 2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
-			{
-				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
-				return (1);
-			}
-			if (dup2(fd, STDOUT_FILENO) == -1)
-			{
-				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
-				close(fd);
-				return (1);
-			}
-			close(fd);
-		}
-		else if (ft_strncmp(">> ", str[i], 3) == 0)
-		{
-			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd == -1)
-			{
-				ft_put_str_error("Minishell: ", str[i] + 3, ": ", strerror(errno));
-				return (1);
-			}
-			if (dup2(fd, STDOUT_FILENO) == -1)
-			{
-				ft_put_str_error("Minishell: ", str[i] + 3, ": ", strerror(errno));
-				close(fd);
-				return (1);
-			}
-			close(fd);
-		}
-		else if (ft_strncmp("< ", str[i], 2) == 0)
-		{
-			fd = open(str[i] + 2, O_RDONLY, 0644);
-			if (fd == -1)
-			{
-				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
-				return (1);
-			}
-			if (dup2(fd, STDIN_FILENO) == -1)
-			{
-				ft_put_str_error("Minishell: ", str[i] + 2, ": ", strerror(errno));
-				close(fd);
-				return (1);
-			}
-			close(fd);
-		}
-		else if (ft_strncmp("<< ", str[i], 3) == 0)
-		{
-			if (ft_lecture_heredoc())
-				return (1);
-		}
-		i++;
-	}
-	return (0);
-}
 
 /*Cherche la ligne "PATH=" dans l'environnement
 puis cherche avec access le bon chemin pour la commande envoyé*/
@@ -192,7 +126,7 @@ void ft_erreur_path(t_info *info, t_struct *repo, int **pipe_fd)
 		close(pipe_fd[repo[i].nb_cmd][0]);
 		close(pipe_fd[repo[i].nb_cmd][1]);
 	}
-	ft_init_free_pipe(info, 1, pipe_fd);
+	ft_free_pipe(info, pipe_fd);
 	ft_free_struct(repo, info, 2); //free les structures
 	exit(127);
 }
@@ -228,7 +162,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 		ft_execve(&repo[i], info);
 	}
 	ex = repo[i].ret;
-	ft_init_free_pipe(info, 1, pipe_fd);
+	ft_free_pipe(info, pipe_fd);
 	ft_free_struct(repo, info, 2); //free les structures
 	exit(ex);
 }
@@ -273,46 +207,13 @@ void	ft_wait(t_info *info)
 	}
 }
 
-int	ft_heredoc_ou_non(char **str)
-{
-	int i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (ft_strncmp("<< ", str[i], 3) == 0)
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	ft_heredoc(t_info *info, char **str)
-{
-	int i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (ft_strncmp("<< ", str[i], 3) == 0)
-		{
-			if (ft_ouverture_heredoc(str[i] + 3, info))
-				return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 {
 	int		**pipe_fd;
 
 	info->i = 0;
 	if (info->nb_de_pipe > 0)
-		pipe_fd = ft_init_free_pipe(info, 0, NULL);
+		pipe_fd = ft_init_pipe(info);
 	else
 		pipe_fd = NULL;
 	while (info->i < info->nb_de_cmd)
@@ -339,7 +240,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		unlink("/tmp/heredoc.txt");
 	info->fork = 0;
 	free(info->diff_pid);
-	ft_init_free_pipe(info, 1, pipe_fd);
+	ft_free_pipe(info, pipe_fd);
 	dup2(info->saved_stdout, STDOUT_FILENO);
 	dup2(info->saved_stdin, STDIN_FILENO);
 	ft_free_struct(repo, info, 0);//free la structure repo

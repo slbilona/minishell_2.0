@@ -4,11 +4,16 @@ DEPDIR = dep
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
 SRCS = main.c \
+		cd.c \
+		exit.c \
 		exec.c \
+		init.c \
+		echo.c \
 		free.c \
 		expand.c \
 		utils_1.c \
 		utils_2.c \
+		heredoc.c \
 		parsing.c \
 		ft_space.c \
 		ft_quotes.c \
@@ -19,10 +24,11 @@ SRCS = main.c \
 		ft_new_split.c \
 		utils_builtins.c \
 		ft_clean_quotes.c \
+		ft_expand_heredoc.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJDIR), $(OBJFILES))
-VPATH   = srcs pars utils exec
+VPATH   = srcs pars utils exec builtins
 
 CC = cc
 CFLAGS = -g -Wall -Werror -Wextra -I /usr/include

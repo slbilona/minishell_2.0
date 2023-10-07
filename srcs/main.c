@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/06 15:27:20 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/07 14:26:07 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,40 +60,6 @@ void	ft_print_repo(t_struct *repo, t_info *info)
 		printf("\n\n");
 		i++;
 	}
-}
-
-t_info	*ft_init_info(char **env)
-{
-	t_info	*info;
-	
-	info = malloc(sizeof(t_info));
-	if (!info)
-		return (ft_put_str_error("Erreur de la creation de la structure info", NULL, NULL, NULL), NULL);
-	info->fork = 0;
-	info->exit = 0;
-	info->saved_stdin = dup(STDIN_FILENO);
-	info->saved_stdout = dup(STDOUT_FILENO);
-	info->saved_stderr = dup(STDERR_FILENO);
-	info->env = ft_cp_env(env);
-	ft_init_builtins(info);
-	if (!info->env)
-	{
-		ft_put_str_error("Erreur lors de la copie de l'environement", NULL, NULL, NULL);
-		ft_free_struct(NULL, info, 1);
-		return (NULL);
-	}
-	return (info);
-}
-
-int ft_init_info_deux(t_info *info, int i)
-{
-	info->i_heredoc = 0;
-	info->nb_de_cmd = i;
-	info->nb_de_pipe = info->nb_de_cmd - 1;
-	info->diff_pid = malloc(sizeof(pid_t) * info->nb_de_cmd);
-	if (!info->diff_pid)
-		return (1);
-	return (0);
 }
 
 int	main(int ac, char **av, char **env)
