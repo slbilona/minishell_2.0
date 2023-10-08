@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/07 15:23:04 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/08 14:32:11 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@ int	ft_ouverture_heredoc_suite(t_info *info, char **line, char *str)
 		return (1);
 	}
 	if (ft_verif_dollar(*line))
+	{
 		*line = ft_expand_heredoc(info, *line);
+		if (!*line)
+		{
+			ft_put_str_error("Minishell:", " erreur ",
+				"lors du ", "heredoc");
+			return (1);
+		}
+	}
 	return (0);
 }
 

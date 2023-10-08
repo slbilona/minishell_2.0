@@ -6,11 +6,24 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:52:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/08 14:14:15 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/08 14:28:39 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+void	ft_compte_espace_suite(int *i, int *count, char *str, char c)
+{
+	if (*i > 0 && str[*i - 1] != ' ')
+		*count += 1;
+	while (str && str[*i] == c)
+		*i += 1;
+	*i -= 1;
+	if (str[*i + 1] != 0 && str[*i + 1] != ' '
+		&& !ft_strchr("<>|", str[*i + 1]))
+		*count += 1;
+	*i += 1;
+}
 
 int	ft_compte_espaces(char *str)
 {
@@ -18,7 +31,6 @@ int	ft_compte_espaces(char *str)
 	int		count;
 	char	c;
 
-	c = 0;
 	count = 0;
 	if (str)
 	{
@@ -34,16 +46,7 @@ int	ft_compte_espaces(char *str)
 				i++;
 			}
 			else if (ft_strchr("<>|", str[i]))
-			{
-				if (i > 0 && str[i - 1] != ' ')
-					count++;
-				while (str && str[i] == c)
-					i++;
-				i--;
-				if (str[i + 1] != 0 && str[i + 1] != ' ' && !ft_strchr("<>|", str[i + 1]))
-					count++;
-				i++;
-			}
+				ft_compte_espace_suite(&i, &count, str, c);
 			else
 				i++;
 		}

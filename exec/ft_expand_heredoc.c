@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_expand_heredoc.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/08 14:33:22 by ilona             #+#    #+#             */
+/*   Updated: 2023/10/08 14:33:23 by ilona            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Minishell.h"
 
 /* Si n == 1 free line
@@ -19,7 +31,7 @@ char	*ft_cree_dest_heredoc(t_info *info, char *line, int k, int n)
 	while (line && line[i])
 	{
 		if (line[i] == '$' && line[i + 1]
-			&&  line[i + 1] == '?')
+			&& line[i + 1] == '?')
 		{
 			test = ft_itoa(info->exit);
 			o = 0;
@@ -59,7 +71,6 @@ char	*ft_expand_heredoc(t_info *info, char *line)
 	i = 0;
 	j = 0;
 	k = 0;
-	//(void) info;
 	while (line && line[i])
 	{
 		if (line[i] == '$' && line[i + 1] && line[i + 1] == '?')
@@ -72,7 +83,8 @@ char	*ft_expand_heredoc(t_info *info, char *line)
 		i++;
 	}
 	dest = ft_cree_dest_heredoc(info, line, ft_strlen(line) - j + k, 0);
-	// Verifier la string
+	if (!dest)
+		return (NULL);
 	free(line);
 	return (dest);
 }
