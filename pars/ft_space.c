@@ -6,13 +6,11 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:52:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/03 13:18:58 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/08 14:14:15 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-//creer une fonctioon qui nous indique si on est dans des guillemets ou non
 
 int	ft_compte_espaces(char *str)
 {
@@ -53,43 +51,50 @@ int	ft_compte_espaces(char *str)
 	return (count);
 }
 
+void	ft_ajoute_espaces_suite(char *s, char *str, int i, int j)
+{
+	char	c;
+
+	while (s[i])
+	{
+		c = s[i];
+		if (ft_quotes(s, i) == 3 || ft_quotes(s, i) == 4)
+		{
+			str[j++] = s[i++];
+			while (s[i] && (ft_quotes(s, i) == 1 || ft_quotes(s, i) == 2))
+				str[j++] = s[i++];
+			str[j++] = s[i++];
+		}
+		else if (ft_strchr("<>|", s[i]))
+		{
+			if (i > 0 && s[i - 1] != ' ')
+				str[j++] = ' ';
+			while (s[i] && s[i] == c)
+				str[j++] = s[i++];
+			if (s[i] != 0 && s[i] != ' ' && !ft_strchr("<>|", s[i]))
+				str[j++] = ' ';
+		}
+		else
+			str[j++] = s[i++];
+	}
+	str[j] = 0;
+}
+
 char	*ft_ajoute_espace(char *entree)
 {
 	int		i;
 	int		j;
-	char	c;
 	char	*str;
 
 	i = 0;
 	j = 0;
 	if (!entree)
 		return (NULL);
-	str = malloc(sizeof(char) * (ft_compte_espaces(entree) + ft_strlen(entree) + 1));
+	str = malloc(sizeof(char)
+			* (ft_compte_espaces(entree) + ft_strlen(entree) + 1));
 	if (!str)
 		return (NULL);
-	while (entree[i])
-	{
-		c = entree[i];
-		if (ft_quotes(entree, i) == 3 || ft_quotes(entree, i) == 4)
-		{
-			str[j++] = entree[i++];
-			while (entree[i] && (ft_quotes(entree, i) == 1 ||  ft_quotes(entree, i) == 2))
-				str[j++] = entree[i++];
-			str[j++] = entree[i++];
-		}
-		else if (ft_strchr("<>|", entree[i]))
-		{
-			if (i > 0 && entree[i - 1] != ' ')
-				str[j++] = ' ';
-			while (entree[i] && entree[i] == c)
-				str[j++] = entree[i++];
-			if (entree[i] != 0 && entree[i] != ' ' && !ft_strchr("<>|", entree[i]))
-				str[j++] = ' ';
-		}
-		else
-			str[j++] = entree[i++];
-	}
-	str[j] = 0;
+	ft_ajoute_espaces_suite(entree, str, i, j);
 	free(entree);
 	return (str);
 }

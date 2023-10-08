@@ -77,8 +77,8 @@ void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 // Parsing
 
-int			check_pipe(char *str);
 int			main_parsing(char *str);
+int			ft_check_pipe(char *str);
 int			check_direction(char *str);
 int			ft_compte_espaces(char *str);
 int			check_left_direction(char *str);

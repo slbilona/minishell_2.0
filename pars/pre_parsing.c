@@ -6,22 +6,23 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:39:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/06 16:18:35 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/08 13:42:11 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-int ft_check_pipe(char *str);
+
 int	main_parsing(char *str)
 {
 	if (ft_quotes(str, 0) == -1) // si il y a un guillemet non fermé
+	{
+		ft_put_str_error("Minishell:", " guillemet", " non", " fermé");
 		return (1);
+	}
 	if (check_direction(str))
 		return(1);
 	if (ft_check_pipe(str))
 		return (1);
-	// if (check_pipe(str))
-	// 	return (1);
 	return (0);
 }
 
@@ -60,8 +61,7 @@ int ft_check_pipe(char *str)
 			}
 			while ((9 <= str[j] && str[j] <= 13) || str[j] == 32 || str[j] == '>' || str[j] == '<')
 			{
-				//if (str[j] == '>' || str[j] == '<')
-					o++;
+				o++;
 				j++;
 			}
 			if ((!str[j] && o == 0) || count_pipe > 1 || k > 0 || (o > 0 && str[j] == '|'))
@@ -77,52 +77,6 @@ int ft_check_pipe(char *str)
 			prems++;
 		if (str[i])
 			i++;
-	}
-	return (0);
-}
-
-int  check_pipe(char *str)
-{
-	int i;
-	int j;
-	int k;
-	int count_pipe;
-
-	count_pipe = 0;
-	i = 0;
-	j = 0;
-	k = 0;     
-	while (str && str[i])
-	{
-		if (str[i] == '|')
-		{
-			count_pipe = 1;
-			j = i + 1;
-			while (str[j])
-			{
-				if (str[j] == '|')
-				{
-					count_pipe++;
-				}
-				else if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || (str[j] >= '0' && str[j] <= '9'))
-				{
-					k = 1;
-					count_pipe = 1;
-				}
-				j++;
-			}
-			if (count_pipe >= 3)
-			{
-				ft_put_str_error("syntax error ", "near unexpected ", "token `||'", NULL);
-				return(1);
-			}
-			if (count_pipe == 2 || k == 0)
-			{
-				ft_put_str_error("syntax error ", "near unexpected ", "token `|'", NULL);
-				return(1);
-			}
-		}
-		i++;
 	}
 	return (0);
 }

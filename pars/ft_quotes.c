@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:31:19 by ilona             #+#    #+#             */
-/*   Updated: 2023/09/26 19:26:28 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/08 14:06:22 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,13 @@ int	ft_double_guillemet(const char *str, int *i_str, int *j, int *k)
 	return (0);
 }
 
-/* Renvoie -1 si un guillemet n'est pas fermé
-Renvoie 0 si str[i] est à l'extérieur de guillemets
-Renvoie 1 si str[i] est à l'intérieur de guillemets simples
-Renvoie 2 si str[i] est à l'intérieur de guillemets doubles
-Renvoie 3 si str[i] est un guillemet simple
-Renvoie 4 si str[i] est un guillemet double */
-int	ft_quotes(const char *str, int i)
+int	ft_quotes_suite(const char *str, int *i_str)
 {
 	int	j;
 	int	k;
-	int	ret;
-	int	*i_str;
 
 	j = 0;
 	k = 0;
-	i_str = malloc(sizeof(int) * ft_strlen(str));
-	if (!i_str)
-		return (-1);
 	while (str && str[j])
 	{
 		if (str[j] == '\"')
@@ -92,6 +81,27 @@ int	ft_quotes(const char *str, int i)
 			j++;
 		}
 	}
+	return (0);
+}
+
+/* Renvoie -1 si un guillemet n'est pas fermé
+Renvoie 0 si str[i] est à l'extérieur de guillemets
+Renvoie 1 si str[i] est à l'intérieur de guillemets simples
+Renvoie 2 si str[i] est à l'intérieur de guillemets doubles
+Renvoie 3 si str[i] est un guillemet simple
+Renvoie 4 si str[i] est un guillemet double */
+int	ft_quotes(const char *str, int i)
+{
+	int	ret;
+	int	*i_str;
+
+	if (!str)
+		return (-1);
+	i_str = malloc(sizeof(int) * ft_strlen(str));
+	if (!i_str)
+		return (-1);
+	if (ft_quotes_suite(str, i_str) == -1)
+		return (-1);
 	ret = i_str[i];
 	return (free(i_str), ret);
 }

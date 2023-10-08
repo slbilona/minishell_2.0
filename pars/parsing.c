@@ -11,6 +11,7 @@ t_struct	*ft_init_struct(t_info *info, char **str)
 	if (ft_split_command(info, str, repo))
 	{
 		info->nb_de_cmd = ft_count_double_string(str);
+		ft_put_str_error("Minishell:", " erreur lors", " du split", " de la commande");
 		return (ft_free_struct(repo, info, 0), NULL);
 	}
 	return (repo);
@@ -60,7 +61,7 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 		repo[i].ret = 0;
 		repo[i].nb_cmd = i;
 		count = 0;
-		s = ft_new_split(str[i], NULL); // split aux white spaces
+		s = ft_new_split(str[i], NULL);
 		if (!s)
 			return (1);
 		if (ft_expand(info, s))
@@ -69,7 +70,8 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 			return (1);
 		}
 		s = ft_clean_quotes(s);
-		// verifier si ca a fontionné
+		if (!s)
+			return (1);
 		if (ft_verif_chevrons(s))
 			return (1);
 		j = 0;
