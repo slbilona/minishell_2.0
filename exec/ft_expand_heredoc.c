@@ -6,11 +6,28 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 14:33:22 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/08 14:33:23 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/08 15:37:50 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+int	ft_cree_dest_heredoc_exit(t_info *info, char *dest, int *j)
+{
+	int		o;
+	char	*test;
+
+	o = 0;
+	test = ft_itoa(info->exit);
+	while (test && test[o])
+	{
+		dest[*j] = test[o];
+		*j += 1;
+		o++;
+	}
+	free(test);
+	return (2);
+}
 
 /* Si n == 1 free line
 Si n == 0 ne free pas line */
@@ -21,7 +38,6 @@ char	*ft_cree_dest_heredoc(t_info *info, char *line, int k, int n)
 	int		o;
 	int		l; // parcours l'env
 	char	*dest;
-	char	*test;
 
 	i = 0;
 	j = 0;
@@ -32,14 +48,7 @@ char	*ft_cree_dest_heredoc(t_info *info, char *line, int k, int n)
 	{
 		if (line[i] == '$' && line[i + 1]
 			&& line[i + 1] == '?')
-		{
-			test = ft_itoa(info->exit);
-			o = 0;
-			while (test && test[o])
-				dest[j++] = test[o++];
-			i += 2;
-			free(test);
-		}
+			i += ft_cree_dest_heredoc_exit(info, dest, &j);
 		else if (line[i] == '$' && line[i + 1]
 			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'))
 		{

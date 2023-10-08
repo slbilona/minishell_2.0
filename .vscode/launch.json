@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/ilona/Cursus/Cercle_4/minishell_2.0/exec",
-      "program": "/home/ilona/Cursus/Cercle_4/minishell_2.0/exec/build/Debug/outDebug",
+      "cwd": "/home/ilona/Cursus/Cercle_4/minishell/pars",
+      "program": "/home/ilona/Cursus/Cercle_4/minishell/pars/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
