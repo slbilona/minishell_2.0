@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 21:53:06 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	int ex;
 
 	i = info->i;
+	
+	signal(SIGINT, SIG_IGN);
 	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info, 1))
 	{
 		repo[i].path = ft_cherche_path(&repo[i], info);
@@ -169,6 +171,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 		ex = repo[i].ret;
 	ft_free_pipe(info, pipe_fd);
 	ft_free_struct(repo, info, 2); //free les structures
+	signal(SIGINT, SIG_DFL);
 	exit(ex);
 }
 
