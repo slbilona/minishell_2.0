@@ -1,31 +1,6 @@
 Remarque parsing :
 
-bash-5.1$ cd points_o/ a
-bash: cd: trop d'arguments
-
-bash-5.1$ cd points_a/ -----> dossier qui n'existe pas
-bash: cd: points_a/: Aucun fichier ou dossier de ce type
-
-bash-5.1$ ll
-bash: ll : commande introuvable
-bash-5.1$ echo $?
-127
-
-bash-5.1$ bash --posix
-bash-5.1$ exit 9223372036854775809
-exit
-bash: exit: 9223372036854775809 : argument numérique nécessaire
-
 la fonction STAT permet de verifier si un fichier/dossier existe ou non
-
-bash-5.1$ cat test/src1 >>> test/src2
-bash: erreur de syntaxe près du symbole inattendu « > »
-bash-5.1$ cat test/src1 >>>> test/src2
-bash: erreur de syntaxe près du symbole inattendu « >> »
-bash-5.1$ cat test/src1 >>>>> test/src2
-bash: erreur de syntaxe près du symbole inattendu « >> »
-bash-5.1$ cat test/src1 >>>>>> test/src2
-bash: erreur de syntaxe près du symbole inattendu « >> »
 
 Minishell$ ls | ls <<<>ilona">hey"
 avant : ls | ls <<<>ilona">hey", size : 23
@@ -38,16 +13,9 @@ verifier si il n'y a pas trop de chevrons ou de pipe ou ou si il y a bien un ell
 changer la fonction qui verifie les pipe
 	ex : ls | /      nest pas une erreur
 
-changer l'exit staus en cas d'erreur
-
-pas de message d'erreur lorqu'il manque un guillemet
+changer l'exit status en cas d'erreur
 
 Remarque execution :
-
-changer la sortie si il y a une redirection d'une commande qui ne fonctionne pas
-	le > fichier
-
-si on fait exit >hey il faut quand mm ecrire exit dans la sorti standard
 
 modifier la variable _ dans l'environement a chaque fois que j'execute une commande
 creer une variable ? dans l'environement et la modifier avec le return de la commande precedente
@@ -55,14 +23,6 @@ creer une variable ? dans l'environement et la modifier avec le return de la com
 creer une fonction a qui j'envoie des strings et qui les ecrits dans la sorti d'erreur
 
 remplacer tous les printf par des writes et les verifier
-
-gerer le cas ou il y a un pipe et un heredoc
-	ex : << hey cat | grep il | ls
-
-probleme lorsu'on fait plusieurs herdoc d'affilés
-
-pb lorsque je pipe avec une fonction builtins
-gerer echo hey | cat il y a un pb
 
 pwd a un pb lorsqu'on est dans un dossier qu'on a supprimé
 	eventuellement utiliser le pwd de l'env
@@ -73,3 +33,6 @@ heredoc :
 			> ilona
 			> $USER
 
+lorsqu'on fait ctrl + C sans rien dans le prompt il faut que l'exit status soit de 130 (probablement utiliser une globale)
+
+!!!!!!!!!! TESTER TOUS LES BUILTINS AVEC DES PIPES !!!!!!!!!!!!

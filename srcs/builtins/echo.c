@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:06:31 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 19:35:44 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,16 @@ int	ft_echo(t_struct *repo, void *inf)
 	int	i;
 	int	j;
 	int	n;
+	int o;
+	t_info *info;
 
-	(void)inf;
+	info = inf;
+	o = info->i;
 	j = 1;
 	i = 1;
 	n = 1;
-	ft_option_n(repo, &n, &j, &i);
-	if (ft_print_tab(repo->args, i))
+	ft_option_n(&repo[o], &n, &j, &i);
+	if (ft_print_tab(repo[o].args, i))
 		return (1);
 	if (n == 1 || j == 1)
 		if (write(STDOUT_FILENO, "\n", 1) == -1)

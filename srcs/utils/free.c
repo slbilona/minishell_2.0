@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:55 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 21:59:07 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,18 @@ void	ft_free_double_string(char **str)
 void	ft_free_info(t_info *info)
 {
 	ft_free_double_string(info->env);
-	if (info->diff_pid)
+	if (info->i_diff_pid == 1)
+	{
 		free(info->diff_pid);
+		info->i_diff_pid = 0;
+	}
 	close(info->saved_stdin);
 	close(info->saved_stdout);
 	close(info->saved_stderr);
 	free(info);
 }
 
-/* si j == 0 free la structure repo 
+/* si j == 0 free la structure repo
 si j == 1 free la structure info
 si j == 2 free les deux */
 void	ft_free_struct(t_struct *repo, t_info *info, int j)
@@ -73,8 +76,12 @@ int	**ft_free_pipe(t_info *info, int **pipes_fd)
 	int	i;
 
 	i = 0;
-	while (i < info->nb_de_pipe)
-		free(pipes_fd[i++]);
+	while (pipes_fd && i < info->nb_de_pipe)
+	{
+		if (pipes_fd[i])
+			free(pipes_fd[i]);
+		i++;
+	}
 	free(pipes_fd);
 	return (NULL);
 }

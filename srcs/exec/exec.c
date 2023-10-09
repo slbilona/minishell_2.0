@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 22:01:07 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,41 +66,85 @@ void	ft_execve(t_struct *repo, t_info *info)
 	}
 }
 
+int ft_builtins_pipe(t_struct *repo, t_info *info, int **pipes_fd)
+{
+	int j;
+	int i;
+	int redir;
+
+	j = 0;
+	i = info->i;
+	redir = 0;
+	while (j < 6)
+	{
+		if (ft_strncmp(repo[i].cmd, info->builtins[j].str,
+				ft_strlen(repo[i].cmd)) == 0
+			&& ft_strncmp(repo[i].cmd, info->builtins[j].str,
+				ft_strlen(info->builtins[j].str)) == 0)
+		{
+			if (repo[i].redirection)
+				redir = ft_redirection(repo[i].redirection);
+			if (!redir)
+				repo[i].ret = info->builtins[j].ptr(repo, info);
+			else
+				repo[i].ret = redir;
+			return (repo[i].ret);
+		}
+		j++;
+	}
+	if (ft_strncmp(repo[i].cmd, info->builtins[j].str,
+		ft_strlen(repo[i].cmd)) == 0
+	&& ft_strncmp(repo[i].cmd, info->builtins[j].str,
+		ft_strlen(info->builtins[j].str)) == 0)
+		ft_exit_pipe(repo, info, pipes_fd);
+	return (1);
+}
+
+int ft_builtins(t_struct *repo, t_info *info)
+{
+	int j;
+	int i;
+	int redir;
+	
+
+	j = 0;
+	i = info->i;
+	redir = 0;
+	while (j < 7)
+	{
+		if (ft_strncmp(repo[i].cmd, info->builtins[j].str,
+				ft_strlen(repo[i].cmd)) == 0
+			&& ft_strncmp(repo[i].cmd, info->builtins[j].str,
+				ft_strlen(info->builtins[j].str)) == 0)
+		{
+			if (repo[i].redirection)
+				redir = ft_redirection(repo[i].redirection);
+			if (!redir)
+				repo[i].ret = info->builtins[j].ptr(repo, info);
+			else
+				repo[i].ret = redir;
+			return (repo[i].ret);
+		}
+		j++;
+	}
+	return (1);
+}
+
 /* Verifie si la commande fait partie des builtins.
-Si c'est le cas la fonction associée est appellée */
-int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
+Si c'est le cas la fonction associée est appellée 
+si j == 1 n'appelle pas la fonction*/
+int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 {
 	int	i;
-	int	redir;
 
 	i = 0;
-	redir = 0;
 	while (i < 7)
 	{
-		if (j)
-		{
-			if (ft_strncmp(repo->cmd, info->builtins[i].str,
-					ft_strlen(repo->cmd)) == 0
-				&& ft_strncmp(repo->cmd, info->builtins[i].str,
-					ft_strlen(info->builtins[i].str)) == 0)
-				return (0);
-		}
-		else
-		{
-			if (ft_strncmp(repo->cmd, info->builtins[i].str,
-					ft_strlen(repo->cmd)) == 0
-				&& ft_strncmp(repo->cmd, info->builtins[i].str,
-					ft_strlen(info->builtins[i].str)) == 0)
-			{
-				if (repo->redirection)
-					redir = ft_redirection(repo->redirection);
-				if (!redir)
-					repo->ret = info->builtins[i].ptr(repo, info);
-				else
-					repo->ret = redir;
-				return (repo->ret);
-			}
-		}
+		if (ft_strncmp(repo->cmd, info->builtins[i].str,
+				ft_strlen(repo->cmd)) == 0
+			&& ft_strncmp(repo->cmd, info->builtins[i].str,
+				ft_strlen(info->builtins[i].str)) == 0)
+			return (0);
 		i++;
 	}
 	return (1);
@@ -109,9 +153,11 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 void ft_erreur_path(t_info *info, t_struct *repo, int **pipe_fd)
 {
 	int i;
+	int ret;
 
 	i = info->i;
 	info->fork = 0;
+	ret = 127 - ft_directory_ou_non(repo[i].cmd);
 	if (ft_directory_ou_non(repo[i].cmd))
 		ft_put_str_error("Minishell: ", repo[i].cmd,
 			" : est un dossier", NULL);
@@ -129,8 +175,8 @@ void ft_erreur_path(t_info *info, t_struct *repo, int **pipe_fd)
 		close(pipe_fd[repo[i].nb_cmd][1]);
 	}
 	ft_free_pipe(info, pipe_fd);
-	ft_free_struct(repo, info, 2); //free les structures
-	exit(127);
+	ft_free_struct(repo, info, 2);
+	exit(ret);
 }
 
 void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
@@ -139,7 +185,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	int ex;
 
 	i = info->i;
-	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info, 1))
+	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info))
 	{
 		repo[i].path = ft_cherche_path(&repo[i], info);
 		if (!repo[i].path)
@@ -159,7 +205,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	}
 	if (repo[i].redirection)
 		redir = ft_redirection(repo[i].redirection);
-	if (repo[i].cmd && !redir && ft_builtins_ou_non(&repo[i], info, 0))
+	if (repo[i].cmd && !redir && ft_builtins_pipe(repo, info, pipe_fd))
 	{
 		ft_execve(&repo[i], info);
 	}
@@ -237,6 +283,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 			ft_put_str_error("Minishell: ", "pipe: erreur",
 				" lors de", " l'allocation");
 			free(info->diff_pid);
+			info->i_diff_pid = 0;
 			// dup2(info->saved_stdout, STDOUT_FILENO);
 			// dup2(info->saved_stdin, STDIN_FILENO);
 			ft_free_struct(repo, info, 0);//free la structure repo
@@ -253,6 +300,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 			if (ft_heredoc(info, repo[info->i].redirection))
 			{
 				free(info->diff_pid);
+				info->i_diff_pid = 0;
 				ft_free_pipe(info, pipe_fd);
 				// dup2(info->saved_stdout, STDOUT_FILENO);
 				// dup2(info->saved_stdin, STDIN_FILENO);
@@ -260,13 +308,13 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 				return (1);
 			}
 		}
-		if (info->nb_de_pipe != 0 || ft_builtins_ou_non(&repo[info->i], info, 1))
+		if (info->nb_de_pipe != 0 || ft_builtins_ou_non(&repo[info->i], info))
 		{
 			if (ft_fork(repo, info, pipe_fd))
 				break;
 		}
 		else
-			info->exit = ft_builtins_ou_non(&repo[info->i], info, 0);
+			info->exit = ft_builtins(repo, info);
 
 		info->i++;
 	}
@@ -275,6 +323,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 	if (info->i_heredoc)
 		unlink("/tmp/heredoc.txt");
 	free(info->diff_pid);
+	info->i_diff_pid = 0;
 	ft_free_pipe(info, pipe_fd);
 	//dup2(info->saved_stdout, STDOUT_FILENO);
 	//dup2(info->saved_stdin, STDIN_FILENO);

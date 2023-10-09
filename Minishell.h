@@ -37,6 +37,7 @@ typedef struct s_info {
 	int					exit;
 	int					i_heredoc;
 	int					nb_de_cmd;
+	int					i_diff_pid;
 	int					nb_de_pipe;
 	int					saved_stdin;
 	int					saved_stdout;
@@ -77,7 +78,7 @@ void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 // Signaux
 
 void		handle_sigint(int sig);
-void		ft_ctrl_d(char *entree);
+void		ft_ctrl_d(t_info *info, char *entree);
 
 // Parsing
 
@@ -117,6 +118,7 @@ int			ft_exit(t_struct *repo, void *inf);
 int			ft_export(t_struct *repo, void *inf);
 int			ft_cd(t_struct *repo, void *inf);
 int			ft_unset(t_struct *repo, void *inf);
+int			ft_exit_pipe(t_struct *repo, void *inf, int **pipes_fd);
 void		ft_export_pwd(t_info *info, int i);
 void		ft_exit_suite(t_struct *repo, t_info *info,
 				long long int *num, int *exit_num);
