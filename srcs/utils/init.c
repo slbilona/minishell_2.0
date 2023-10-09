@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:11:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 21:59:32 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ int	**ft_init_pipe(t_info *info)
 
 void	ft_init_builtins(t_info *info)
 {
-	info->builtins[0].ptr = (void *)ft_exit;
+	info->builtins[0].ptr = (void *)ft_export;
 	info->builtins[1].ptr = (void *)ft_echo;
 	info->builtins[2].ptr = (void *)ft_cd;
 	info->builtins[3].ptr = (void *)ft_pwd;
 	info->builtins[4].ptr = (void *)ft_env;
 	info->builtins[5].ptr = (void *)ft_unset;
-	info->builtins[6].ptr = (void *)ft_export;
-	info->builtins[0].str = "exit";
+	info->builtins[6].ptr = (void *)ft_exit;
+	info->builtins[0].str = "export";
 	info->builtins[1].str = "echo";
 	info->builtins[2].str = "cd";
 	info->builtins[3].str = "pwd";
 	info->builtins[4].str = "env";
 	info->builtins[5].str = "unset";
-	info->builtins[6].str = "export";
+	info->builtins[6].str = "exit";
 }
 
 t_info	*ft_init_info(char **env)
@@ -63,6 +63,7 @@ t_info	*ft_init_info(char **env)
 	if (!info)
 		return (ft_put_str_error("Erreur de la creation de la structure info",
 				NULL, NULL, NULL), NULL);
+	info->i_diff_pid = 0;
 	info->exit = 0;
 	info->saved_stdin = dup(STDIN_FILENO);
 	info->saved_stdout = dup(STDOUT_FILENO);
@@ -92,6 +93,7 @@ int	ft_init_info_deux(t_info *info, int i)
 			"l'initialisation de la", " structure info");
 		return (1);
 	}
+	info->i_diff_pid = 1;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:08:10 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 19:33:15 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,25 @@ int	ft_cd(t_struct *repo, void *inf)
 	t_info	*info;
 
 	info = inf;
-	if (ft_count_double_string(repo->args) > 2)
+	if (ft_count_double_string(repo[info->i].args) > 2)
 	{
 		ft_put_str_error("Minishell: cd: trop d'arguments", NULL, NULL, NULL);
 		return (1);
 	}
-	if (repo->args[1] && ft_strncmp(repo->args[1],
-			"-", sizeof(repo->args[1])) == 0)
+	if (repo[info->i].args[1] && ft_strncmp(repo[info->i].args[1],
+			"-", sizeof(repo[info->i].args[1])) == 0)
 	{
-		if (ft_cd_tiret(repo, inf))
+		if (ft_cd_tiret(&repo[info->i], inf))
 			return (1);
 	}
-	else if (!repo->args[1] || ft_strncmp(repo->args[1],
-			"~", sizeof(repo->args[1])) == 0)
+	else if (!repo[info->i].args[1] || ft_strncmp(repo[info->i].args[1],
+			"~", sizeof(repo[info->i].args[1])) == 0)
 	{
 		if (ft_cd_vague(info))
 			return (1);
 	}
-	else if (repo->args[1])
-		if (ft_cd_simple(info, repo))
+	else if (repo[info->i].args[1])
+		if (ft_cd_simple(info, &repo[info->i]))
 			return (1);
 	ft_export_pwd(info, 1);
 	return (0);

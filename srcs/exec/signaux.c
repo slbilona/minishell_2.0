@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
-/*   Updated: 2023/10/09 21:38:00 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/09 22:06:01 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ void	handle_sigint(int sig)
 }
 
 // j'ai juste fait ca vite fait pck j'avais besoin d'un truc pour arreter le programme mtn qu'il n'y a plus de ctrl c (y'a des leaks pour l'instant)
-void	ft_ctrl_d(char *entree, t_info *info)
+void	ft_ctrl_d(t_info *info, char *entree)
 {
-	int j = 1;
 	if (!entree)
 	{
-		ft_free_struct(NULL,info,j);
+		ft_free_struct(NULL, info, 1);
 		exit(0);
 	}
 }

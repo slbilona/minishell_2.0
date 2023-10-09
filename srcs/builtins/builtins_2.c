@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:19 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 19:30:50 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ int	ft_unset(t_struct *repo, void *inf)
 	int		j;
 	char	*var;
 	t_info	*info;
+	int o;
 
 	j = 1;
 	info = inf;
-	while (repo->args && repo->args[j])
+	o = info->i;
+	while (repo[o].args && repo[o].args[j])
 	{
-		var = ft_strjoin(repo->args[j], "=");
+		var = ft_strjoin(repo[o].args[j], "=");
 		i = 0;
 		while (info->env && info->env[i])
 		{
@@ -67,6 +69,7 @@ int	ft_export(t_struct *repo, void *inf)
 {
 	int		j;
 	int		o;
+	int		i;
 	int		ret;
 	t_info	*info;
 
@@ -74,20 +77,21 @@ int	ft_export(t_struct *repo, void *inf)
 	o = 0;
 	ret = 0;
 	info = inf;
-	while (repo->args && repo->args[j])
+	i = info->i;
+	while (repo[i].args && repo[i].args[j])
 	{
-		o = ft_trouve_egal(repo->args[j]);
-		if (!ft_white_spaces(repo->args[j]) && o > 0)
+		o = ft_trouve_egal(repo[i].args[j]);
+		if (!ft_white_spaces(repo[i].args[j]) && o > 0)
 		{
-			if (!ft_cherche_dans_env(repo->args[j], info, o))
+			if (!ft_cherche_dans_env(repo[i].args[j], info, o))
 			{
-				info->env = mange(info->env, repo->args[j], 0);
+				info->env = mange(info->env, repo[i].args[j], 0);
 				//verifier si il n'y a pas une erreur;
 			}
 		}
 		else if (o == -1)
 		{
-			ft_put_str_error("Minishell: export: `", repo->args[j],
+			ft_put_str_error("Minishell: export: `", repo[i].args[j],
 				"': not a", " valid identifier");
 			ret = 1;
 		}

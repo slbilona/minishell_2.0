@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 21:46:41 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/09 22:06:42 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av, char **env)
 		{
 			signal(SIGINT, handle_sigint);
 			entree = readline("🐙 Minishell$ ");
-			ft_ctrl_d(entree,info);
+			ft_ctrl_d(info, entree);
 			if (ft_strlen(entree) == 0)
 				info->exit = 0;
 			else
