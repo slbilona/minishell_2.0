@@ -77,7 +77,7 @@ void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 // Signaux
 
 void		handle_sigint(int sig);
-void		ft_ctrl_d(t_info *info, char *entree);
+void		ft_ctrl_d(char *entree);
 
 // Parsing
 
