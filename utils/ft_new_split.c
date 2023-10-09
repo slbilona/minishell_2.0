@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:48:28 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/07 12:05:55 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:28:33 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,41 @@ int	ft_new_taille_mot(const char *str, const char *sep, int i)
 	return (taille);
 }
 
+int	ft_new_split_suite(const char *str, const char *vrai_sep, char **dest)
+{
+	int	j;
+	int	i;
+
+	j = 0;
+	i = 0;
+	while (j < ft_new_compte_mot(str, vrai_sep))
+	{
+		while (str[i] && ft_strchr(vrai_sep, str[i]) && ft_quotes(str, i) == 0)
+			i++;
+		if (str[i] && (!ft_strchr(vrai_sep, str[i]) || ft_quotes(str, i) > 0))
+		{
+			dest[j] = malloc(sizeof(char)
+					* (ft_new_taille_mot(str, vrai_sep, i) + 1));
+			if (!dest[j])
+				return (ft_free_split(dest, j), 1);
+			ft_new_strncpy(str, dest[j],
+				ft_new_taille_mot(str, vrai_sep, i), i);
+			i += ft_new_taille_mot(str, vrai_sep, i);
+			j++;
+		}
+	}
+	dest[j] = NULL;
+	return (0);
+}
+
 /* Comme split mais avec une liste de separateurs,
 si sep est egal a NULL str sera split a chaque white spaces*/
 char	**ft_new_split(const char *str, const char *sep)
 {
-	int			i;
-	int			j;
 	char		**dest;
 	char		autre_sep[7];
 	const char	*vrai_sep;
 
-	i = 0;
-	j = 0;
 	if (!str)
 		return (NULL);
 	if (!sep)
@@ -81,22 +104,7 @@ char	**ft_new_split(const char *str, const char *sep)
 	if (ft_new_compte_mot(str, vrai_sep) == 0)
 		return (NULL);
 	dest = malloc(sizeof(char *) * (ft_new_compte_mot(str, vrai_sep) + 1));
-	while (j < ft_new_compte_mot(str, vrai_sep))
-	{
-		while (str[i] && ft_strchr(vrai_sep, str[i]) && ft_quotes(str, i) == 0)
-			i++;
-		if (str[i] && (!ft_strchr(vrai_sep, str[i]) || ft_quotes(str, i) > 0))
-		{
-			dest[j] = malloc(sizeof(char)
-					* (ft_new_taille_mot(str, vrai_sep, i) + 1));
-			if (!dest[j])
-				return (ft_free_split(dest, j));
-			ft_new_strncpy(str, dest[j],
-				ft_new_taille_mot(str, vrai_sep, i), i);
-			i += ft_new_taille_mot(str, vrai_sep, i);
-			j++;
-		}
-	}
-	dest[j] = NULL;
+	if (ft_new_split_suite(str, vrai_sep, dest))
+		return (NULL);
 	return (dest);
 }

@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 16:25:37 by ilona            ###   ########.fr       */
+/*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
+/*   Updated: 2023/10/09 16:20:28 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	handle_sigint(int sig)
 {
-	char		*entree;
-	t_info		*info;
-
-	(void) av;
-	if (ac == 1)
+	//printf("\n");
+	if(sig == 2)
 	{
-		info = ft_init_info(env);
-		if (!info)
-			return (1);
-		while (1)
-		{
-			signal(SIGINT, handle_sigint);
-			entree = readline("🐙 Minishell$ ");
-			ft_ctrl_d(info, entree);
-			if (ft_strlen(entree) == 0)
-				info->exit = 0;
-			else
-				if (parsing_exec(info, entree))
-					info->exit = 2;
-		}
-		ft_free_struct(NULL, info, 1);
+		//printf("🐙 Minishell$ ");
+		printf("\nCtrl+C a été pressé. Nouveau prompt : \n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	return (0);
 }
+
+// j'ai juste fait ca vite fait pck j'avais besoin d'un truc pour arreter le programme mtn qu'il n'y a plus de ctrl c
+void	ft_ctrl_d(t_info *info, char *entree)
+{
+	if (!entree)
+	{
+		ft_free_struct(NULL, info, 1);
+		exit(0);
+	}
+}
+  

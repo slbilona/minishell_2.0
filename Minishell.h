@@ -56,7 +56,6 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 int			ft_signes(char *str);
 int			ft_trouve_egal(char *str);
 int			ft_white_spaces(char *str);
-int			ft_white_spaces(char *str);
 int			ft_verif_dollar(char *line);
 int			ft_ex_verif_dollar(char *line);
 int			ft_que_des_chiffres(char *str);
@@ -75,17 +74,21 @@ char		**ft_new_split(const char *str, const char *sep);
 void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
+// Signaux
+
+void		handle_sigint(int sig);
+void		ft_ctrl_d(t_info *info, char *entree);
+
 // Parsing
 
 int			main_parsing(char *str);
 int			ft_check_pipe(char *str);
-int			check_direction(char *str);
 int			ft_compte_espaces(char *str);
 int			check_left_direction(char *str);
 int			check_right_direction(char *str);
 int			ft_quotes(const char *str, int i);
+int			parsing_exec(t_info *info, char *entree);
 char		**ft_clean_quotes(char **str);
-char		*ft_pre_parsing(char *entree);
 char		*ft_ajoute_espace(char *entree);
 char		**mange(char **str, char *s, int n);
 t_struct	*ft_init_struct(t_info *info, char **str);

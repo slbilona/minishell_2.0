@@ -29,6 +29,7 @@ int	ft_redirection(char **str)
 			fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 			{
+				printf("erno : %d\n", errno);
 				ft_put_str_error("Minishell: ", str[i] + 3, ": ", strerror(errno));
 				return (1);
 			}

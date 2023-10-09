@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/07 23:55:31 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:13:42 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info, int j)
 					redir = ft_redirection(repo->redirection);
 				if (!redir)
 					repo->ret = info->builtins[i].ptr(repo, info);
+				else
+					repo->ret = redir;
 				return (repo->ret);
 			}
 		}
@@ -161,7 +163,10 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	{
 		ft_execve(&repo[i], info);
 	}
-	ex = repo[i].ret;
+	if (redir)
+		ex = redir;
+	else
+		ex = repo[i].ret;
 	ft_free_pipe(info, pipe_fd);
 	ft_free_struct(repo, info, 2); //free les structures
 	exit(ex);
@@ -178,7 +183,9 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 	info->diff_pid[repo[i].nb_cmd] = fork();
 	if (info->diff_pid[repo[i].nb_cmd] == -1)
 	{
-		perror("Minishell: fork:");
+		perror("Minishell: fork");
+		info->fork = 0;
+		info->exit = 1;
 		return (1);
 	}
 	else if (info->diff_pid[repo[i].nb_cmd] == 0)
@@ -198,12 +205,22 @@ void	ft_wait(t_info *info)
 {
 	int	i;
 	int	status;
+	int	exit_signal;
 
 	i = 0;
 	while (i < info->nb_de_cmd && info->diff_pid[i])
 	{
 		waitpid(info->diff_pid[i++], &status, 0);
-		info->exit = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			info->exit = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			exit_signal = WTERMSIG(status);
+			if (exit_signal == SIGINT)
+				info->exit = 130;
+			else if (exit_signal == SIGQUIT)
+				info->exit = 131;
+		}
 	}
 }
 
@@ -219,11 +236,11 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		{
 			ft_put_str_error("Minishell: ", "pipe: erreur",
 				" lors de", " l'allocation");
-			info->fork = 0;
 			free(info->diff_pid);
-			dup2(info->saved_stdout, STDOUT_FILENO);
-			dup2(info->saved_stdin, STDIN_FILENO);
+			// dup2(info->saved_stdout, STDOUT_FILENO);
+			// dup2(info->saved_stdin, STDIN_FILENO);
 			ft_free_struct(repo, info, 0);//free la structure repo
+			info->exit = 1;
 			return (1);
 		}
 	}
@@ -231,16 +248,22 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		pipe_fd = NULL;
 	while (info->i < info->nb_de_cmd)
 	{
-		// ouverture du heredoc si il y en a un
 		if (ft_heredoc_ou_non(repo[info->i].redirection))
 		{
-			//ouvrir le heredoc mais ne pas rediriger l'entree pour l'instant
-			ft_heredoc(info, repo[info->i].redirection);
-			// vérifier si la fonction n'a pas échouée
+			if (ft_heredoc(info, repo[info->i].redirection))
+			{
+				free(info->diff_pid);
+				ft_free_pipe(info, pipe_fd);
+				// dup2(info->saved_stdout, STDOUT_FILENO);
+				// dup2(info->saved_stdin, STDIN_FILENO);
+				ft_free_struct(repo, info, 0);//free la structure repo
+				return (1);
+			}
 		}
 		if (info->nb_de_pipe != 0 || ft_builtins_ou_non(&repo[info->i], info, 1))
 		{
-			ft_fork(repo, info, pipe_fd);
+			if (ft_fork(repo, info, pipe_fd))
+				break;
 		}
 		else
 			info->exit = ft_builtins_ou_non(&repo[info->i], info, 0);
@@ -251,11 +274,10 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		ft_wait(info);
 	if (info->i_heredoc)
 		unlink("/tmp/heredoc.txt");
-	info->fork = 0;
 	free(info->diff_pid);
 	ft_free_pipe(info, pipe_fd);
-	dup2(info->saved_stdout, STDOUT_FILENO);
-	dup2(info->saved_stdin, STDIN_FILENO);
+	//dup2(info->saved_stdout, STDOUT_FILENO);
+	//dup2(info->saved_stdin, STDIN_FILENO);
 	ft_free_struct(repo, info, 0);//free la structure repo
 	return (0);
 }

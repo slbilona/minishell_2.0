@@ -11,7 +11,7 @@ t_struct	*ft_init_struct(t_info *info, char **str)
 	if (ft_split_command(info, str, repo))
 	{
 		info->nb_de_cmd = ft_count_double_string(str);
-		ft_put_str_error("Minishell:", " erreur lors", " du split", " de la commande");
+
 		return (ft_free_struct(repo, info, 0), NULL);
 	}
 	return (repo);
@@ -63,7 +63,8 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 		count = 0;
 		s = ft_new_split(str[i], NULL);
 		if (!s)
-			return (1);
+			return (ft_put_str_error("Minishell:", " erreur lors",
+				" du split", " de la commande"), 1);
 		if (ft_expand(info, s))
 		{
 			ft_free_double_string(s);
@@ -71,7 +72,8 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 		}
 		s = ft_clean_quotes(s);
 		if (!s)
-			return (1);
+			return (ft_put_str_error("Minishell:", " erreur lors",
+				" du split", " de la commande"), 1);
 		if (ft_verif_chevrons(s))
 			return (1);
 		j = 0;

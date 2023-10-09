@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:11:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/08 00:48:57 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 16:03:52 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ t_info	*ft_init_info(char **env)
 	if (!info)
 		return (ft_put_str_error("Erreur de la creation de la structure info",
 				NULL, NULL, NULL), NULL);
-	info->fork = 0;
 	info->exit = 0;
 	info->saved_stdin = dup(STDIN_FILENO);
 	info->saved_stdout = dup(STDOUT_FILENO);
@@ -82,12 +81,17 @@ t_info	*ft_init_info(char **env)
 
 int	ft_init_info_deux(t_info *info, int i)
 {
+	info->fork = 0;
 	info->i_heredoc = 0;
 	info->nb_de_cmd = i;
 	info->nb_de_pipe = info->nb_de_cmd - 1;
 	info->diff_pid = malloc(sizeof(pid_t) * info->nb_de_cmd);
 	if (!info->diff_pid)
+	{
+		ft_put_str_error("Minishell:", " erreur lors de ",
+			"l'initialisation de la", " structure info");
 		return (1);
+	}
 	return (0);
 }
 

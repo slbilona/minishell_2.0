@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/08 14:32:11 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 15:56:01 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,18 @@ int	ft_ouverture_heredoc(char *str, t_info *info)
 		line = readline("> ");
 		if (ft_ouverture_heredoc_suite(info, &line, str))
 			break ;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		if (write(fd, line, ft_strlen(line)) == -1)
+		{
+			close(fd);
+			free(line);
+			return (perror("Minishell: echo: erreur d'écriture "), 1);
+		}
+		if (write(fd, "\n", 1) == -1)
+		{
+			close(fd);
+			free(line);
+			return (perror("Minishell: echo: erreur d'écriture "), 1);
+		}
 		free(line);
 		i++;
 	}
@@ -115,7 +125,10 @@ int	ft_heredoc(t_info *info, char **str)
 		if (ft_strncmp("<< ", str[i], 3) == 0)
 		{
 			if (ft_ouverture_heredoc(str[i] + 3, info))
+			{
+				info->exit = 1;
 				return (1);
+			}
 		}
 		i++;
 	}
