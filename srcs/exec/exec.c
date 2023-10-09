@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 22:07:23 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/09 22:09:38 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 
 	i = info->i;
 	signal(SIGINT, SIG_IGN);
-	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info, 1))
+	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info))
 	{
 		repo[i].path = ft_cherche_path(&repo[i], info);
 		if (!repo[i].path)
