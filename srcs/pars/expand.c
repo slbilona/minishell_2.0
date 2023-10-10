@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:08:38 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 20:54:34 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 23:35:14 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	ft_expand_suite(t_info *info, char *str, int *o, int *k)
 	return (j);
 }
 
-char **ft_expand_test(t_info *info, char **str)
+char	**ft_expand(t_info *info, char **str)
 {
-	int	i;
-	int	o;
-	int	j;
-	int	k;
-	char **s;
+	int		i;
+	int		o;
+	int		j;
+	int		k;
+	char	**s;
 
 	i = 0;
 	k = 0;
@@ -57,7 +57,7 @@ char **ft_expand_test(t_info *info, char **str)
 				s[i] = ft_cree_dest(info, str[i], ft_strlen(str[i]) - j + k, 0);
 				if (!s[i])
 				{
-					//free les lignes d'avant etc
+					ft_free_split(s, i);
 					ft_free_double_string(str);
 					return (ft_put_str_error("Minishell:", " erreur ",
 							"lors de ", "l'expand"), NULL);
@@ -72,33 +72,6 @@ char **ft_expand_test(t_info *info, char **str)
 		return (s);
 	}
 	return (NULL);
-}
-
-int	ft_expand(t_info *info, char **str)
-{
-	int	i;
-	int	o;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (str && str[i])
-	{
-		o = 0;
-		j = 0;
-		if (ft_ex_verif_dollar(str[i]))
-		{
-			while (str && str[i] && str[i][o])
-				j += ft_expand_suite(info, str[i], &o, &k);
-			str[i] = ft_cree_dest(info, str[i], ft_strlen(str[i]) - j + k, 1);
-			if (!str[i])
-				return (ft_put_str_error("Minishell:", " erreur ",
-						"lors de ", "l'expand"), 1);
-		}
-		i++;
-	}
-	return (0);
 }
 
 int	ft_cree_dest_exit(t_info *info, char *dest, int *j)
@@ -143,7 +116,7 @@ int	ft_cree_dest_suite(t_info *info, char *dest, int *j, char *c)
 
 /* Si n == 1 free line
 Si n == 0 ne free pas line */
-char	*ft_cree_dest(t_info *info, char *line, int k, int n)
+char	*ft_cree_dest(t_info *info, char *s, int k, int n)
 {
 	int		i;
 	int		j;
@@ -154,20 +127,20 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 	dest = malloc(sizeof(char) * (k + 1));
 	if (!dest)
 		return (NULL);
-	while (line && line[i])
+	while (s && s[i])
 	{
-		if (line[i] == '$' && line[i + 1]
-			&& line[i + 1] == '?')
+		if (s[i] == '$' && (ft_quotes(s, i) == 0 || ft_quotes(s, i)
+				== 2) && s[i + 1] && s[i + 1] == '?')
 			i += ft_cree_dest_exit(info, dest, &j);
-		else if (line[i] == '$' && line[i + 1]
-			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'
-				|| ft_quotes(line, i + 1) == 3 || ft_quotes(line, i + 1) == 4))
-			i += ft_cree_dest_suite(info, dest, &j, &line[i]);
-		else if (line[i])
-			dest[j++] = line[i++];
+		else if (s[i] == '$' && (ft_quotes(s, i) == 0 || ft_quotes(s, i) == 2)
+			&& s[i + 1] && (ft_isalnum(s[i + 1]) || s[i + 1] == '_'
+				|| ft_quotes(s, i + 1) == 3 || ft_quotes(s, i + 1) == 4))
+			i += ft_cree_dest_suite(info, dest, &j, &s[i]);
+		else if (s[i])
+			dest[j++] = s[i++];
 	}
 	dest[j] = 0;
 	if (n)
-		free(line);
+		free(s);
 	return (dest);
 }

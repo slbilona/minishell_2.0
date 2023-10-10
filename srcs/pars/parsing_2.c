@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/10 23:39:40 by ilona             #+#    #+#             */
+/*   Updated: 2023/10/10 23:39:41 by ilona            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Minishell.h"
 
 //initialise et renvoie le tableau de structure comptenant les commandes
@@ -11,7 +23,6 @@ t_struct	*ft_init_struct(t_info *info, char **str)
 	if (ft_split_command(info, str, repo))
 	{
 		info->nb_de_cmd = ft_count_double_string(str);
-
 		return (ft_free_struct(repo, info, 0), NULL);
 	}
 	return (repo);
@@ -31,13 +42,16 @@ int	ft_verif_chevrons(char **s)
 		{
 			if (s[j + 1] == NULL)
 			{
-				ft_put_str_error("Minishell: erreur ", "de syntaxe près", " du symbole inattendu", " « newline »");
+				ft_put_str_error("Minishell: erreur ", "de syntaxe près",
+					" du symbole inattendu", " « newline »");
 				ft_free_double_string(s);
 				return (1);
 			}
-			else if ((s[j + 1] && ft_strchr(s[j + 1], '>')) || (s[j + 1] && ft_strchr(s[j + 1], '<')))
+			else if ((s[j + 1] && ft_strchr(s[j + 1], '>'))
+				|| (s[j + 1] && ft_strchr(s[j + 1], '<')))
 			{
-				ft_put_str_error("Minishell: syntax ", "error near unexpected token `", s[j + 1], "'");
+				ft_put_str_error("Minishell: syntax ",
+					"error near unexpected token `", s[j + 1], "'");
 				ft_free_double_string(s);
 				return (1);
 			}
@@ -47,91 +61,31 @@ int	ft_verif_chevrons(char **s)
 	return (0);
 }
 
-// char **ft_pars_s(t_info *info, char *str)
-// {
-// 	char **s;
-// 	char *strg;
-
-// 	strg = ft_expand_test(info, str);
-// 	if (!strg)
-// 		return (NULL);
-// 	s = ft_new_split(strg, NULL);
-// 	if (!s)
-// 		return (ft_put_str_error("Minishell:", " erreur lors",
-// 			" du split", " de la commande"), NULL);
-// 	free(strg);
-// 	s = ft_clean_quotes(s);
-// 	if (!s)
-// 		return (ft_put_str_error("Minishell:", " erreur lors",
-// 			" du split", " de la commande"), NULL);
-// 	if (ft_verif_chevrons(s))
-// 		return (NULL);
-// 	return (s);
-// }
-
-/* 1 regarder si une sous chaine a un white space
-2 si c'est le cas la split
-3 ajouter ces deux sous chaine a s
-4 return s */
-// char **ft_split_et_join(char **str)
-// {
-// 	char **s;
-
-
-// }
-
-char **ft_pars_s(t_info *info, char *str)
+char	**ft_pars_s(t_info *info, char *str)
 {
-	char **s;
+	char	**s;
 
 	(void) info;
 	s = ft_new_split(str, NULL);
 	if (!s)
 		return (ft_put_str_error("Minishell:", " erreur lors",
-			" du split", " de la commande"), NULL);
-	if (ft_expand(info, s))
-	{
-		ft_free_double_string(s);
-		return (NULL);
-	}
-	//s = ft_split_et_join();
+				" du split", " de la commande"), NULL);
 	s = ft_clean_quotes(s);
 	if (!s)
 		return (ft_put_str_error("Minishell:", " erreur lors",
-			" du split", " de la commande"), NULL);
+				" du split", " de la commande"), NULL);
 	if (ft_verif_chevrons(s))
 		return (NULL);
 	return (s);
 }
 
-// char **ft_pars_s(t_info *info, char *str)
-// {
-// 	char **s;
-
-// 	s = ft_new_split(str, NULL);
-// 	if (!s)
-// 		return (ft_put_str_error("Minishell:", " erreur lors",
-// 			" du split", " de la commande"), NULL);
-// 	if (ft_expand(info, s))
-// 	{
-// 		ft_free_double_string(s);
-// 		return (NULL);
-// 	}
-// 	s = ft_clean_quotes(s);
-// 	if (!s)
-// 		return (ft_put_str_error("Minishell:", " erreur lors",
-// 			" du split", " de la commande"), NULL);
-// 	if (ft_verif_chevrons(s))
-// 		return (NULL);
-// 	return (s);
-// }
-
-int ft_cherche_redirection(t_struct *repo, char **s, int *j, int i)
+int	ft_cherche_redirection(t_struct *repo, char **s, int *j, int i)
 {
 	char	*str_joined;
 
 	str_joined = ft_strjoin(s[*j], " ");
-	repo[i].redirection = mange(repo[i].redirection, ft_strjoin(str_joined, s[*j + 1]), 1);
+	repo[i].redirection = mange(repo[i].redirection,
+			ft_strjoin(str_joined, s[*j + 1]), 1);
 	free(str_joined);
 	*j += 2;
 	return (0);
@@ -158,7 +112,8 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 		{
 			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0 || ft_strncmp(s[j],
 					">>", sizeof(s[j])) == 0 || ft_strncmp(s[j], "<",
-					sizeof(s[j])) == 0 || ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
+					sizeof(s[j])) == 0 || ft_strncmp(s[j], "<<",
+					sizeof(s[j])) == 0)
 			{
 				ft_cherche_redirection(repo, s, &j, i);
 			}
@@ -191,7 +146,7 @@ char	**mange(char **str, char *s, int n)
 	int		i;
 	int		j;
 	char	**s2;
-	char **ancien;
+	char	**ancien;
 
 	i = 0;
 	j = 0;
@@ -200,7 +155,8 @@ char	**mange(char **str, char *s, int n)
 		s2 = malloc(sizeof(char *) * 2);
 		if (!s2)
 		{
-			ft_put_str_error("Minishell:", "erreur lors de l'ajout de \"", s, "\" dans la double chaine");
+			ft_put_str_error("Minishell:", "erreur lors de l'ajout de \"",
+				s, "\" dans la double chaine");
 			if (n)
 				free(s);
 			return (NULL);
@@ -226,7 +182,6 @@ char	**mange(char **str, char *s, int n)
 			if (!s2[j])
 			{
 				ft_free_split(s2, j);
-				free(s2);
 				ft_put_str_error("Minishell:", "erreur lors de l'ajout de '",
 					s, "' dans la double chaine");
 				if (n)

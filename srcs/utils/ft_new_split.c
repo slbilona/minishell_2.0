@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_new_split.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 14:48:28 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 17:57:47 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 23:23:45 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ char	**ft_new_split(const char *str, const char *sep)
 	}
 	else
 		vrai_sep = sep;
-	// if (ft_new_compte_mot(str, vrai_sep) == 0)
-	// 	return (NULL);
 	dest = malloc(sizeof(char *) * (ft_new_compte_mot(str, vrai_sep) + 1));
 	if (ft_new_split_suite(str, vrai_sep, dest))
 		return (NULL);

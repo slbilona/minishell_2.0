@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 17:53:57 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 23:43:34 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 	return (1);
 }
 
-void ft_erreur_path(t_info *info, t_struct *repo, int **pipe_fd)
+void	ft_erreur_path(t_info *info, t_struct *repo, int **pipe_fd)
 {
-	int i;
-	int ret;
+	int	i;
+	int	ret;
 
 	i = info->i;
 	info->fork = 0;
@@ -114,10 +114,11 @@ void ft_erreur_path(t_info *info, t_struct *repo, int **pipe_fd)
 	exit(ret);
 }
 
-void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
+void	ft_processus_fils(t_info *info, t_struct *repo,
+	int redir, int **pipe_fd)
 {
-	int i;
-	int ex;
+	int	i;
+	int	ex;
 
 	i = info->i;
 	signal(SIGINT, SIG_IGN);
@@ -129,7 +130,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	}
 	if (repo[i].nb_cmd > 0 && info->nb_de_pipe > 0)
 	{
-		dup2(pipe_fd[repo[i].nb_cmd - 1][0], STDIN_FILENO); // Redirection de l'entrée standard depuis le tube précédent
+		dup2(pipe_fd[repo[i].nb_cmd - 1][0], STDIN_FILENO);
 		close(pipe_fd[repo[i].nb_cmd - 1][0]);
 		close(pipe_fd[repo[i].nb_cmd - 1][1]);
 	}
@@ -150,7 +151,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo, int redir, int **pipe_fd)
 	else
 		ex = repo[i].ret;
 	ft_free_pipe(info, pipe_fd);
-	ft_free_struct(repo, info, 2); //free les structures
+	ft_free_struct(repo, info, 2);
 	signal(SIGINT, SIG_DFL);
 	exit(ex);
 }
@@ -262,7 +263,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 		if (info->nb_de_pipe != 0 || ft_builtins_ou_non(&repo[info->i], info))
 		{
 			if (ft_fork(repo, info, pipe_fd))
-				break;
+				break ;
 		}
 		else
 			info->exit = ft_builtins(repo, info);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
+/*   Updated: 2023/10/10 23:44:10 by ilona            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -57,6 +69,7 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 int			ft_signes(char *str);
 int			ft_trouve_egal(char *str);
 int			ft_white_spaces(char *str);
+int			ft_white_space_char(char c);
 int			ft_verif_dollar(char *line);
 int			ft_ex_verif_dollar(char *line);
 int			ft_que_des_chiffres(char *str);
@@ -99,12 +112,11 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 
 // Expand
 
-int			ft_expand(t_info *info, char **str);
-char		**ft_expand_test(t_info *info, char **str);
 int			ft_cree_dest_exit(t_info *info, char *dest, int *j);
 int			ft_cree_dest_suite(t_info *info, char *dest, int *j, char *c);
+char		**ft_expand(t_info *info, char **str);
 char		*ft_expand_heredoc(t_info *info, char *line);
-char		*ft_cree_dest(t_info *info, char *line, int k, int n);
+char		*ft_cree_dest(t_info *info, char *s, int k, int n);
 
 // Exec
 
@@ -150,7 +162,6 @@ int			ft_redirection(char **str);
 int			ft_redirection_input(char **str, int i);
 int			ft_redirection_output(char **str, int i);
 int			ft_redirection_output_append(char **str, int i);
-
 
 // Free
 

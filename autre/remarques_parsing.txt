@@ -43,3 +43,10 @@ a regler :
 
 a regler :
 	$ echo "$HOME"'$HOME' (pqs d'espqce entre les deux)
+
+faire pleiiiin de tests avec l'expand normal et du heredoc pour etre suuuuur
+
+a regler :
+	$ "$"HOME
+		ou
+	$ '$'HOME

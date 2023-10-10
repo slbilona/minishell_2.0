@@ -6,26 +6,26 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 23:49:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 23:24:11 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
 // verifie si il y a un dollar suivi d'un caractere visible
-int	ft_ex_verif_dollar(char *line)
+int	ft_ex_verif_dollar(char *str)
 {
-	int		i;
-	char	*str;
+	int	i;
 
 	i = 0;
-	str = ft_strrchr(line, '$');
-	while (str && str[0] != line[i])
+	while (str && str[i])
+	{
+		if (str[i] == '$' && (ft_quotes(str, i) == 0
+				|| ft_quotes(str, i) == 2) && str[i + 1]
+			&& !ft_white_space_char(str[i + 1]))
+			return (1);
 		i++;
-	if (str && (ft_quotes(line, i) == 0
-			|| ft_quotes(line, i) == 2) && str[1]
-		&& (str[1] < 9 || 13 < str[1]) && str[1] != 32)
-		return (1);
+	}
 	return (0);
 }
 

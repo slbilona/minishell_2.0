@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:11:47 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 18:33:59 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 23:23:22 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	ft_cherche_dans_env(char *str, t_info *info, int o)
 	return (0);
 }
 
+// Return 1 si c est un white space
 int	ft_white_space_char(char c)
 {
 	if ((9 <= c && c <= 13) || c == 32)
@@ -66,7 +67,8 @@ int	ft_trouve_egal(char *str)
 	{
 		if (str[i] == '=')
 			return (i);
-		else if ((!ft_isalnum(str[i]) && str[i] != '_') || ft_white_space_char(str[i]))
+		else if ((!ft_isalnum(str[i]) && str[i] != '_')
+			|| ft_white_space_char(str[i]))
 			return (-1);
 		i++;
 	}

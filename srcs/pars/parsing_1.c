@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:17:29 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 20:54:48 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 22:58:48 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ int	parsing_exec(t_info *info, char *entree)
 	str = ft_new_split(entree, "|");
 	if (!str)
 		return (free(entree), 1);
-	// if (ft_expand(info, str))
-	// 	return (ft_free_double_string(str), 1);
-	//str = ft_expand_test(info, str);
+	str = ft_expand(info, str);
 	repo = ft_init_struct(info, str);
 	if (!repo)
 	{
