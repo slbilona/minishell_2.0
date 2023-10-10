@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:06:31 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 19:35:44 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:39:18 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	ft_option_n(t_struct *repo, int *n, int *j, int *i)
 //pb lorsqu'on redirige et qu'on utilise l'argument -n
 int	ft_echo(t_struct *repo, void *inf)
 {
-	int	i;
-	int	j;
-	int	n;
-	int o;
-	t_info *info;
+	int		i;
+	int		j;
+	int		n;
+	int		o;
+	t_info	*info;
 
 	info = inf;
 	o = info->i;

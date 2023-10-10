@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 14:16:14 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_export_pwd_suite(t_info *info, int i, char *pwd)
 			pwd = my_getenv(info, "OLDPWD");
 		if (i == 1)
 			var = ft_strjoin("PWD=", pwd);
-		else if (i == 0)
+		else
 			var = ft_strjoin("OLDPWD=", pwd);
 		if (pwd)
 			free(pwd);
@@ -68,7 +68,7 @@ char	*ft_export_pwd_suite(t_info *info, int i, char *pwd)
 	{
 		if (i == 1)
 			var = ft_strjoin("PWD=", cwd);
-		else if (i == 0)
+		else
 			var = ft_strjoin("OLDPWD=", cwd);
 	}
 	return (var);
@@ -84,8 +84,7 @@ void	ft_export_pwd(t_info *info, int i)
 
 	o = 0;
 	pwd = NULL;
-	if (i == 0 || i == 1)
-		var = ft_export_pwd_suite(info, i, pwd);
+	var = ft_export_pwd_suite(info, i, pwd);
 	if (var)
 	{
 		o = ft_trouve_egal(var);

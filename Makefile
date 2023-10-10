@@ -14,8 +14,9 @@ SRCS = main.c \
 		signaux.c \
 		utils_1.c \
 		utils_2.c \
-		heredoc.c \
 		ft_space.c \
+		heredoc_1.c \
+		heredoc_2.c \
 		parsing_1.c \
 		parsing_2.c \
 		ft_quotes.c \

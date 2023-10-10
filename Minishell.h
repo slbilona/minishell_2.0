@@ -100,12 +100,13 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 // Expand
 
 int			ft_expand(t_info *info, char **str);
+int			ft_cree_dest_exit(t_info *info, char *dest, int *j);
+int			ft_cree_dest_suite(t_info *info, char **dest, int *j, char *c);
 char		*ft_expand_heredoc(t_info *info, char *line);
 char		*ft_cree_dest(t_info *info, char *line, int k, int n);
 
 // Exec
 
-int			ft_redirection(char **str);
 int			ft_execution_coordinateur(t_struct *repo, t_info *info);
 char		*ft_cherche_path(t_struct *repo, t_info *info);
 
@@ -118,7 +119,9 @@ int			ft_exit(t_struct *repo, void *inf);
 int			ft_export(t_struct *repo, void *inf);
 int			ft_cd(t_struct *repo, void *inf);
 int			ft_unset(t_struct *repo, void *inf);
+int			ft_builtins(t_struct *repo, t_info *info);
 int			ft_exit_pipe(t_struct *repo, void *inf, int **pipes_fd);
+int			ft_builtins_pipe(t_struct *repo, t_info *info, int **pipes_fd);
 void		ft_export_pwd(t_info *info, int i);
 void		ft_exit_suite(t_struct *repo, t_info *info,
 				long long int *num, int *exit_num);
@@ -135,8 +138,18 @@ t_info		*ft_init_info(char **env);
 
 int			ft_lecture_heredoc(void);
 int			ft_heredoc_ou_non(char **str);
-int			ft_heredoc(t_info *info, char **str);
+int			ft_write_heredoc(char *line, int fd);
+int			ft_heredoc_deux(t_info *info, char **str);
 int			ft_ouverture_heredoc(char *str, t_info *info);
+int			ft_ouverture_heredoc_suite(t_info *info, char **line, char *str);
+
+// Redirection
+
+int			ft_redirection(char **str);
+int			ft_redirection_input(char **str, int i);
+int			ft_redirection_output(char **str, int i);
+int			ft_redirection_output_append(char **str, int i);
+
 
 // Free
 

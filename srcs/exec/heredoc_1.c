@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 15:59:57 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,8 @@ int	ft_ouverture_heredoc(char *str, t_info *info)
 		line = readline("> ");
 		if (ft_ouverture_heredoc_suite(info, &line, str))
 			break ;
-		if (write(fd, line, ft_strlen(line)) == -1)
-		{
-			close(fd);
-			free(line);
-			return (perror("Minishell: echo: erreur d'écriture "), 1);
-		}
-		if (write(fd, "\n", 1) == -1)
-		{
-			close(fd);
-			free(line);
-			return (perror("Minishell: echo: erreur d'écriture "), 1);
-		}
+		if (ft_write_heredoc(line, fd))
+			return (1);
 		free(line);
 		i++;
 	}
@@ -115,7 +105,7 @@ int	ft_heredoc_ou_non(char **str)
 	return (0);
 }
 
-int	ft_heredoc(t_info *info, char **str)
+int	ft_heredoc_deux(t_info *info, char **str)
 {
 	int	i;
 

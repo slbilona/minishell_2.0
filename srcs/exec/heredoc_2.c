@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signaux.c                                          :+:      :+:    :+:   */
+/*   heredoc_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
-/*   Updated: 2023/10/10 16:18:56 by ilselbon         ###   ########.fr       */
+/*   Created: 2023/10/10 16:00:11 by ilselbon          #+#    #+#             */
+/*   Updated: 2023/10/10 16:00:25 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	handle_sigint(int sig)
+int	ft_write_heredoc(char *line, int fd)
 {
-	if (write(1, "\n", 1))
+	if (write(fd, line, ft_strlen(line)) == -1)
 	{
-		perror("Minishell: erreur d'écriture ");
-		return ;
+		close(fd);
+		free(line);
+		return (perror("Minishell: echo: erreur d'écriture "), 1);
 	}
-	if (sig == 2)
+	if (write(fd, "\n", 1) == -1)
 	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		close(fd);
+		free(line);
+		return (perror("Minishell: echo: erreur d'écriture "), 1);
 	}
-}
-
-void	ft_ctrl_d(t_info *info, char *entree)
-{
-	if (!entree)
-	{
-		ft_free_struct(NULL, info, 1);
-		exit(0);
-	}
+	return (0);
 }

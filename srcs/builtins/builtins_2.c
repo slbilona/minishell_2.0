@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:19 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/09 19:30:50 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 17:14:29 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	ft_unset(t_struct *repo, void *inf)
 {
 	int		i;
 	int		j;
+	int		o;
 	char	*var;
 	t_info	*info;
-	int o;
 
 	j = 1;
 	info = inf;
@@ -64,6 +64,22 @@ int	ft_env(t_struct *repo, void *inf)
 	return (0);
 }
 
+int	ft_export_sans_arguments(t_info *info)
+{
+	int	i;
+
+	i = 0;
+	while (info->env && info->env[i])
+	{
+		if (write(1, info->env[i], ft_strlen(info->env[i])) == -1)
+			return (perror("Minishell: export: erreur d'écriture "), 1);
+		if (write(1, "\n", 1) == -1)
+			return (perror("Minishell: export: erreur d'écriture "), 1);
+		i++;
+	}
+	return (0);
+}
+
 // definir le comportement d'export sans argument (c'est indifini donc a nous de choisir)
 int	ft_export(t_struct *repo, void *inf)
 {
@@ -78,6 +94,8 @@ int	ft_export(t_struct *repo, void *inf)
 	ret = 0;
 	info = inf;
 	i = info->i;
+	if (ft_count_double_string(repo[i].args) < 2)
+		return (ft_export_sans_arguments(info));
 	while (repo[i].args && repo[i].args[j])
 	{
 		o = ft_trouve_egal(repo[i].args[j]);
@@ -98,4 +116,65 @@ int	ft_export(t_struct *repo, void *inf)
 		j++;
 	}
 	return (ret);
+}
+
+int ft_builtins_pipe(t_struct *repo, t_info *info, int **pipes_fd)
+{
+	int	j;
+	int	i;
+	int	redir;
+
+	j = 0;
+	i = info->i;
+	redir = 0;
+	while (j < 6)
+	{
+		if (ft_strncmp(repo[i].cmd, info->builtins[j].str,
+				ft_strlen(repo[i].cmd)) == 0 && ft_strncmp(repo[i].cmd,
+				info->builtins[j].str, ft_strlen(info->builtins[j].str)) == 0)
+		{
+			if (repo[i].redirection)
+				redir = ft_redirection(repo[i].redirection);
+			if (!redir)
+				repo[i].ret = info->builtins[j].ptr(repo, info);
+			else
+				repo[i].ret = redir;
+			return (repo[i].ret);
+		}
+		j++;
+	}
+	if (ft_strncmp(repo[i].cmd, info->builtins[j].str,
+			ft_strlen(repo[i].cmd)) == 0 && ft_strncmp(repo[i].cmd,
+			info->builtins[j].str, ft_strlen(info->builtins[j].str)) == 0)
+			ft_exit_pipe(repo, info, pipes_fd);
+	return (1);
+}
+
+int	ft_builtins(t_struct *repo, t_info *info)
+{
+	int	j;
+	int	i;
+	int	redir;
+
+	j = 0;
+	i = info->i;
+	redir = 0;
+	while (j < 7)
+	{
+		if (ft_strncmp(repo[i].cmd, info->builtins[j].str,
+				ft_strlen(repo[i].cmd)) == 0
+			&& ft_strncmp(repo[i].cmd, info->builtins[j].str,
+				ft_strlen(info->builtins[j].str)) == 0)
+		{
+			if (repo[i].redirection)
+				redir = ft_redirection(repo[i].redirection);
+			if (!redir)
+				repo[i].ret = info->builtins[j].ptr(repo, info);
+			else
+				repo[i].ret = redir;
+			return (repo[i].ret);
+		}
+		j++;
+	}
+	return (1);
 }

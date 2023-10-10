@@ -3,40 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 14:33:22 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:38:42 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-int	ft_cree_dest_heredoc_exit(t_info *info, char *dest, int *j)
-{
-	int		o;
-	char	*test;
-
-	o = 0;
-	test = ft_itoa(info->exit);
-	while (test && test[o])
-	{
-		dest[*j] = test[o];
-		*j += 1;
-		o++;
-	}
-	free(test);
-	return (2);
-}
-
 /* Si n == 1 free line
 Si n == 0 ne free pas line */
 char	*ft_cree_dest_heredoc(t_info *info, char *line, int k, int n)
 {
-	int		i; // parcours line
-	int		j; // parcours dest
-	int		o;
-	int		l; // parcours l'env
+	int		i;
+	int		j;
 	char	*dest;
 
 	i = 0;
@@ -48,19 +29,10 @@ char	*ft_cree_dest_heredoc(t_info *info, char *line, int k, int n)
 	{
 		if (line[i] == '$' && line[i + 1]
 			&& line[i + 1] == '?')
-			i += ft_cree_dest_heredoc_exit(info, dest, &j);
+			i += ft_cree_dest_exit(info, dest, &j);
 		else if (line[i] == '$' && line[i + 1]
 			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'))
-		{
-			o = 0;
-			l = ft_change_j_et_k(info, &line[i], &o, &k);
-			i += o;
-			if (l > -1)
-			{
-				while (info->env && info->env[l] && info->env[l][o])
-					dest[j++] = info->env[l][o++];
-			}
-		}
+			i += ft_cree_dest_suite(info, &dest, &j, &line[i]);
 		else if (line[i])
 			dest[j++] = line[i++];
 	}

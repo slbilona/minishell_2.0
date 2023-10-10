@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:08:38 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:32:25 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_expand(t_info *info, char **str)
 	return (0);
 }
 
-void	ft_cree_dest_exit(t_info *info, int *i, int *j, char **dest)
+int	ft_cree_dest_exit(t_info *info, char *dest, int *j)
 {
 	int		o;
 	char	*test;
@@ -67,12 +67,13 @@ void	ft_cree_dest_exit(t_info *info, int *i, int *j, char **dest)
 	test = ft_itoa(info->exit);
 	while (test && test[o])
 	{
-		(*dest)[*j] = test[o++];
+		dest[*j] = test[o];
 		*j += 1;
+		o++;
 	}
-	*i += 2;
 	if (test)
 		free(test);
+	return (2);
 }
 
 int	ft_cree_dest_suite(t_info *info, char **dest, int *j, char *c)
@@ -114,7 +115,7 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 	{
 		if (line[i] == '$' && line[i + 1]
 			&& line[i + 1] == '?')
-			ft_cree_dest_exit(info, &i, &j, &dest);
+			i += ft_cree_dest_exit(info, dest, &j);
 		else if (line[i] == '$' && line[i + 1]
 			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'
 				|| ft_quotes(line, i + 1) == 3 || ft_quotes(line, i + 1) == 4))

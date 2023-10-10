@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:55 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/09 21:59:07 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 14:37:52 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,14 @@ int	**ft_free_pipe(t_info *info, int **pipes_fd)
 	i = 0;
 	while (pipes_fd && i < info->nb_de_pipe)
 	{
+		close(pipes_fd[i][0]);
+		close(pipes_fd[i][1]);
 		if (pipes_fd[i])
 			free(pipes_fd[i]);
 		i++;
 	}
-	free(pipes_fd);
+	if (pipes_fd)
+		free(pipes_fd);
 	return (NULL);
 }
 
