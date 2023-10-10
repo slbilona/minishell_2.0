@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
-/*   Updated: 2023/10/10 16:18:56 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:05:57 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_sigint(int sig)
 {
-	if (write(1, "\n", 1))
+	if (write(1, "\n", 1) == -1)
 	{
 		perror("Minishell: erreur d'écriture ");
 		return ;

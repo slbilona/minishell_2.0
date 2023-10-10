@@ -5,7 +5,7 @@ t_struct	*ft_init_struct(t_info *info, char **str)
 {
 	t_struct	*repo;
 
-	repo = ft_calloc(ft_count_double_string(str), sizeof(t_struct)); //j'ai remplacé par calloc comme ca ca initialise tous les elements a 0 et on a pas besoin d'utiliser memset plus tard
+	repo = ft_calloc(ft_count_double_string(str), sizeof(t_struct));
 	if (!repo)
 		return (NULL);
 	if (ft_split_command(info, str, repo))
@@ -47,13 +47,45 @@ int	ft_verif_chevrons(char **s)
 	return (0);
 }
 
+char **ft_pars_s(t_info *info, char *str)
+{
+	char **s;
+
+	s = ft_new_split(str, NULL);
+	if (!s)
+		return (ft_put_str_error("Minishell:", " erreur lors",
+			" du split", " de la commande"), NULL);
+	if (ft_expand(info, s))
+	{
+		ft_free_double_string(s);
+		return (NULL);
+	}
+	s = ft_clean_quotes(s);
+	if (!s)
+		return (ft_put_str_error("Minishell:", " erreur lors",
+			" du split", " de la commande"), NULL);
+	if (ft_verif_chevrons(s))
+		return (NULL);
+	return (s);
+}
+
+int ft_cherche_redirection(t_struct *repo, char **s, int *j, int i)
+{
+	char	*str_joined;
+
+	str_joined = ft_strjoin(s[*j], " ");
+	repo[i].redirection = mange(repo[i].redirection, ft_strjoin(str_joined, s[*j + 1]), 1);
+	free(str_joined);
+	*j += 2;
+	return (0);
+}
+
 int	ft_split_command(t_info *info, char **str, t_struct *repo)
 {
 	int		i;
 	int		j;
 	int		count;
 	char	**s;
-	char	*str_joined;
 
 	i = 0;
 	while (str && str[i])
@@ -61,33 +93,17 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 		repo[i].ret = 0;
 		repo[i].nb_cmd = i;
 		count = 0;
-		s = ft_new_split(str[i], NULL);
+		s = ft_pars_s(info, str[i]);
 		if (!s)
-			return (ft_put_str_error("Minishell:", " erreur lors",
-				" du split", " de la commande"), 1);
-		if (ft_expand(info, s))
-		{
-			ft_free_double_string(s);
-			return (1);
-		}
-		s = ft_clean_quotes(s);
-		if (!s)
-			return (ft_put_str_error("Minishell:", " erreur lors",
-				" du split", " de la commande"), 1);
-		if (ft_verif_chevrons(s))
 			return (1);
 		j = 0;
 		while (s && s[j])
 		{
-			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0
-				|| ft_strncmp(s[j], ">>", sizeof(s[j])) == 0
-				|| ft_strncmp(s[j], "<", sizeof(s[j])) == 0
-				|| ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
+			if (ft_strncmp(s[j], ">", sizeof(s[j])) == 0 || ft_strncmp(s[j],
+					">>", sizeof(s[j])) == 0 || ft_strncmp(s[j], "<",
+					sizeof(s[j])) == 0 || ft_strncmp(s[j], "<<", sizeof(s[j])) == 0)
 			{
-				str_joined = ft_strjoin(s[j], " ");
-				repo[i].redirection = mange(repo[i].redirection, ft_strjoin(str_joined, s[j + 1]), 1); //ajoute au char ** une string qu'on a join qui contient la string actuelle, un espace et la string suivante
-				free(str_joined);
-				j += 2;
+				ft_cherche_redirection(repo, s, &j, i);
 			}
 			else if (count == 0)
 			{
@@ -110,13 +126,15 @@ int	ft_split_command(t_info *info, char **str, t_struct *repo)
 	return (0);
 }
 
-/* ajoute une sous chaine a une double chaine en la realouant
-si n est egal a 1 s est free sinon non*/
+/* Ajoute une sous chaine a une double chaine en la realouant
+Si n == 0 s n'est pas free
+Si n == 1 s est free */
 char	**mange(char **str, char *s, int n)
 {
 	int		i;
 	int		j;
 	char	**s2;
+	char **ancien;
 
 	i = 0;
 	j = 0;
@@ -125,28 +143,42 @@ char	**mange(char **str, char *s, int n)
 		s2 = malloc(sizeof(char *) * 2);
 		if (!s2)
 		{
+			ft_put_str_error("Minishell:", "erreur lors de l'ajout de \"", s, "\" dans la double chaine");
 			if (n)
 				free(s);
-			return (ft_free_double_string(str), NULL);
+			return (NULL);
 		}
 	}
 	else
 	{
+		ancien = ft_cp_env(str);
 		while (str && str[i])
 			i++;
 		s2 = malloc(sizeof(char *) * (i + 2));
 		if (!s2)
 		{
+			ft_put_str_error("Minishell:", "erreur lors de l'ajout de '",
+				s, "' dans la double chaine");
 			if (n)
 				free(s);
-			return (ft_free_double_string(str), NULL);
+			return (ft_free_double_string(str), ancien);
 		}
 		while (str && str[j])
 		{
 			s2[j] = ft_strdup(str[j]);
-			// eventuellement verifier l'allocaztion jsp
+			if (!s2[j])
+			{
+				ft_free_split(s2, j);
+				free(s2);
+				ft_put_str_error("Minishell:", "erreur lors de l'ajout de '",
+					s, "' dans la double chaine");
+				if (n)
+					free(s);
+				return (ft_free_double_string(str), ancien);
+			}
 			j++;
 		}
+		ft_free_double_string(ancien);
 	}
 	s2[j] = ft_strdup(s);
 	j++;

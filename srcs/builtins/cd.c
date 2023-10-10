@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:08:10 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 19:33:15 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/10 17:54:36 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	ft_cd_simple(t_info *info, t_struct *repo)
 	return (0);
 }
 
-// n'affiche pas de msg d'erreur lorque on essaye d'entrer dans un fichier
 int	ft_cd(t_struct *repo, void *inf)
 {
 	t_info	*info;

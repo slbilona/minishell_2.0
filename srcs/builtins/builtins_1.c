@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:01 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 14:16:14 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:52:58 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,7 @@ void	ft_export_pwd(t_info *info, int i)
 		if (!ft_white_spaces(var) && o > 0)
 		{
 			if (!ft_cherche_dans_env(var, info, o))
-			{
 				info->env = mange(info->env, var, 1);
-				//verifier si il n'y a pas une erreur;
-			}
 			else
 				free(var);
 		}

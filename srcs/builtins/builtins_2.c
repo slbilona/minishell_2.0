@@ -6,13 +6,12 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:19 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 17:14:29 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:55:13 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-// ne fonctionne pqs lorsqu'on qppelle la fonction env
 int	ft_unset(t_struct *repo, void *inf)
 {
 	int		i;
@@ -33,7 +32,6 @@ int	ft_unset(t_struct *repo, void *inf)
 			if (ft_strnstr(info->env[i], var, ft_strlen(var)))
 			{
 				info->env = ft_supprime_sous_chaine(info->env, i);
-				//gerer le cas ou info->env est NULL
 				break ;
 			}
 			else
@@ -80,7 +78,6 @@ int	ft_export_sans_arguments(t_info *info)
 	return (0);
 }
 
-// definir le comportement d'export sans argument (c'est indifini donc a nous de choisir)
 int	ft_export(t_struct *repo, void *inf)
 {
 	int		j;
@@ -102,10 +99,7 @@ int	ft_export(t_struct *repo, void *inf)
 		if (!ft_white_spaces(repo[i].args[j]) && o > 0)
 		{
 			if (!ft_cherche_dans_env(repo[i].args[j], info, o))
-			{
 				info->env = mange(info->env, repo[i].args[j], 0);
-				//verifier si il n'y a pas une erreur;
-			}
 		}
 		else if (o == -1)
 		{

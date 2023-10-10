@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:06:31 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 16:39:18 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:09:28 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_option_n(t_struct *repo, int *n, int *j, int *i)
 			*j = 1;
 			while (repo->args[*i][*j] == 'n')
 				*j += 1;
-			if (repo->args[*i][*j] == 0)
+			if (repo->args[*i][*j - 1] && repo->args[*i][*j - 1]
+				== 'n' && repo->args[*i][*j] == 0)
 			{
 				*j = 0;
 				*i += 1;
@@ -38,7 +39,6 @@ void	ft_option_n(t_struct *repo, int *n, int *j, int *i)
 	}
 }
 
-//pb lorsqu'on redirige et qu'on utilise l'argument -n
 int	ft_echo(t_struct *repo, void *inf)
 {
 	int		i;

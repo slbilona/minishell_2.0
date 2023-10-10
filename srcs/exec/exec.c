@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 14:34:27 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:53:57 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	ft_execve(t_struct *repo, t_info *info)
 	{
 		perror("Minishell: execve:");
 		repo->ret = 1;
-		//exit(EXIT_FAILURE);
 	}
 }
 
@@ -216,9 +215,9 @@ int	ft_pipe(t_info *info, t_struct *repo, int **pipe_fd)
 			" lors de", " l'allocation");
 		free(info->diff_pid);
 		info->i_diff_pid = 0;
-		// dup2(info->saved_stdout, STDOUT_FILENO);
-		// dup2(info->saved_stdin, STDIN_FILENO);
-		ft_free_struct(repo, info, 0);//free la structure repo
+		dup2(info->saved_stdout, STDOUT_FILENO);
+		dup2(info->saved_stdin, STDIN_FILENO);
+		ft_free_struct(repo, info, 0);
 		info->exit = 1;
 		return (1);
 	}
@@ -234,9 +233,9 @@ int	ft_heredoc(t_info *info, t_struct *repo, int **pipe_fd)
 			free(info->diff_pid);
 			info->i_diff_pid = 0;
 			ft_free_pipe(info, pipe_fd);
-			// dup2(info->saved_stdout, STDOUT_FILENO);
-			// dup2(info->saved_stdin, STDIN_FILENO);
-			ft_free_struct(repo, info, 0);//free la structure repo
+			dup2(info->saved_stdout, STDOUT_FILENO);
+			dup2(info->saved_stdin, STDIN_FILENO);
+			ft_free_struct(repo, info, 0);
 			return (1);
 		}
 	}
@@ -276,8 +275,8 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 	free(info->diff_pid);
 	info->i_diff_pid = 0;
 	ft_free_pipe(info, pipe_fd);
-	//dup2(info->saved_stdout, STDOUT_FILENO);
-	//dup2(info->saved_stdin, STDIN_FILENO);
-	ft_free_struct(repo, info, 0);//free la structure repo
+	dup2(info->saved_stdout, STDOUT_FILENO);
+	dup2(info->saved_stdin, STDIN_FILENO);
+	ft_free_struct(repo, info, 0);
 	return (0);
 }
