@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 14:33:22 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 16:38:42 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 20:01:16 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_cree_dest_heredoc(t_info *info, char *line, int k, int n)
 			i += ft_cree_dest_exit(info, dest, &j);
 		else if (line[i] == '$' && line[i + 1]
 			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'))
-			i += ft_cree_dest_suite(info, &dest, &j, &line[i]);
+			i += ft_cree_dest_suite(info, dest, &j, &line[i]);
 		else if (line[i])
 			dest[j++] = line[i++];
 	}

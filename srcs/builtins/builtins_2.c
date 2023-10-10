@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:19 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 17:55:13 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:30:45 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_export(t_struct *repo, void *inf)
 	while (repo[i].args && repo[i].args[j])
 	{
 		o = ft_trouve_egal(repo[i].args[j]);
-		if (!ft_white_spaces(repo[i].args[j]) && o > 0)
+		if (o > 0)
 		{
 			if (!ft_cherche_dans_env(repo[i].args[j], info, o))
 				info->env = mange(info->env, repo[i].args[j], 0);

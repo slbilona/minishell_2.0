@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:11:47 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 14:14:19 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:33:59 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ int	ft_cherche_dans_env(char *str, t_info *info, int o)
 	return (0);
 }
 
+int	ft_white_space_char(char c)
+{
+	if ((9 <= c && c <= 13) || c == 32)
+		return (1);
+	return (0);
+}
+
 int	ft_trouve_egal(char *str)
 {
 	int	i;
@@ -59,7 +66,7 @@ int	ft_trouve_egal(char *str)
 	{
 		if (str[i] == '=')
 			return (i);
-		else if (!ft_isalnum(str[i]) && str[i] != '_')
+		else if ((!ft_isalnum(str[i]) && str[i] != '_') || ft_white_space_char(str[i]))
 			return (-1);
 		i++;
 	}

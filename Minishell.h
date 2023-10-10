@@ -100,8 +100,9 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 // Expand
 
 int			ft_expand(t_info *info, char **str);
+char		**ft_expand_test(t_info *info, char **str);
 int			ft_cree_dest_exit(t_info *info, char *dest, int *j);
-int			ft_cree_dest_suite(t_info *info, char **dest, int *j, char *c);
+int			ft_cree_dest_suite(t_info *info, char *dest, int *j, char *c);
 char		*ft_expand_heredoc(t_info *info, char *line);
 char		*ft_cree_dest(t_info *info, char *line, int k, int n);
 

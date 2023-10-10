@@ -47,10 +47,44 @@ int	ft_verif_chevrons(char **s)
 	return (0);
 }
 
+// char **ft_pars_s(t_info *info, char *str)
+// {
+// 	char **s;
+// 	char *strg;
+
+// 	strg = ft_expand_test(info, str);
+// 	if (!strg)
+// 		return (NULL);
+// 	s = ft_new_split(strg, NULL);
+// 	if (!s)
+// 		return (ft_put_str_error("Minishell:", " erreur lors",
+// 			" du split", " de la commande"), NULL);
+// 	free(strg);
+// 	s = ft_clean_quotes(s);
+// 	if (!s)
+// 		return (ft_put_str_error("Minishell:", " erreur lors",
+// 			" du split", " de la commande"), NULL);
+// 	if (ft_verif_chevrons(s))
+// 		return (NULL);
+// 	return (s);
+// }
+
+/* 1 regarder si une sous chaine a un white space
+2 si c'est le cas la split
+3 ajouter ces deux sous chaine a s
+4 return s */
+// char **ft_split_et_join(char **str)
+// {
+// 	char **s;
+
+
+// }
+
 char **ft_pars_s(t_info *info, char *str)
 {
 	char **s;
 
+	(void) info;
 	s = ft_new_split(str, NULL);
 	if (!s)
 		return (ft_put_str_error("Minishell:", " erreur lors",
@@ -60,6 +94,7 @@ char **ft_pars_s(t_info *info, char *str)
 		ft_free_double_string(s);
 		return (NULL);
 	}
+	//s = ft_split_et_join();
 	s = ft_clean_quotes(s);
 	if (!s)
 		return (ft_put_str_error("Minishell:", " erreur lors",
@@ -68,6 +103,28 @@ char **ft_pars_s(t_info *info, char *str)
 		return (NULL);
 	return (s);
 }
+
+// char **ft_pars_s(t_info *info, char *str)
+// {
+// 	char **s;
+
+// 	s = ft_new_split(str, NULL);
+// 	if (!s)
+// 		return (ft_put_str_error("Minishell:", " erreur lors",
+// 			" du split", " de la commande"), NULL);
+// 	if (ft_expand(info, s))
+// 	{
+// 		ft_free_double_string(s);
+// 		return (NULL);
+// 	}
+// 	s = ft_clean_quotes(s);
+// 	if (!s)
+// 		return (ft_put_str_error("Minishell:", " erreur lors",
+// 			" du split", " de la commande"), NULL);
+// 	if (ft_verif_chevrons(s))
+// 		return (NULL);
+// 	return (s);
+// }
 
 int ft_cherche_redirection(t_struct *repo, char **s, int *j, int i)
 {

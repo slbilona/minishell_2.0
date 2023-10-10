@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:08:38 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 16:32:25 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/10 20:54:34 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,49 @@ int	ft_expand_suite(t_info *info, char *str, int *o, int *k)
 		ft_change_j_et_k(info, &str[*o], &j, k);
 	*o += 1;
 	return (j);
+}
+
+char **ft_expand_test(t_info *info, char **str)
+{
+	int	i;
+	int	o;
+	int	j;
+	int	k;
+	char **s;
+
+	i = 0;
+	k = 0;
+	if (str)
+	{
+		s = malloc(sizeof(char *) * (ft_count_double_string(str) + 1));
+		if (!s)
+			return (ft_free_double_string(str), NULL);
+		while (str && str[i])
+		{
+			o = 0;
+			j = 0;
+			if (ft_ex_verif_dollar(str[i]))
+			{
+				while (str && str[i] && str[i][o])
+					j += ft_expand_suite(info, str[i], &o, &k);
+				s[i] = ft_cree_dest(info, str[i], ft_strlen(str[i]) - j + k, 0);
+				if (!s[i])
+				{
+					//free les lignes d'avant etc
+					ft_free_double_string(str);
+					return (ft_put_str_error("Minishell:", " erreur ",
+							"lors de ", "l'expand"), NULL);
+				}
+			}
+			else
+				s[i] = ft_strdup(str[i]);
+			i++;
+		}
+		s[i] = NULL;
+		ft_free_double_string(str);
+		return (s);
+	}
+	return (NULL);
 }
 
 int	ft_expand(t_info *info, char **str)
@@ -76,7 +119,7 @@ int	ft_cree_dest_exit(t_info *info, char *dest, int *j)
 	return (2);
 }
 
-int	ft_cree_dest_suite(t_info *info, char **dest, int *j, char *c)
+int	ft_cree_dest_suite(t_info *info, char *dest, int *j, char *c)
 {
 	int	o;
 	int	l;
@@ -91,7 +134,7 @@ int	ft_cree_dest_suite(t_info *info, char **dest, int *j, char *c)
 	{
 		while (info->env && info->env[l] && info->env[l][o])
 		{
-			(*dest)[*j] = info->env[l][o++];
+			dest[*j] = info->env[l][o++];
 			*j += 1;
 		}
 	}
@@ -119,7 +162,7 @@ char	*ft_cree_dest(t_info *info, char *line, int k, int n)
 		else if (line[i] == '$' && line[i + 1]
 			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'
 				|| ft_quotes(line, i + 1) == 3 || ft_quotes(line, i + 1) == 4))
-			i += ft_cree_dest_suite(info, &dest, &j, &line[i]);
+			i += ft_cree_dest_suite(info, dest, &j, &line[i]);
 		else if (line[i])
 			dest[j++] = line[i++];
 	}

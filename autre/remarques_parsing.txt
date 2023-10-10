@@ -36,3 +36,10 @@ heredoc :
 lorsqu'on fait ctrl + C sans rien dans le prompt il faut que l'exit status soit de 130 (probablement utiliser une globale)
 
 !!!!!!!!!! TESTER TOUS LES BUILTINS AVEC DES PIPES !!!!!!!!!!!!
+
+a regler :
+	$ export hey="s -la"
+	$ l$hey
+
+a regler :
+	$ echo "$HOME"'$HOME' (pqs d'espqce entre les deux)
