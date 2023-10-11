@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:04:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 20:23:05 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 22:03:09 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,22 @@ void	ft_processus_fils(t_info *info, t_struct *repo,
 	int	ex;
 
 	i = info->i;
-	//signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	ft_processus_fils_suite(info, repo, i);
+	
 	if (repo[i].redirection)
 		redir = ft_redirection(repo[i].redirection);
 	if (repo[i].cmd && !redir && ft_builtins_pipe(repo, info))
+	{
 		ft_execve(&repo[i], info);
+	}
 	if (redir)
 		ex = redir;
 	else
 		ex = repo[i].ret;
 	ft_free_pipe(info);
 	ft_free_struct(repo, info, 2);
-	//signal(SIGINT, SIG_DFL);
+	signal(SIGINT, SIG_IGN);
 	exit(ex);
 }
 

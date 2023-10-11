@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 19:13:29 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 21:18:15 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 // Utils
 
 int			ft_signes(char *str);
+void		reset_signal(void);
 int			ft_trouve_egal(char *str);
+void		reset_sigint(void);
+void		signal_sigint(void);
 int			ft_white_spaces(char *str);
 int			ft_white_space_char(char c);
 int			ft_verif_dollar(char *line);
@@ -84,6 +87,8 @@ char		**ft_cp_env(char **ancien_env);
 char		*my_getenv(t_info *info, char *str);
 char		*ft_cree_var(int j, char *str, int o);
 int			**ft_free_prec_pipe(t_info *info, int i);
+void		signal_action(void);
+void		signal_ctrlc(int sig);
 char		**ft_supprime_sous_chaine(char **str, int i);
 char		**ft_new_split(const char *str, const char *sep);
 void		ft_j_et_k_exit(t_info *info, int *j, int *k);

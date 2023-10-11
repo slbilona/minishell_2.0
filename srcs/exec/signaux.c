@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
-/*   Updated: 2023/10/11 11:41:16 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 21:48:32 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 void	handle_sigint(int sig)
 {
+	
 	if (write(1, "\n", 1) == -1)
 	{
 		perror("Minishell: erreur d'écriture ");
 		return ;
 	}
 	if (sig == 2)
-	{
+	{	
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_redisplay();	
 	}
 }
 
