@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:56:42 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 18:57:22 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 20:19:34 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,11 @@ int	ft_dernier(t_struct *repo, t_info *info)
 
 int	ft_pipe(t_struct *repo, t_info *info)
 {
-	//verifier
 	if (repo->nb_cmd == 0)
-		ft_premier(repo, info);
+		return (ft_premier(repo, info));
 	else if (repo->nb_cmd > 0 && info->nb_de_pipe > repo->nb_cmd)
-		ft_milieu(repo, info);
+		return (ft_milieu(repo, info));
 	else
-		ft_dernier(repo, info);
+		return (ft_dernier(repo, info));
 	return (0);
 }

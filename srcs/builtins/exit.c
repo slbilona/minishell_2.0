@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:59:28 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 18:50:27 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 20:13:45 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	ft_exit(t_struct *repo, void *inf)
 		return (ft_put_str_error("Minishell: ", "exit:",
 				" too many arguments", NULL), 1);
 	}
-	ft_put_str_error("exit", NULL, NULL, NULL);
+	if (!info->nb_de_pipe)
+		ft_put_str_error("exit", NULL, NULL, NULL);
 	if (ft_count_double_string(repo[i].args) >= 1)
 		ft_exit_suite(&repo[i], info, &num, &exit_num);
 	ft_free_struct(repo, info, 2);
@@ -54,6 +55,8 @@ int	ft_exit_pipe(t_struct *repo, void *inf)
 	if (ft_count_double_string(repo[i].args) > 2
 		&& !ft_que_des_chiffres(repo[i].args[1]))
 	{
+		ft_free_pipe(info);
+		ft_free_struct(repo, info, 2);
 		return (ft_put_str_error("Minishell: ", "exit:",
 				" too many arguments", NULL), 1);
 	}
@@ -76,6 +79,7 @@ void	ft_exit_suite(t_struct *repo, t_info *info,
 	}
 	if (*exit_num)
 	{
+		ft_free_pipe(info);
 		ft_free_struct(repo, info, 2);
 		exit(*exit_num);
 	}

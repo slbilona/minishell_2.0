@@ -6,11 +6,24 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:04:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 19:06:50 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 20:23:05 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
+
+void	ft_processus_fils_suite(t_info *info, t_struct *repo, int i)
+{
+	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info))
+	{
+		repo[i].path = ft_cherche_path(&repo[i], info);
+		if (!repo[i].path)
+			ft_erreur_path(info, repo);
+	}
+	if (info->nb_de_pipe > 0)
+		if (ft_pipe(&repo[i], info))
+			printf("erreur\n");
+}
 
 void	ft_processus_fils(t_info *info, t_struct *repo,
 	int redir)
@@ -20,15 +33,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo,
 
 	i = info->i;
 	//signal(SIGINT, SIG_IGN);
-	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info))
-	{
-		repo[i].path = ft_cherche_path(&repo[i], info);
-		if (!repo[i].path)
-			ft_erreur_path(info, repo);
-	}
-	if (info->nb_de_pipe > 0)
-		if (ft_pipe(&repo[i], info))
-			printf("erreur\n");	
+	ft_processus_fils_suite(info, repo, i);
 	if (repo[i].redirection)
 		redir = ft_redirection(repo[i].redirection);
 	if (repo[i].cmd && !redir && ft_builtins_pipe(repo, info))
@@ -51,7 +56,6 @@ int	ft_fork(t_struct *repo, t_info *info)
 	i = info->i;
 	redir = 0;
 	info->fork = 1;
-	//printf("info->diff_pid[%d]\n", repo[i].nb_cmd);
 	info->diff_pid[repo[i].nb_cmd] = fork();
 	if (info->diff_pid[repo[i].nb_cmd] == -1)
 	{
@@ -61,9 +65,7 @@ int	ft_fork(t_struct *repo, t_info *info)
 		return (1);
 	}
 	else if (info->diff_pid[repo[i].nb_cmd] == 0)
-	{
 		ft_processus_fils(info, repo, redir);
-	}
 	else
 	{
 		if (info->nb_de_pipe && repo[i].nb_cmd > 0)
