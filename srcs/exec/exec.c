@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 23:43:34 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 18:25:11 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 
 void	ft_execve(t_struct *repo, t_info *info)
 {
+	// write(2, repo->cmd, ft_strlen(repo->cmd));
+	// write(2, "\n", 1);
 	if (execve(repo->path, repo->args, info->env) == -1)
 	{
 		perror("Minishell: execve:");
@@ -114,6 +116,51 @@ void	ft_erreur_path(t_info *info, t_struct *repo, int **pipe_fd)
 	exit(ret);
 }
 
+int ft_premier(t_struct *repo, int **pipe_fd)
+{
+	if (dup2(pipe_fd[repo->nb_cmd][1], STDOUT_FILENO) < 0)
+		return (1);
+	if (close(pipe_fd[repo->nb_cmd][0]) < 0 || close(pipe_fd[repo->nb_cmd][1]) < 0)
+		return (1);
+	return (0);
+}
+
+int ft_milieu(t_struct *repo, int **pipe_fd)
+{
+	if (dup2(pipe_fd[repo->nb_cmd - 1][0], STDIN_FILENO) < 0)
+		return (1);
+	if (dup2(pipe_fd[repo->nb_cmd][1], STDOUT_FILENO) < 0)
+		return (1);
+	if (close(pipe_fd[repo->nb_cmd - 1][0]) < 0 || close(pipe_fd[repo->nb_cmd - 1][1]) < 0)
+		return (1);
+	if (close(pipe_fd[repo->nb_cmd][0]) < 0 || close(pipe_fd[repo->nb_cmd][1]) < 0)
+		return (1);
+	return (0);
+}
+
+int ft_dernier(t_struct *repo, t_info *info, int **pipe_fd)
+{
+	if (dup2(pipe_fd[repo->nb_cmd - 1][0], STDIN_FILENO) < 0)
+		return (1);
+	if (close(pipe_fd[repo->nb_cmd - 1][0]) < 0 || close(pipe_fd[repo->nb_cmd - 1][1]) < 0)
+		return (1);
+	if (dup2(info->saved_stdout, STDOUT_FILENO) < 0)
+		return (1);
+	return (0);
+}
+
+int ft_pipe(t_struct *repo, t_info *info, int **pipe_fd)
+{
+	//verifier
+	if (repo->nb_cmd == 0)
+		ft_premier(repo, pipe_fd);
+	else if (repo->nb_cmd > 0 && info->nb_de_pipe > repo->nb_cmd)
+		ft_milieu(repo, pipe_fd);
+	else
+		ft_dernier(repo, info, pipe_fd);
+	return (0);
+}
+
 void	ft_processus_fils(t_info *info, t_struct *repo,
 	int redir, int **pipe_fd)
 {
@@ -121,38 +168,31 @@ void	ft_processus_fils(t_info *info, t_struct *repo,
 	int	ex;
 
 	i = info->i;
-	signal(SIGINT, SIG_IGN);
+	//signal(SIGINT, SIG_IGN);
 	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info))
 	{
 		repo[i].path = ft_cherche_path(&repo[i], info);
 		if (!repo[i].path)
 			ft_erreur_path(info, repo, pipe_fd);
 	}
-	if (repo[i].nb_cmd > 0 && info->nb_de_pipe > 0)
+	if (info->nb_de_pipe > 0)
 	{
-		dup2(pipe_fd[repo[i].nb_cmd - 1][0], STDIN_FILENO);
-		close(pipe_fd[repo[i].nb_cmd - 1][0]);
-		close(pipe_fd[repo[i].nb_cmd - 1][1]);
-	}
-	if (info->nb_de_pipe > repo[i].nb_cmd && info->nb_de_pipe > 0)
-	{
-		dup2(pipe_fd[repo[i].nb_cmd][1], STDOUT_FILENO);
-		close(pipe_fd[repo[i].nb_cmd][0]);
-		close(pipe_fd[repo[i].nb_cmd][1]);
+		if (ft_pipe(&repo[i], info, pipe_fd))
+			printf("erreur\n");	
 	}
 	if (repo[i].redirection)
-		redir = ft_redirection(repo[i].redirection);
-	if (repo[i].cmd && !redir && ft_builtins_pipe(repo, info, pipe_fd))
 	{
-		ft_execve(&repo[i], info);
+		redir = ft_redirection(repo[i].redirection);
 	}
+	if (repo[i].cmd && !redir && ft_builtins_pipe(repo, info, pipe_fd))
+		ft_execve(&repo[i], info);
 	if (redir)
 		ex = redir;
 	else
 		ex = repo[i].ret;
 	ft_free_pipe(info, pipe_fd);
 	ft_free_struct(repo, info, 2);
-	signal(SIGINT, SIG_DFL);
+	//signal(SIGINT, SIG_DFL);
 	exit(ex);
 }
 
@@ -164,6 +204,7 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 	i = info->i;
 	redir = 0;
 	info->fork = 1;
+	//printf("info->diff_pid[%d]\n", repo[i].nb_cmd);
 	info->diff_pid[repo[i].nb_cmd] = fork();
 	if (info->diff_pid[repo[i].nb_cmd] == -1)
 	{
@@ -173,7 +214,9 @@ int	ft_fork(t_struct *repo, t_info *info, int **pipe_fd)
 		return (1);
 	}
 	else if (info->diff_pid[repo[i].nb_cmd] == 0)
+	{
 		ft_processus_fils(info, repo, redir, pipe_fd);
+	}
 	else
 	{
 		if (info->nb_de_pipe && repo[i].nb_cmd > 0)
@@ -194,7 +237,7 @@ void	ft_wait(t_info *info)
 	i = 0;
 	while (i < info->nb_de_cmd && info->diff_pid[i])
 	{
-		waitpid(info->diff_pid[i++], &status, 0);
+		waitpid(info->diff_pid[i], &status, 0);
 		if (WIFEXITED(status))
 			info->exit = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
@@ -205,10 +248,11 @@ void	ft_wait(t_info *info)
 			else if (exit_signal == SIGQUIT)
 				info->exit = 131;
 		}
+		i++;
 	}
 }
 
-int	ft_pipe(t_info *info, t_struct *repo, int **pipe_fd)
+int	ft_verif_pipe_fd(t_info *info, t_struct *repo, int **pipe_fd)
 {
 	if (!pipe_fd)
 	{
@@ -251,7 +295,7 @@ int	ft_execution_coordinateur(t_struct *repo, t_info *info)
 	if (info->nb_de_pipe > 0)
 	{
 		pipe_fd = ft_init_pipe(info);
-		if (ft_pipe(info, repo, pipe_fd))
+		if (ft_verif_pipe_fd(info, repo, pipe_fd))
 			return (1);
 	}
 	else

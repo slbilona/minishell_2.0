@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
-/*   Updated: 2023/10/10 18:05:57 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:41:16 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void	ft_ctrl_d(t_info *info, char *entree)
 {
 	if (!entree)
 	{
+		if (write(1, "exit\n", 5) == -1)
+		{
+			perror("Minishell: erreur d'écriture ");
+			return ;
+		}
 		ft_free_struct(NULL, info, 1);
 		exit(0);
 	}
