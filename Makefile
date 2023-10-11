@@ -12,10 +12,12 @@ SRCS = main.c \
 		free.c \
 		init.c \
 		pipe.c \
-		expand.c \
+		export.c \
 		signaux.c \
 		utils_1.c \
 		utils_2.c \
+		expand_1.c \
+		expand_2.c \
 		ft_space.c \
 		heredoc_1.c \
 		heredoc_2.c \

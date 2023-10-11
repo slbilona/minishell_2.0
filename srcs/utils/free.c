@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:55 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/11 18:46:39 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 22:34:32 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_free_info(t_info *info)
 		free(info->diff_pid);
 		info->i_diff_pid = 0;
 	}
+	free(info->ex);
 	close(info->saved_stdin);
 	close(info->saved_stdout);
 	close(info->saved_stderr);

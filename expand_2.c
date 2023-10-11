@@ -1,78 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 17:08:38 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 23:35:14 by ilona            ###   ########.fr       */
+/*   Created: 2023/10/11 22:44:12 by ilona             #+#    #+#             */
+/*   Updated: 2023/10/11 22:44:30 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
-
-int	ft_expand_suite(t_info *info, char *str, int *o, int *k)
-{
-	int	j;
-
-	j = 0;
-	if (str[*o] == '$' && (ft_quotes(str, *o) == 0
-			|| ft_quotes(str, *o) == 2) && str[*o + 1]
-		&& str[*o + 1] == '?')
-		ft_j_et_k_exit(info, &j, k);
-	else if (str[*o] == '$' && (ft_quotes(str, *o) == 0
-			|| ft_quotes(str, *o) == 2) && str[*o + 1]
-		&& (ft_isalnum(str[*o + 1]) || str[*o + 1] == '_'
-			|| ft_quotes(str, *o + 1) == 3
-			|| ft_quotes(str, *o + 1) == 4))
-		ft_change_j_et_k(info, &str[*o], &j, k);
-	*o += 1;
-	return (j);
-}
-
-char	**ft_expand(t_info *info, char **str)
-{
-	int		i;
-	int		o;
-	int		j;
-	int		k;
-	char	**s;
-
-	i = 0;
-	k = 0;
-	if (str)
-	{
-		s = malloc(sizeof(char *) * (ft_count_double_string(str) + 1));
-		if (!s)
-			return (ft_free_double_string(str), NULL);
-		while (str && str[i])
-		{
-			o = 0;
-			j = 0;
-			if (ft_ex_verif_dollar(str[i]))
-			{
-				while (str && str[i] && str[i][o])
-					j += ft_expand_suite(info, str[i], &o, &k);
-				s[i] = ft_cree_dest(info, str[i], ft_strlen(str[i]) - j + k, 0);
-				if (!s[i])
-				{
-					ft_free_split(s, i);
-					ft_free_double_string(str);
-					return (ft_put_str_error("Minishell:", " erreur ",
-							"lors de ", "l'expand"), NULL);
-				}
-			}
-			else
-				s[i] = ft_strdup(str[i]);
-			i++;
-		}
-		s[i] = NULL;
-		ft_free_double_string(str);
-		return (s);
-	}
-	return (NULL);
-}
 
 int	ft_cree_dest_exit(t_info *info, char *dest, int *j)
 {

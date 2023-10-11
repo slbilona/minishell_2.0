@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 21:18:15 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/11 23:09:10 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@
 # include "libft_printf_gnl/libft.h"
 # include "libft_printf_gnl/ft_printf.h"
 # include "libft_printf_gnl/get_next_line.h"
+
+typedef struct s_expand
+{
+	int		i;
+	int		j;
+	int		o;
+	int		l;
+	int		k;
+}	t_expand;
 
 typedef struct s_struct {
 	int		ret;
@@ -58,6 +67,7 @@ typedef struct s_info {
 	char				**env;
 	pid_t				*diff_pid;
 	struct s_builtins	builtins[7];
+	struct s_expand		*ex;
 }	t_info;
 
 // Struct
