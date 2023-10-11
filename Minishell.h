@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 23:44:10 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 19:13:29 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_info {
 	int					i;
 	int					fork;
 	int					exit;
+	int					**pipe_fd;
 	int					i_heredoc;
 	int					nb_de_cmd;
 	int					i_diff_pid;
@@ -82,11 +83,12 @@ int			ft_change_j_et_k(t_info *info, char *str, int *j, int *k);
 char		**ft_cp_env(char **ancien_env);
 char		*my_getenv(t_info *info, char *str);
 char		*ft_cree_var(int j, char *str, int o);
-int			**ft_free_prec_pipe(int **pipe_fd, int i);
+int			**ft_free_prec_pipe(t_info *info, int i);
 char		**ft_supprime_sous_chaine(char **str, int i);
 char		**ft_new_split(const char *str, const char *sep);
 void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
+
 
 // Signaux
 
@@ -122,22 +124,28 @@ char		*ft_cree_dest(t_info *info, char *s, int k, int n);
 
 int			ft_execution_coordinateur(t_struct *repo, t_info *info);
 char		*ft_cherche_path(t_struct *repo, t_info *info);
+void		ft_execve(t_struct *repo, t_info *info);
 
 // Builtins
 
+int			ft_cd(t_struct *repo, void *inf);
 int			ft_pwd(t_struct *repo, void *inf);
 int			ft_env(t_struct *repo, void *inf);
 int			ft_echo(t_struct *repo, void *inf);
 int			ft_exit(t_struct *repo, void *inf);
-int			ft_export(t_struct *repo, void *inf);
-int			ft_cd(t_struct *repo, void *inf);
 int			ft_unset(t_struct *repo, void *inf);
+int			ft_export(t_struct *repo, void *inf);
+int			ft_exit_pipe(t_struct *repo, void *inf);
+int			ft_heredoc(t_info *info, t_struct *repo);
 int			ft_builtins(t_struct *repo, t_info *info);
-int			ft_exit_pipe(t_struct *repo, void *inf, int **pipes_fd);
-int			ft_builtins_pipe(t_struct *repo, t_info *info, int **pipes_fd);
+int			ft_verif_pipe_fd(t_info *info, t_struct *repo);
+int			ft_builtins_pipe(t_struct *repo, t_info *info);
+int			ft_builtins_ou_non(t_struct *repo, t_info *info);
 void		ft_export_pwd(t_info *info, int i);
 void		ft_exit_suite(t_struct *repo, t_info *info,
 				long long int *num, int *exit_num);
+void		ft_erreur_path(t_info *info, t_struct *repo);
+void		ft_wait(t_info *info);
 
 // Init
 
@@ -156,6 +164,19 @@ int			ft_heredoc_deux(t_info *info, char **str);
 int			ft_ouverture_heredoc(char *str, t_info *info);
 int			ft_ouverture_heredoc_suite(t_info *info, char **line, char *str);
 
+// Fork
+
+int			ft_fork(t_struct *repo, t_info *info);
+void		ft_processus_fils(t_info *info, t_struct *repo,
+				int redir);
+
+// Pipe
+
+int			ft_pipe(t_struct *repo, t_info *info);
+int			ft_milieu(t_struct *repo, t_info *info);
+int			ft_dernier(t_struct *repo, t_info *info);
+int			ft_premier(t_struct *repo, t_info *info);
+
 // Redirection
 
 int			ft_redirection(char **str);
@@ -165,7 +186,7 @@ int			ft_redirection_output_append(char **str, int i);
 
 // Free
 
-int			**ft_free_pipe(t_info *info, int **pipes_fd);
+int			**ft_free_pipe(t_info *info);
 void		ft_free_double_string(char **str);
 void		ft_free_struct(t_struct *repo, t_info *info, int j);
 

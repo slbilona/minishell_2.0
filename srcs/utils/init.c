@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:11:35 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 15:04:08 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 18:52:09 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int	**ft_init_pipe(t_info *info)
 	{
 		pipe_fd[i] = malloc(sizeof(int) * 2);
 		if (!pipe_fd[i])
-			return (ft_free_prec_pipe(pipe_fd, i));
+			return (ft_free_prec_pipe(info, i));
 		if (pipe(pipe_fd[i]) == -1)
 		{
 			perror("Minishell: pipe: Erreur lors de la création des tubes");
-			ft_free_prec_pipe(pipe_fd, i);
+			ft_free_prec_pipe(info, i);
 			return (NULL);
 		}
 		i++;

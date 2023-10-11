@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:55 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/11 14:43:52 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 18:46:39 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,38 +71,38 @@ void	ft_free_struct(t_struct *repo, t_info *info, int j)
 
 /* si j == 0 : initialise pipe_fd
 sinn free pipe_fd */
-int	**ft_free_pipe(t_info *info, int **pipes_fd)
+int	**ft_free_pipe(t_info *info)
 {
 	int	i;
 
 	i = 0;
-	while (pipes_fd && i < info->nb_de_pipe)
+	while (info->pipe_fd && i < info->nb_de_pipe)
 	{
-		close(pipes_fd[i][0]);
-		close(pipes_fd[i][1]);
-		if (pipes_fd[i])
-			free(pipes_fd[i]);
+		close(info->pipe_fd[i][0]);
+		close(info->pipe_fd[i][1]);
+		if (info->pipe_fd[i])
+			free(info->pipe_fd[i]);
 		i++;
 	}
-	if (pipes_fd)
-		free(pipes_fd);
+	if (info->pipe_fd)
+		free(info->pipe_fd);
 	return (NULL);
 }
 
-int	**ft_free_prec_pipe(int **pipe_fd, int i)
+int	**ft_free_prec_pipe(t_info *info, int i)
 {
-	while (pipe_fd && i >= 0)
+	while (info->pipe_fd && i >= 0)
 	{
-		if (pipe_fd[i])
+		if (info->pipe_fd[i])
 		{
-			close(pipe_fd[i][0]);
-			close(pipe_fd[i][1]);
+			close(info->pipe_fd[i][0]);
+			close(info->pipe_fd[i][1]);
 		}
-		if (pipe_fd[i])
-			free(pipe_fd[i]);
+		if (info->pipe_fd[i])
+			free(info->pipe_fd[i]);
 		i--;
 	}
-	if (pipe_fd)
-		free(pipe_fd);
+	if (info->pipe_fd)
+		free(info->pipe_fd);
 	return (NULL);
 }

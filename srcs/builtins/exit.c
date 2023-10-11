@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:59:28 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/09 20:50:40 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 18:50:27 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_exit(t_struct *repo, void *inf)
 	exit(num);
 }
 
-int	ft_exit_pipe(t_struct *repo, void *inf, int **pipes_fd)
+int	ft_exit_pipe(t_struct *repo, void *inf)
 {
 	int				i;
 	int				exit_num;
@@ -59,7 +59,7 @@ int	ft_exit_pipe(t_struct *repo, void *inf, int **pipes_fd)
 	}
 	if (ft_count_double_string(repo[i].args) >= 1)
 		ft_exit_suite(&repo[i], info, &num, &exit_num);
-	ft_free_pipe(info, pipes_fd);
+	ft_free_pipe(info);
 	ft_free_struct(repo, info, 2);
 	exit(num);
 }

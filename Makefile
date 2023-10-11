@@ -5,11 +5,13 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
 SRCS = main.c \
 		cd.c \
-		exit.c \
-		exec.c \
-		init.c \
 		echo.c \
+		exec.c \
+		exit.c \
+		fork.c \
 		free.c \
+		init.c \
+		pipe.c \
 		expand.c \
 		signaux.c \
 		utils_1.c \
@@ -20,6 +22,7 @@ SRCS = main.c \
 		parsing_1.c \
 		parsing_2.c \
 		ft_quotes.c \
+		utils_exec.c \
 		builtins_1.c \
 		builtins_2.c \
 		redirection.c \

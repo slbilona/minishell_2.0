@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:17:19 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 23:41:56 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/11 18:52:29 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_export(t_struct *repo, void *inf)
 	return (ret);
 }
 
-int	ft_builtins_pipe(t_struct *repo, t_info *info, int **pipes_fd)
+int	ft_builtins_pipe(t_struct *repo, t_info *info)
 {
 	int	j;
 	int	i;
@@ -140,7 +140,7 @@ int	ft_builtins_pipe(t_struct *repo, t_info *info, int **pipes_fd)
 	if (ft_strncmp(repo[i].cmd, info->builtins[j].str,
 			ft_strlen(repo[i].cmd)) == 0 && ft_strncmp(repo[i].cmd,
 			info->builtins[j].str, ft_strlen(info->builtins[j].str)) == 0)
-		ft_exit_pipe(repo, info, pipes_fd);
+		ft_exit_pipe(repo, info);
 	return (1);
 }
 
