@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 20:43:42 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 21:46:50 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 {
 	char		*entree;
 	t_info		*info;
-
+	
 	(void) av;
 	if (ac == 1)
 	{
@@ -34,7 +34,7 @@ int	main(int ac, char **av, char **env)
 			return (1);
 		while (1)
 		{
-			ft_signaux();
+			signal(SIGINT,handle_sigint);
 			entree = readline("🐙 Minishell$ ");
 			ft_ctrl_d(info, entree);
 			ft_init_globale(info);

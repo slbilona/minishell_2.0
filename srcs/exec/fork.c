@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:04:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 20:26:30 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 21:49:39 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ void	ft_processus_fils(t_info *info, t_struct *repo,
 {
 	int	i;
 	int	ex;
-
 	i = info->i;
-	ft_remet_signaux();
+	signal(SIGINT,SIG_DFL);
 	ft_processus_fils_suite(info, repo, i);
 	if (repo[i].redirection)
 		redir = ft_redirection(repo[i].redirection);
@@ -45,18 +44,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo,
 		ex = repo[i].ret;
 	ft_free_pipe(info);
 	ft_free_struct(repo, info, 2);
-	
 	exit(ex);
-}
-
-void	ft_ignore_signaux()
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
 }
 
 int	ft_fork(t_struct *repo, t_info *info)
@@ -65,7 +53,7 @@ int	ft_fork(t_struct *repo, t_info *info)
 	int		redir;
 
 	i = info->i;
-	ft_ignore_signaux();
+	signal(SIGINT, SIG_IGN);
 	redir = 0;
 	info->fork = 1;
 	info->diff_pid[repo[i].nb_cmd] = fork();
