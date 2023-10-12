@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:02:41 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/10 16:17:23 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:40:28 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	ft_redirection_output_append(char **str, int i)
 	fd = open(str[i] + 3, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		printf("erno : %d\n", errno);
 		ft_put_str_error("Minishell: ", str[i] + 3, ": ", strerror(errno));
 		return (1);
 	}
