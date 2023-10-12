@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 18:12:54 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 20:42:16 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_info {
 	struct s_expand		*ex;
 }	t_info;
 
+extern int g_exit_signaux;
+
 // Struct
 
 int			ft_split_command(t_info *info, char **str, t_struct *repo);
@@ -107,6 +109,8 @@ void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 // Signaux
 
+void		ft_signaux();
+void		ft_remet_signaux();
 void		handle_sigint(int sig);
 void		ft_ctrl_d(t_info *info, char *entree);
 

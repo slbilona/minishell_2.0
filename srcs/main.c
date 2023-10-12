@@ -6,11 +6,20 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 14:06:46 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 20:43:42 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+int g_exit_signaux = 0;
+
+void	ft_init_globale(t_info *info)
+{
+	if (g_exit_signaux != 0)
+		info->exit = g_exit_signaux;
+	g_exit_signaux = 0;
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -25,9 +34,10 @@ int	main(int ac, char **av, char **env)
 			return (1);
 		while (1)
 		{
-			signal(SIGINT, handle_sigint);
+			ft_signaux();
 			entree = readline("🐙 Minishell$ ");
 			ft_ctrl_d(info, entree);
+			ft_init_globale(info);
 			if (ft_strlen(entree) == 0)
 				info->exit = 0;
 			else
