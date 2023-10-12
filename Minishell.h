@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 22:30:13 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/12 23:08:15 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_info {
 	struct s_expand		*ex;
 }	t_info;
 
-extern int g_exit_signaux;
+extern int	g_exit_signaux;
 
 // Struct
 
@@ -110,10 +110,13 @@ void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
 // Signaux
 
-void		ft_signaux();
-void		ft_remet_signaux();
+int			ft_signaux_heredoc(t_info *info, int fd);
+void		ft_signaux(void);
+void		ft_remet_signaux(void);
 void		handle_sigint(int sig);
+void		ft_ctrl_c_heredoc(int sig);
 void		ft_ctrl_d(t_info *info, char *entree);
+void		ft_signaux_exit(t_info *info, int status);
 
 // Parsing
 
@@ -185,7 +188,8 @@ int			ft_heredoc_ou_non(char **str);
 int			ft_write_heredoc(char *line, int fd);
 int			ft_heredoc_deux(t_info *info, char **str);
 int			ft_ouverture_heredoc(char *str, t_info *info);
-int			ft_ouverture_heredoc_suite(t_info *info, char **line, char *str);
+int			ft_ouverture_heredoc_suite(t_info *info, char **line, char *str,
+				int fd);
 
 // Fork
 

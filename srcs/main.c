@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 21:46:50 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/12 23:07:13 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int g_exit_signaux = 0;
+int	g_exit_signaux = 0;
 
 void	ft_init_globale(t_info *info)
 {
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 {
 	char		*entree;
 	t_info		*info;
-	
+
 	(void) av;
 	if (ac == 1)
 	{
@@ -34,7 +34,7 @@ int	main(int ac, char **av, char **env)
 			return (1);
 		while (1)
 		{
-			signal(SIGINT,handle_sigint);
+			signal(SIGINT, handle_sigint);
 			entree = readline("🐙 Minishell$ ");
 			ft_ctrl_d(info, entree);
 			ft_init_globale(info);

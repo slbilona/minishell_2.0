@@ -6,14 +6,15 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 22:37:43 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 22:54:29 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-int	ft_ouverture_heredoc_suite(t_info *info, char **line, char *str)
+int	ft_ouverture_heredoc_suite(t_info *info, char **line, char *str, int fd)
 {
+	(void)fd;
 	if (!*line)
 	{
 		ft_put_str_error("Minishell: avertissement : « here-document » ",
@@ -38,33 +39,11 @@ int	ft_ouverture_heredoc_suite(t_info *info, char **line, char *str)
 	return (0);
 }
 
-void	ft_ctrl_c_heredoc(int sig)
-{
-	(void)sig;
-	g_exit_signaux = 130;
-	close(STDIN_FILENO);
-	write(STDOUT_FILENO, "> \n", 3);
-}
-
-int	ft_signaux_heredoc(t_info *info, int fd)
-{
-	if (g_exit_signaux == 130)
-	{
-		close(fd);
-		unlink("/tmp/heredoc.txt");
-		dup2(info->saved_stdin, STDIN_FILENO);
-		return (1);
-	}
-	return (0);
-}
-
 int	ft_ouverture_heredoc(char *str, t_info *info)
 {
-	int		i;
 	int		fd;
 	char	*line;
 
-	i = 1;
 	info->i_heredoc = 1;
 	fd = open("/tmp/heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
@@ -79,15 +58,13 @@ int	ft_ouverture_heredoc(char *str, t_info *info)
 		line = readline("> ");
 		if (ft_signaux_heredoc(info, fd))
 			return (1);
-		if (ft_ouverture_heredoc_suite(info, &line, str))
+		if (ft_ouverture_heredoc_suite(info, &line, str, fd))
 			break ;
 		if (ft_write_heredoc(line, fd))
 			return (1);
 		free(line);
-		i++;
 	}
-	close(fd);
-	return (0);
+	return (close(fd), 0);
 }
 
 int	ft_lecture_heredoc(void)

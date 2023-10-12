@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:04:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 22:20:40 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/12 22:59:49 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_processus_fils_suite(t_info *info, t_struct *repo, int i)
 {
-
 	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info))
 	{
 		repo[i].path = ft_cherche_path(&repo[i], info);
@@ -32,8 +31,9 @@ void	ft_processus_fils(t_info *info, t_struct *repo,
 {
 	int	i;
 	int	ex;
+
 	i = info->i;
-	signal(SIGINT,SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	ft_processus_fils_suite(info, repo, i);
 	if (repo[i].redirection)
 		redir = ft_redirection(repo[i].redirection);
@@ -55,16 +55,14 @@ int	ft_fork(t_struct *repo, t_info *info)
 
 	i = info->i;
 	signal(SIGINT, SIG_IGN);
-	
 	redir = 0;
 	info->fork = 1;
 	info->diff_pid[repo[i].nb_cmd] = fork();
 	if (info->diff_pid[repo[i].nb_cmd] == -1)
 	{
-		perror("Minishell: fork");
 		info->fork = 0;
 		info->exit = 1;
-		return (1);
+		return (perror("Minishell: fork"), 1);
 	}
 	else if (info->diff_pid[repo[i].nb_cmd] == 0)
 		ft_processus_fils(info, repo, redir);
