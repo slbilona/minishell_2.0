@@ -6,7 +6,7 @@
 /*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:04:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 21:49:39 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/12 22:20:40 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_processus_fils_suite(t_info *info, t_struct *repo, int i)
 {
+
 	if (repo[i].cmd && ft_builtins_ou_non(&repo[i], info))
 	{
 		repo[i].path = ft_cherche_path(&repo[i], info);
@@ -54,6 +55,7 @@ int	ft_fork(t_struct *repo, t_info *info)
 
 	i = info->i;
 	signal(SIGINT, SIG_IGN);
+	
 	redir = 0;
 	info->fork = 1;
 	info->diff_pid[repo[i].nb_cmd] = fork();

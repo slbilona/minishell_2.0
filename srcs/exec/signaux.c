@@ -6,7 +6,7 @@
 /*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
-/*   Updated: 2023/10/12 21:52:50 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/12 22:12:47 by soleil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,16 @@
 void	handle_sigint(int sig)
 {
 	
-	if (write(1, "\n", 1) == -1)
+	(void)sig;
+	if (g_exit_signaux != 1)
 	{
-		perror("Minishell: erreur d'écriture ");
-		return ;
-	}
-	if (sig == 2)
-	{	
+		write(STDOUT_FILENO, "\n", 1);
 		g_exit_signaux = 130;
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
 	}
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	
 }
 
 void	ft_ctrl_d(t_info *info, char *entree)
