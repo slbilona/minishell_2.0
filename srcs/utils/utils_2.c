@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 14:45:23 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/09 18:18:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 18:26:57 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,21 @@ int	ft_directory_ou_non(char *path)
 	{
 		if (S_ISDIR(st.st_mode))
 			return (1);
+	}
+	return (0);
+}
+
+int	ft_white_space_2(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (ft_quotes(str, i) == 0 && ((9 <= str[i]
+					&& str[i] <= 13) || str[i] == 32))
+			return (1);
+		i++;
 	}
 	return (0);
 }

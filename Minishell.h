@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 14:22:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 18:12:54 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,9 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 // Utils
 
 int			ft_signes(char *str);
-void		reset_signal(void);
 int			ft_trouve_egal(char *str);
-void		reset_sigint(void);
-void		signal_sigint(void);
 int			ft_white_spaces(char *str);
+int			ft_white_space_2(char *str);
 int			ft_white_space_char(char c);
 int			ft_verif_dollar(char *line);
 int			ft_ex_verif_dollar(char *line);
@@ -90,17 +88,20 @@ int			ft_que_des_chiffres(char *str);
 int			ft_print_tab(char **str, int j);
 int			ft_directory_ou_non(char *path);
 int			ft_count_double_string(char **str);
+int			**ft_free_prec_pipe(t_info *info, int i);
 int			ft_long_atoi(char *str, long long int *num);
 int			ft_cherche_dans_env(char *str, t_info *info, int o);
 int			ft_change_j_et_k(t_info *info, char *str, int *j, int *k);
 char		**ft_cp_env(char **ancien_env);
 char		*my_getenv(t_info *info, char *str);
 char		*ft_cree_var(int j, char *str, int o);
-int			**ft_free_prec_pipe(t_info *info, int i);
-void		signal_action(void);
-void		signal_ctrlc(int sig);
 char		**ft_supprime_sous_chaine(char **str, int i);
 char		**ft_new_split(const char *str, const char *sep);
+void		reset_signal(void);
+void		reset_sigint(void);
+void		signal_sigint(void);
+void		signal_action(void);
+void		signal_ctrlc(int sig);
 void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
@@ -129,10 +130,11 @@ char		**mange(char **str, char *s, int n);
 t_struct	*ft_init_struct(t_info *info, char **str);
 
 // Expand
-
 int			ft_cree_dest_exit(t_info *info, char *dest, int *j);
 int			ft_cree_dest_suite(t_info *info, char *dest, int *j, char *c);
 char		**ft_expand(t_info *info, char **str);
+char		**ft_expand_etc(t_info *info, char **str);
+char		**ft_rafistole(char **s, char **strg, int j);
 char		*ft_expand_heredoc(t_info *info, char *line);
 char		*ft_cree_dest(t_info *info, char *s, int k, int n);
 

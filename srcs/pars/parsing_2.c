@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:39:40 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 14:20:46 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 18:18:05 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ char	**ft_pars_s(t_info *info, char *str)
 	if (!s)
 		return (ft_put_str_error("Minishell:", " erreur lors",
 				" du split", " de la commande"), NULL);
+	s = ft_expand_etc(info, s);
+	if (!s)
+		return (NULL);
 	s = ft_clean_quotes(s);
 	if (!s)
 		return (ft_put_str_error("Minishell:", " erreur lors",

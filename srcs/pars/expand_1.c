@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:08:38 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/11 22:43:47 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 18:26:10 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,79 @@ char	**ft_expand(t_info *info, char **str)
 	t_expand	*ex;
 
 	ex = info->ex;
-	ex->i = 0;
+	ex->i = -1;
 	if (str)
 	{
 		s = malloc(sizeof(char *) * (ft_count_double_string(str) + 1));
 		if (!s)
 			return (ft_free_double_string(str), NULL);
-		while (str && str[ex->i])
+		while (str && str[++ex->i])
 		{
-			if (ft_ex_verif_dollar(str[ex->i]))
+			if (!(ex->i > 0 && ft_strncmp(str[ex->i - 1],
+						"<<", 3) == 0) && ft_ex_verif_dollar(str[ex->i]))
 			{
 				if (ft_expand_suite_deux(info, ex, str, s))
 					return (NULL);
 			}
 			else
 				s[ex->i] = ft_strdup(str[ex->i]);
-			ex->i++;
 		}
 		s[ex->i] = NULL;
 		return (ft_free_double_string(str), s);
 	}
 	return (NULL);
+}
+
+char	**ft_rafistole(char **s, char **strg, int j)
+{
+	int		i;
+	int		o;
+	int		k;
+	char	**str;
+
+	o = 0;
+	i = 0;
+	if (!strg)
+		return (NULL);
+	str = malloc(sizeof(char *) * (ft_count_double_string(s)
+				+ ft_count_double_string(strg) + 1));
+	while (i < j && s[i])
+		str[o++] = ft_strdup(s[i++]);
+	k = -1;
+	while (strg[++k])
+		str[o++] = ft_strdup(strg[k]);
+	i++;
+	while (s[i])
+		str[o++] = ft_strdup(s[i++]);
+	str[o] = NULL;
+	ft_free_double_string(s);
+	return (str);
+}
+
+char	**ft_expand_etc(t_info *info, char **str)
+{
+	int		i;
+	char	**s;
+	char	**strg;
+
+	i = 0;
+	s = ft_expand(info, str);
+	if (!s)
+		return (NULL);
+	while (s && s[i])
+	{
+		if (ft_white_space_2(s[i]))
+		{
+			strg = ft_new_split(s[i], NULL);
+			if (!strg)
+			{
+				ft_free_double_string(s);
+				return (NULL);
+			}
+			s = ft_rafistole(s, strg, i);
+			ft_free_double_string(strg);
+		}
+		i++;
+	}
+	return (s);
 }
