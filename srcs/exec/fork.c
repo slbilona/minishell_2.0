@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:04:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 22:03:09 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/12 13:09:54 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	ft_processus_fils_suite(t_info *info, t_struct *repo, int i)
 	}
 	if (info->nb_de_pipe > 0)
 		if (ft_pipe(&repo[i], info))
-			printf("erreur\n");
+			ft_put_str_error("Minishell: ", "erreur lors de ",
+				"la redirection", " des pipes");
 }
 
 void	ft_processus_fils(t_info *info, t_struct *repo,
@@ -34,13 +35,10 @@ void	ft_processus_fils(t_info *info, t_struct *repo,
 	i = info->i;
 	signal(SIGINT, SIG_IGN);
 	ft_processus_fils_suite(info, repo, i);
-	
 	if (repo[i].redirection)
 		redir = ft_redirection(repo[i].redirection);
 	if (repo[i].cmd && !redir && ft_builtins_pipe(repo, info))
-	{
 		ft_execve(&repo[i], info);
-	}
 	if (redir)
 		ex = redir;
 	else

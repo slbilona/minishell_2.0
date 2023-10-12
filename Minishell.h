@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 23:09:10 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/12 14:22:24 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ char		**ft_new_split(const char *str, const char *sep);
 void		ft_j_et_k_exit(t_info *info, int *j, int *k);
 void		ft_put_str_error(char *str1, char *str2, char *str3, char *str4);
 
-
 // Signaux
 
 void		handle_sigint(int sig);
@@ -114,6 +113,7 @@ void		ft_ctrl_d(t_info *info, char *entree);
 
 int			main_parsing(char *str);
 int			ft_check_pipe(char *str);
+int			ft_verif_chevrons(char **s);
 int			ft_compte_espaces(char *str);
 int			ft_check_pipe_suite(char *str);
 int			ft_check_pipe_prems(char *str);
@@ -122,6 +122,7 @@ int			check_right_direction(char *str);
 int			ft_quotes(const char *str, int i);
 int			parsing_exec(t_info *info, char *entree);
 int			ft_check_pipe_suite_2(int i, char *str, int *o, int count_pipe);
+int			ft_cherche_redirection(t_struct *repo, char **s, int *j, int i);
 char		**ft_clean_quotes(char **str);
 char		*ft_ajoute_espace(char *entree);
 char		**mange(char **str, char *s, int n);

@@ -12,6 +12,7 @@ SRCS = main.c \
 		free.c \
 		init.c \
 		pipe.c \
+		mange.c \
 		export.c \
 		signaux.c \
 		utils_1.c \
@@ -23,6 +24,7 @@ SRCS = main.c \
 		heredoc_2.c \
 		parsing_1.c \
 		parsing_2.c \
+		parsing_3.c \
 		ft_quotes.c \
 		utils_exec.c \
 		builtins_1.c \
