@@ -3,51 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: soleil <soleil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 01:00:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 22:01:36 by soleil           ###   ########.fr       */
+/*   Updated: 2023/10/13 14:33:59 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-char	*ft_cherche_path_suite(t_struct *repo, t_info *info, int *i)
-{
-	char	*path_entier;
-
-	if ((repo->cmd && ft_strlen(repo->cmd) == 0)
-		|| ft_directory_ou_non(repo->cmd))
-		return (NULL);
-	if (access(repo->cmd, X_OK) == 0)
-		return (ft_strdup(repo->cmd));
-	while (info->env && info->env[*i])
-	{
-		path_entier = ft_strnstr(info->env[*i], "PATH=", 5);
-		if (path_entier)
-			break ;
-		*i += 1;
-	}
-	return (path_entier);
-}
-
-/*Cherche la ligne "PATH=" dans l'environnement
-puis cherche avec access le bon chemin pour la commande envoyé*/
-char	*ft_cherche_path(t_struct *repo, t_info *info)
+char	*ft_cherche_path_suite(t_struct *repo, char **splited_path)
 {
 	int		i;
 	char	*path;
 	char	*path_cmd;
-	char	*path_entier;
-	char	**splited_path;
 
-	i = 0;
-	path_entier = ft_cherche_path_suite(repo, info, &i);
-	if (!path_entier)
-		return (NULL);
-	splited_path = ft_new_split(info->env[i] + 5, ":");
-	if (!splited_path)
-		return (NULL);
 	i = -1;
 	while (splited_path && splited_path[++i])
 	{
@@ -60,6 +30,34 @@ char	*ft_cherche_path(t_struct *repo, t_info *info)
 	}
 	ft_free_double_string(splited_path);
 	return (NULL);
+}
+
+/*Cherche la ligne "PATH=" dans l'environnement
+puis cherche avec access le bon chemin pour la commande envoyé*/
+char	*ft_cherche_path(t_struct *repo, t_info *info)
+{
+	int		i;
+	char	*path_entier;
+	char	**splited_path;
+
+	i = 0;
+	if ((repo->cmd && ft_strlen(repo->cmd) == 0) || ft_dir_ou_non(repo->cmd))
+		return (NULL);
+	if (access(repo->cmd, X_OK) == 0)
+		return (ft_strdup(repo->cmd));
+	while (info->env && info->env[i])
+	{
+		path_entier = ft_strnstr(info->env[i], "PATH=", 5);
+		if (path_entier)
+			break ;
+		i += 1;
+	}
+	if (!path_entier)
+		return (NULL);
+	splited_path = ft_new_split(info->env[i] + 5, ":");
+	if (!splited_path)
+		return (NULL);
+	return (ft_cherche_path_suite(repo, splited_path));
 }
 
 void	ft_execve(t_struct *repo, t_info *info)

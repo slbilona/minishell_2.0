@@ -50,3 +50,7 @@ a regler :
 	$ "$"HOME
 		ou
 	$ '$'HOME
+
+tester sur le vrai bash :
+	unset HO?LA 
+	unste HO.LA

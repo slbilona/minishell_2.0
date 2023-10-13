@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:09:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 23:05:21 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/13 14:28:34 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ void	ft_erreur_path(t_info *info, t_struct *repo)
 
 	i = info->i;
 	info->fork = 0;
-	ret = 127 - ft_directory_ou_non(repo[i].cmd);
-	if (ft_directory_ou_non(repo[i].cmd))
+	ret = 127 - ft_dir_ou_non(repo[i].cmd);
+	if (ft_dir_ou_non(repo[i].cmd))
 		ft_put_str_error("Minishell: ", repo[i].cmd,
 			" : est un dossier", NULL);
 	else

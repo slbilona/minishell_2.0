@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:08:10 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 17:54:36 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:28:34 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_cd_simple(t_info *info, t_struct *repo)
 			": Aucun fichier ou dossier de ce type", NULL);
 		return (1);
 	}
-	if (!ft_directory_ou_non(repo->args[1]))
+	if (!ft_dir_ou_non(repo->args[1]))
 	{
 		ft_put_str_error("Minishell: cd: ", repo->args[1],
 			": N'est pas", " un dossier");

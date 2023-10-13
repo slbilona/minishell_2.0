@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 23:08:15 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/13 14:28:34 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int			ft_verif_dollar(char *line);
 int			ft_ex_verif_dollar(char *line);
 int			ft_que_des_chiffres(char *str);
 int			ft_print_tab(char **str, int j);
-int			ft_directory_ou_non(char *path);
+int			ft_dir_ou_non(char *path);
 int			ft_count_double_string(char **str);
 int			**ft_free_prec_pipe(t_info *info, int i);
 int			ft_long_atoi(char *str, long long int *num);
