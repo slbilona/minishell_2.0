@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yatamago <yatamago@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 20:32:48 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/14 16:43:49 by yatamago         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:06:53 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	ft_ouverture_heredoc(char *str, t_info *info)
 	int		fd;
 	char	*line;
 
-	
-	
 	info->i_heredoc = 1;
 	fd = open("/tmp/heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)

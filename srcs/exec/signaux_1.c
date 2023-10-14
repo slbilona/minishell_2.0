@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signaux.c                                          :+:      :+:    :+:   */
+/*   signaux_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yatamago <yatamago@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
-/*   Updated: 2023/10/14 16:38:27 by yatamago         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:05:21 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-
-
 
 void	ft_ctrl_d(t_info *info, char *entree)
 {
@@ -78,6 +76,11 @@ void	ft_signaux_exit(t_info *info, int status)
 	}
 	else if (exit_signal == SIGQUIT)
 	{
+		if (!info->ctrl_bn_triggered)
+		{
+			write(2, "Quit (core dumped)\n", 20);
+			info->ctrl_bn_triggered = 1;
+		}
 		g_exit_signaux = 131;
 		info->exit = 131;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:11:47 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 23:23:22 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 18:01:25 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ int	ft_trouve_egal(char *str)
 {
 	int	i;
 
-	if (str && !ft_isalpha(str[0]) && str[0] != '_')
+	if (str && !ft_isalpha(str[0]) && str[0] != '_' && str[0] != '!')
 		return (-1);
 	i = 1;
 	while (str && str[i])
 	{
 		if (str[i] == '=')
 			return (i);
-		else if ((!ft_isalnum(str[i]) && str[i] != '_')
+		else if ((!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '!')
 			|| ft_white_space_char(str[i]))
 			return (-1);
 		i++;

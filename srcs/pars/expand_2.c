@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 22:44:12 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/11 22:44:30 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 18:10:59 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ char	*ft_cree_dest(t_info *info, char *s, int k, int n)
 				== 2) && s[i + 1] && s[i + 1] == '?')
 			i += ft_cree_dest_exit(info, dest, &j);
 		else if (s[i] == '$' && (ft_quotes(s, i) == 0 || ft_quotes(s, i) == 2)
-			&& s[i + 1] && (ft_isalnum(s[i + 1]) || s[i + 1] == '_'
-				|| ft_quotes(s, i + 1) == 3 || ft_quotes(s, i + 1) == 4))
+			&& s[i + 1] && (ft_isalnum(s[i + 1]) || s[i + 1] == '_' || s[i + 1]
+				== '!' || ft_quotes(s, i + 1) == 3 || ft_quotes(s, i + 1) == 4))
 			i += ft_cree_dest_suite(info, dest, &j, &s[i]);
 		else if (s[i])
 			dest[j++] = s[i++];

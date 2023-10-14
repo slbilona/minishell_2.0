@@ -12,18 +12,19 @@ SRCS = main.c \
 		pipe.c \
 		mange.c \
 		export.c \
-		signaux.c \
 		utils_1.c \
 		utils_2.c \
 		expand_1.c \
 		expand_2.c \
 		ft_space.c \
+		ft_quotes.c \
 		heredoc_1.c \
 		heredoc_2.c \
 		parsing_1.c \
 		parsing_2.c \
 		parsing_3.c \
-		ft_quotes.c \
+		signaux_1.c \
+		signaux_2.c \
 		utils_exec.c \
 		builtins_1.c \
 		builtins_2.c \

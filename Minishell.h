@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yatamago <yatamago@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/14 16:30:14 by yatamago         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:11:37 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_builtins {
 
 typedef struct s_info {
 	int					i;
-	int					ctrl_c_triggered;
 	int					fork;
 	int					exit;
 	int					**pipe_fd;
@@ -65,6 +64,8 @@ typedef struct s_info {
 	int					saved_stdin;
 	int					saved_stdout;
 	int					saved_stderr;
+	int					ctrl_c_triggered;
+	int					ctrl_bn_triggered;
 	char				**env;
 	pid_t				*diff_pid;
 	struct s_builtins	builtins[7];
@@ -82,7 +83,6 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 
 int			ft_signes(char *str);
 int			ft_trouve_egal(char *str);
-void		handle_sigquit(int sig);
 int			ft_white_spaces(char *str);
 int			ft_white_space_2(char *str);
 int			ft_white_space_char(char c);
@@ -115,6 +115,8 @@ int			ft_signaux_heredoc(t_info *info, int fd);
 void		ft_signaux(void);
 void		ft_remet_signaux(void);
 void		handle_sigint(int sig);
+void		handle_sigquit(int sig);
+void		ft_quit_process(int sig);
 void		ft_ctrl_c_heredoc(int sig);
 void		ft_ctrl_d(t_info *info, char *entree);
 void		ft_signaux_exit(t_info *info, int status);

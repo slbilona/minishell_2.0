@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:08:38 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/12 18:26:10 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 17:59:52 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_expand_suite(t_info *info, char *str, t_expand *ex)
 	else if (str[ex->o] == '$' && (ft_quotes(str, ex->o) == 0
 			|| ft_quotes(str, ex->o) == 2) && str[ex->o + 1]
 		&& (ft_isalnum(str[ex->o + 1]) || str[ex->o + 1] == '_'
-			|| ft_quotes(str, ex->o + 1) == 3
+			|| str[ex->o + 1] == '!' || ft_quotes(str, ex->o + 1) == 3
 			|| ft_quotes(str, ex->o + 1) == 4))
 		ft_change_j_et_k(info, &str[ex->o], &ex->j, &ex->k);
 	ex->o += 1;

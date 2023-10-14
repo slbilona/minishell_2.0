@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_2.c                                        :+:      :+:    :+:   */
+/*   signaux_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 16:00:11 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/10/14 17:07:13 by ilselbon         ###   ########.fr       */
+/*   Created: 2023/10/14 18:05:28 by ilselbon          #+#    #+#             */
+/*   Updated: 2023/10/14 18:06:08 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-int	ft_write_heredoc(char *line, int fd)
+void	ft_quit_process(int sig)
 {
-	if (write(fd, line, ft_strlen(line)) == -1)
-	{
-		close(fd);
-		free(line);
-		return (perror("Minishell: echo: erreur d'écriture "), 1);
-	}
-	if (write(fd, "\n", 1) == -1)
-	{
-		close(fd);
-		free(line);
-		return (perror("Minishell: echo: erreur d'écriture "), 1);
-	}
-	return (0);
+	(void)sig;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }

@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 23:49:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/14 16:30:36 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:08:41 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	ft_change_j_et_k(t_info *info, char *str, int *j, int *k)
 
 	i = 1;
 	*j += 1;
-	while (str && str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	while (str && str[i] && (ft_isalnum(str[i])
+			|| str[i] == '_' || str[i] == '!'))
 	{
 		i++;
 		*j += 1;
@@ -76,8 +77,7 @@ int	ft_change_j_et_k(t_info *info, char *str, int *j, int *k)
 		}
 		i++;
 	}
-	free(var);
-	return (-1);
+	return (free(var), -1);
 }
 
 /* genre de strjoin pour creer ma variable suivie d'un '='

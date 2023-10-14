@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:04:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 22:59:49 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 18:07:07 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_processus_fils(t_info *info, t_struct *repo,
 
 	i = info->i;
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	ft_processus_fils_suite(info, repo, i);
 	if (repo[i].redirection)
 		redir = ft_redirection(repo[i].redirection);

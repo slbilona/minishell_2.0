@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:09:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/14 16:30:22 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/10/14 17:45:47 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ft_wait(t_info *info)
 
 	i = 0;
 	info->ctrl_c_triggered = 0;
+	info->ctrl_bn_triggered = 0;
 	while (i < info->nb_de_cmd && info->diff_pid[i])
 	{
 		waitpid(info->diff_pid[i], &status, 0);
