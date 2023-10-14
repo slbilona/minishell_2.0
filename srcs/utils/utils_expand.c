@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 23:49:53 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/10 23:24:11 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 16:30:36 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	ft_verif_dollar(char *line)
 	return (0);
 }
 
-/* j */
 int	ft_change_j_et_k(t_info *info, char *str, int *j, int *k)
 {
 	int		i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:09:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/13 14:28:34 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 16:30:22 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_wait(t_info *info)
 	int	status;
 
 	i = 0;
-	info->ctrl_c_triggered = 0; 
+	info->ctrl_c_triggered = 0;
 	while (i < info->nb_de_cmd && info->diff_pid[i])
 	{
 		waitpid(info->diff_pid[i], &status, 0);
@@ -87,8 +87,7 @@ void	ft_erreur_path(t_info *info, t_struct *repo)
 }
 
 /* Verifie si la commande fait partie des builtins.
-Si c'est le cas la fonction associée est appellée 
-si j == 1 n'appelle pas la fonction*/
+Si c'est le cas la fonction associée est appellée */
 int	ft_builtins_ou_non(t_struct *repo, t_info *info)
 {
 	int	i;

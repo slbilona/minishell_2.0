@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mange.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:12:18 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 13:44:02 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 16:22:11 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	**mange(char **str, char *s, int n)
 		i = ft_mange_suite(str, s, s2, n);
 		if (i == -1)
 			return (ancien);
-		else 
+		else
 			j += i;
 		ft_free_double_string(ancien);
 	}
