@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yatamago <yatamago@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 22:40:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/12 23:07:13 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 16:38:40 by yatamago         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int ac, char **av, char **env)
 		while (1)
 		{
 			signal(SIGINT, handle_sigint);
+			signal(SIGQUIT, SIG_IGN);
 			entree = readline("🐙 Minishell$ ");
 			ft_ctrl_d(info, entree);
 			ft_init_globale(info);

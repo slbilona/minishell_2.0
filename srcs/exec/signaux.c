@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yatamago <yatamago@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 18:28:29 by soleil            #+#    #+#             */
-/*   Updated: 2023/10/12 23:05:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 16:38:27 by yatamago         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
+
 
 void	ft_ctrl_d(t_info *info, char *entree)
 {

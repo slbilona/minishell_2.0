@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yatamago <yatamago@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 23:44:09 by ilona             #+#    #+#             */
-/*   Updated: 2023/10/13 14:28:34 by ilona            ###   ########.fr       */
+/*   Updated: 2023/10/14 16:30:14 by yatamago         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_struct	*ft_init_struct(t_info *info, char **str);
 
 int			ft_signes(char *str);
 int			ft_trouve_egal(char *str);
+void		handle_sigquit(int sig);
 int			ft_white_spaces(char *str);
 int			ft_white_space_2(char *str);
 int			ft_white_space_char(char c);
