@@ -1,7 +1,5 @@
 SRCDIR = srcs
 OBJDIR = points_o/
-DEPDIR = dep
-DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
 SRCS = main.c \
 		cd.c \
@@ -50,21 +48,18 @@ LIBFT = libft_printf_gnl/libft.a
 all : $(NAME)
 
 ${NAME}: $(OBJDIR) ${OBJS}
-	@make -C libft_printf_gnl
-	@$(CC) $(CFLAGS) ${OBJS} $(LIBFT) -o $(NAME) -lreadline
+	make -C libft_printf_gnl
+	$(CC) $(CFLAGS) ${OBJS} $(LIBFT) -o $(NAME) -lreadline
 	@echo "🧚 tout est prêt 🧚"
 		
-${OBJDIR}%.o: %.c $(DEPDIR) 
-	@$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
+${OBJDIR}%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-$(DEPDIR):
-	mkdir -p $(DEPDIR)
-
 clean :
-	rm -rf $(OBJDIR) $(DEPDIR)
+	rm -rf $(OBJDIR)
 	make clean -C libft_printf_gnl
 	clear
 	@echo "🧚 tout propre 🧚"
@@ -85,7 +80,6 @@ git : fclean
 
 re : fclean all
 
--include $(wildcard $(DEPDIR)/*.d)
 
 .PHONY : all clean fclean re git
 
